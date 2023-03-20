@@ -8,6 +8,7 @@ class Game:
         pg.init()
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         pg.display.set_caption('SpaceFighter')
+        self.clock = pg.time.Clock()
 
         self.level = Level()
 
@@ -21,6 +22,7 @@ class Game:
             self.screen.fill('black')
             self.level.run()
             pg.display.update()
+            self.clock.tick(FPS)
 
 if __name__ == '__main__':
     game = Game()
