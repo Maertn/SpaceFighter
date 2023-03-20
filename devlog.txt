@@ -50,4 +50,6 @@ I also want a dodge mechanic that gives the player iframes and gives a small boo
 I'll limit the movement of the player to the x-axis to keep things simple.
 Implementation of the y-axis is an option, but it'll probably be included.
 I want movement through the keyboard, but experimenting with the mouse is a bonus.
-If those things are implemented, we'll call the player finished. 
+If those things are implemented, we'll call the player finished.
+
+I just noticed that I didn't push the pygame_init. I'll just skip the part called level, and start with the player as 1.player.
