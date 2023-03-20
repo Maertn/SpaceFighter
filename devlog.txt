@@ -53,3 +53,13 @@ I want movement through the keyboard, but experimenting with the mouse is a bonu
 If those things are implemented, we'll call the player finished.
 
 I just noticed that I didn't push the pygame_init. I'll just skip the part called level, and start with the player as 1.player.
+
+#4
+--
+I've set up some basic movement, but I encountered the behaviour again where e.g. pressing both up and right results in a diagonal
+movement with a speed of sqrt(2). To bypass this behaviour we can normalize with a vector. 
+We use the keys to input direction. The direction is given to the method move, which combines the direction with a magnitude.
+The resulting vector will be used to adjust the player position.
+
+I've copied some code from the Zelda tut. I have some superfluous variables that give a status. This might be used to manipulate a 
+sprite later in development, but for now it's just clutter, so I'll remove it.
