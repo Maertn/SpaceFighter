@@ -1,0 +1,53 @@
+2023-03-20
+#01
+--
+Got a working setup, with a venv and a link to GitHub.
+I've created a main.py where the class Game is constructed and run.
+In Game we initialize pygame. We call an attribute self.screen which calls a display from pygame.
+The display requires width and height, which we store in settings.py.
+We also give Game a way to shut down, which is handy if you don't want to reboot the PC everytime Game is called.
+
+We've called self.screen.fill('black'), but when testing it doesn't do anything.
+Let's keep it as a placeholder for the procedures that actually display images.
+We also preemptively call display.update(). 
+Leaving the parameters blank makes this method redraw everything on the screen. 
+It works the same as flip(), but update() doesn't support OpenGL. 
+update() can take parameters that specify which surfaces are to be updated. 
+update() could be used as a more efficient way to draw if certain surfaces don't have to be updated.
+I'm not sure if SF will contain any surfaces that don't update, so I'm not sure if I'll be able to exploit this feature.
+I'll just keep it like this for now. 
+The pygame docs state that it's better to use one update() that renders a list of all the rects, instead of several update() that renders
+partial lists. Guess that calling display.update() once will suffice.
+
+Next step we'll create a player.
+
+#2
+--
+I managed to draw a surface representing our player. It's a red surface of 64*64.
+I've already setup a rectangle corresponding to the player.
+Let's implement some movement options next.
+
+I've chosen to stick with the layout as presented in the Zelda tutorial, where main calls a level.
+Within level we take care of initializing pygame and creating the display. Everything that is to be displayed is managed from level.
+Within the level is contained the call to a player, which in turn is from the Player class in player.py.
+The Player inherits from the pygame class Sprite, which gives us an easy way to manage properties,
+like rendering and collision, through it's groups.
+The rendering is done within the level. The classes implemented in the level are to be setup in such a way that they
+can be integrated to the level environment, e.g. assigning a groups parameter that allows Level to execute the class according to 
+specifications per group.
+
+#3
+--
+Let's make some rules regarding the process.
+I'll create some challenges for each block. We're currently in the 1.level branch, because I copied the start from the Zelda tutorial.
+Going by the standards of the Zelda tut I should be done with the level, since I created the structure that allows level to accept
+classes.
+
+Next step will be the player. I'll skip the skin for now. So all we need is player movement.
+Regarding player I'll also want to implement an attack. The attack needs to spawn bullets.
+The bullets spawned will just be images. Collision of the bullets will come at a later point.
+I also want a dodge mechanic that gives the player iframes and gives a small boost in speed.
+I'll limit the movement of the player to the x-axis to keep things simple.
+Implementation of the y-axis is an option, but it'll probably be included.
+I want movement through the keyboard, but experimenting with the mouse is a bonus.
+If those things are implemented, we'll call the player finished. 
