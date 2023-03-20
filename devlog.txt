@@ -63,3 +63,11 @@ The resulting vector will be used to adjust the player position.
 
 I've copied some code from the Zelda tut. I have some superfluous variables that give a status. This might be used to manipulate a 
 sprite later in development, but for now it's just clutter, so I'll remove it.
+
+#5
+--
+Removed a devlog while restoring through git...
+What I've been trying to setup is a function to dodgeroll the player.
+I've tried calling the dodgeroll through a decorator that handles the cooldown, since I'll use more cooldown timers.
+The problem with using a decorator is that I want to stop the fuction after a certain amount of time,
+and I don't know how to get it working. I'll experiment a bit at a later point in time.
