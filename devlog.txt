@@ -71,3 +71,4 @@ What I've been trying to setup is a function to dodgeroll the player.
 I've tried calling the dodgeroll through a decorator that handles the cooldown, since I'll use more cooldown timers.
 The problem with using a decorator is that I want to stop the fuction after a certain amount of time,
 and I don't know how to get it working. I'll experiment a bit at a later point in time.
+

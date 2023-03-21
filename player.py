@@ -1,4 +1,5 @@
 import pygame as pg
+from settings import *
 
 class Player(pg.sprite.Sprite):
     def __init__(self, pos, groups):
@@ -9,6 +10,7 @@ class Player(pg.sprite.Sprite):
         self.speed = 5
         self.pos = pos
         self.direction = pg.math.Vector2()
+        self.status = 'A'
 
     def keylog(self):
         keys = pg.key.get_pressed()
@@ -28,6 +30,22 @@ class Player(pg.sprite.Sprite):
             self.direction.x = 1
         else:
             self.direction.x = 0
+
+        # start timer
+        if keys[pg.K_LCTRL]:
+            if self.status != 'B':
+                print('CTRL pressed')
+                self.status = 'B'
+                pg.time.set_timer(cooldown, 2000)
+                print(self.status)
+                while self.status == 'B':
+                    if pg.event.get() == cooldown:
+                        print('found cooldown')
+                        self.speed = 5
+                        pg.time.set_timer(cooldown, 0)  
+                        self.status = 'A'
+            print(self.status)
+
 
     def move(self):
         if self.direction.magnitude() != 0:
