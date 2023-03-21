@@ -1,4 +1,5 @@
 import pygame as pg
+from bullets import Bullet
 
 class Player(pg.sprite.Sprite):
     def __init__(self, pos, groups):
@@ -42,6 +43,9 @@ class Player(pg.sprite.Sprite):
                 self.dodging = True
                 self.dodge_time = pg.time.get_ticks()
                 self.dodgeroll()
+            
+            if keys[pg.K_SPACE]:
+                self.spawn_bullets()
 
     def move(self):
         if self.direction.magnitude() != 0:
@@ -69,6 +73,9 @@ class Player(pg.sprite.Sprite):
     def get_direction(self):
         current_direction = self.direction
         return current_direction
+    
+    def spawn_bullets(self):
+    
 
     def update(self):
         self.keylog()
