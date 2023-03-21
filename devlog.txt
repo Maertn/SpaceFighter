@@ -183,3 +183,10 @@ It's a bit messy. I'm taking a break.
 
 Also, I had to add bullets.py to .gitignore. I found myself playing with the code, and now Git wants to add it to the branch.
 I'll just keep the file in my folder, because it seems okay. More like I'll have to find the right way to call it.
+
+#10
+--
+I couldn't help myself, and tried the idea to draw bullets to display from the Player class.
+It worked like a charm. We've got a moving red rectangle that generates white rectangles. Incl. dodgerolls.
+
+Next up is generating some enemies.
