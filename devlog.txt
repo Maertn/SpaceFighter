@@ -171,5 +171,15 @@ Just a whole bunch of dead branches all over the place. Sounds kind of silly.
 --
 Created a temporary branch for the bullets. I'll add devlog here, and set devlog in .gitignore for the other branch. 
 Merging them shouldn't be a problem then. Let's test that with a new branch tho.  
+Tested it, and it worked. I'll have to set .gitignore with the new branch, and again after merging, since the .gitignore from
+the experimental branch overrides the original.
 
-bla bla bla bla
+The bullets aren't working. The idea is to spawn bullets when pressing down the spacebar, but what happens now is that one 
+sprite is spawned at initialization, and the program crashes when pressing space. I tried to spawn bullets by calling the Bullet class
+through a method in Player. The problem is Bullet isn't loaded into the player, so I'm not sure how to execute the spawning of the bullets.
+
+I might recreate the setup in Level to have drawing of bullets be executed in the Player class.
+It's a bit messy. I'm taking a break.
+
+Also, I had to add bullets.py to .gitignore. I found myself playing with the code, and now Git wants to add it to the branch.
+I'll just keep the file in my folder, because it seems okay. More like I'll have to find the right way to call it.
