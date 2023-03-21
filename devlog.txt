@@ -159,3 +159,10 @@ Another solution might be with the python modules signal and time.
 A third solution might be with asyncio, as mentioned. But it sounds kind of daunting and overkill. More like something you'd want to use
 when running a server. We'll see.
 I'll probably experiment with all three of them.
+
+#8
+--
+As expected, Git didn't want to update my branch, because the current version is a previous version of the repository.
+So I used --force, and it deleted all the commits on GitHub as well... The more you know.
+Guess it's just as easy to be messy with the branches, and call it 1.1.player, I guess. 
+Just a whole bunch of dead branches all over the place. Sounds kind of silly.
