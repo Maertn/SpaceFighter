@@ -1,6 +1,7 @@
 import pygame as pg
 from settings import *
 from player import Player
+from bullets import Bullet
 
 class Level:
     def __init__(self):
@@ -23,3 +24,4 @@ class Level:
     def run(self):
         self.visible_sprites.draw(self.display_surface)
         self.visible_sprites.update()
+        
