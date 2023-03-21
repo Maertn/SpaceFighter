@@ -166,3 +166,8 @@ As expected, Git didn't want to update my branch, because the current version is
 So I used --force, and it deleted all the commits on GitHub as well... The more you know.
 Guess it's just as easy to be messy with the branches, and call it 1.1.player, I guess. 
 Just a whole bunch of dead branches all over the place. Sounds kind of silly.
+
+#9
+--
+Created a temporary branch for the bullets. I'll add devlog here, and set devlog in .gitignore for the other branch. 
+Merging them shouldn't be a problem then. Let's test that with a new branch tho.  
