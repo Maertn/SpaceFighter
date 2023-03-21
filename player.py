@@ -8,6 +8,9 @@ class Player(pg.sprite.Sprite):
         self.image.fill('red')
         self.rect = self.image.get_rect(center = pos)
 
+        # get display surface
+        self.display_surface = pg.display.get_surface() 
+
         # movement
         self.normal_speed = 4
         self.speed = self.normal_speed
@@ -18,6 +21,9 @@ class Player(pg.sprite.Sprite):
         self.dodge_time = None
         self.dodge_cooldown = 300
         self.dodge_speed = 6
+
+        # sprite group for bullets
+        self.visible_sprites = pg.sprite.Group()
 
     def keylog(self):
         keys = pg.key.get_pressed()
@@ -75,10 +81,14 @@ class Player(pg.sprite.Sprite):
         return current_direction
     
     def spawn_bullets(self):
-    
+        x = self.rect.centerx
+        y = self.rect.top
+        Bullet((x,y), [self.visible_sprites])
 
     def update(self):
         self.keylog()
         self.move()
         self.dodgeroll()
         self.cooldowns()
+        self.visible_sprites.draw(self.display_surface)
+        self.visible_sprites.update()

@@ -19,10 +19,7 @@ class Level:
     def create_map(self):
         x = WIDTH // 2
         y = HEIGHT // 2
-        player = Player((x,y), [self.visible_sprites])
-    
-    def spawn_bullets(self):
-        if self.player.status = 'shooting'
+        Player((x,y), [self.visible_sprites])
 
     def run(self):
         self.visible_sprites.draw(self.display_surface)
