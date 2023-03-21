@@ -71,3 +71,91 @@ What I've been trying to setup is a function to dodgeroll the player.
 I've tried calling the dodgeroll through a decorator that handles the cooldown, since I'll use more cooldown timers.
 The problem with using a decorator is that I want to stop the fuction after a certain amount of time,
 and I don't know how to get it working. I'll experiment a bit at a later point in time.
+
+#6
+--
+I've tried a bunch, but I'm drawing a blank when it comes to the cooldown decorator.
+I've also tried to setup the decorator in such a way that the cooldown could be passed from the parameters of the original function.
+I'm probably better off trying out pg.time.set_timer(), without the use of decorators. Or maybe I'm trying to be too fancy.
+What I have now is partly based on ChatGTP, and it does seem iffy that the timer isn't actually called in decorator_test. 
+I also don't like the try-except block. They can probably be used for a lot of things, but in my mind they're for handling errors, 
+when you're scraping the barrel so to say. I'll look up their utility at a later point.   
+I could just copy the method that the Zelda tutorial employed. It involved setting status and checking for status.
+I found the employment of timers in that tutorial a bit cumbersome is all, so I'll try some stuff tomorrow.
+I'll upload the files that I used for testing, remove them, and try again.
+
+--
+2023-03-21
+#1
+--
+Removed a devlog again after restoring through git... Something about asses and rocks.
+I've played around with some features in pygame to get signals or events. 
+I've put the experiments in scrapfromtest, just for reference.
+event_test.py is the most succesful version. I could run a function continuously and toggle their activity through atributes.
+The decorator part didn't quite work as of yet.
+I've discovered through wiki that working with signals and events are seperate programming paradigms, differing from functional or OOP. Exciting!
+
+#2
+--
+When testing out the pg.event.get() method to grab the USEREVENT we get a latency of 0.1s. I wonder if this gets worse when more events
+are in the queue. I also don't to what extent the display is updated through events. Window-events are mentioned in the pygame docs,
+so my bet is that we'll get more latency issues as sprites are moving about. We'll see when we get there.
+
+#3
+--
+Using pg.event.get() doesn't work for dodgeroll(). At least now with current setup.
+I've set it up in such a way that pressing LCTRL sets self.status to 'rolling' runs self.dodgeroll().
+dodgeroll() starts a timer checks if status is rolling. I can do this in two ways which results in different behaviours.
+If I choose the while self.status = 'rolling', we look through events with pg.event.get(). While doing so, the player freezes untill
+event.type == cooldown is found. This is not what I want.
+If I choose the if self.status = 'rolling' we can control the player and notice that we do get the speed boost. However, the event.type
+for cooldown won't be found, and the player never exits the rolling state.
+A lot of trouble for finding another way to execute timers, and it's starting to look like every attempt so far only makes the code
+more intricate, which is the opposite of what I wanted.
+
+#4
+--
+Let's recap. I'm trying to modify an attribute of a class for a duration of time using events from pygame.
+event_test worked, but it didn't run within the pygame setup I'm using for games. The event system should work tho, even 
+in those settings. I'll create a test by copying from a previous version of SpaceFighter, and see if I can get anything to work
+using events.
+
+#5
+--
+I'm done with the timer. I couldn't get it to work through pg.event.
+I can set the attribute of an object to status rolling when rolling, which should boost my speed.
+I create a USEREVENT called cooldown, which is sent by pg.time.set_timer(cooldown, 1000).
+If I use 'while self.status == 'rolling': for event in pg.event.get()' the program finds the event, 
+but I'm locked out of my controls for the duration.
+If I use 'if self.status=='rolling'' the program doesn't find the event, which makes sense since it's not continually scanning.
+If I make a combination of the two, the locking out becomes a problem.
+
+If I'm understanding the pygame docs correctly the event queue will wait until the specified event has passed, 
+and continues when pg.event.get() returns something. Using pump() at several places didn't change the behaviour of the program.
+Using pg.event.wait() didn't change the behaviour. It might work when implemented in the thread that calls display (whatever that 
+means exactly), but moving the player controls to main seems dubious.
+
+I don't feel much the wiser about event handling in pygame. Using it for a timer didn't work, which leaves me questioning the
+utility of a set_timer if the program stops working while the timer is running. Maybe I need to code certain behaviours for the event,
+but the pg docs aren't all that clear about it. Using Google didn't work. It's been a frustrating nightmare. Why are events so 
+hard to handle in an environment made for games? Shouldn't there be an easy function for sending signals after a certain amount of time?
+
+I guess I'll just start copying the timer setup from the Zelda tutorial, because I don't want to be bogged down any longer. 
+I still think it's really cool to be delving into this kind of programming. I've learned today that signal programming and 
+event-driven programming are their own programming paradigms, which I think is totally fascinating.
+I'll check the signal module in Python, and maybe asyncio could do something for me here. Until then I'm just gonna borrow the 
+cooldowns from Zelda.
+
+#7
+--
+Did a hard reset to an older git version, and I did remember to copy the devlog this time.
+There might be a way to exclude the devlog from changes but upload it anyway.
+
+I'm just gonna code like I'm drunk for the implementation of the player, enemies, and bullets. Let's get something done.
+
+I found one mention of async functions in pygame on stackoverflow. The solution that was opted is threading.
+This sounds really cool.
+Another solution might be with the python modules signal and time.
+A third solution might be with asyncio, as mentioned. But it sounds kind of daunting and overkill. More like something you'd want to use
+when running a server. We'll see.
+I'll probably experiment with all three of them.
