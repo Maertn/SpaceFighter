@@ -172,4 +172,4 @@ Just a whole bunch of dead branches all over the place. Sounds kind of silly.
 Created a temporary branch for the bullets. I'll add devlog here, and set devlog in .gitignore for the other branch. 
 Merging them shouldn't be a problem then. Let's test that with a new branch tho.  
 
-bla bla bla
+bla bla bla bla
