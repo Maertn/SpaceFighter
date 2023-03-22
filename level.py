@@ -46,10 +46,10 @@ class Level:
     def enemy_fire(self):
         for enemy in self.enemy_sprites:
             enemy_fire_switch = None
-            i = pg.time.get_ticks()
+            i = pg.time.get_ticks() 
             x = enemy.rect.centerx
             y = enemy.rect.centery
-            if (int(i % 2) == 5 + randint(-5,5)) and not self.spawn_switch:
+            if (int(i % 10) == 5 + randint(-5,5)) and not self.spawn_switch:
                 enemy_fire_switch = True
             if enemy_fire_switch and enemy.fire_bullet:
                 enemy.fire_bullet = False

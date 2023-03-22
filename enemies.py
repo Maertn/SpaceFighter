@@ -40,8 +40,6 @@ class Enemy(pg.sprite.Sprite):
         else:
             self.fire_bullet = False
 
-
-
     def update(self):
         self.line_move()
         self.destroy_enemy()
