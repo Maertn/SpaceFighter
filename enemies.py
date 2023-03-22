@@ -31,6 +31,6 @@ class Enemy(pg.sprite.Sprite):
             self.kill()
 
     def update(self):
-        self.bouncy_move()
+        self.line_move()
         self.destroy_enemy()       
         

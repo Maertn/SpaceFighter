@@ -232,3 +232,13 @@ right to left. I want to create an enemy generator that spawns the enemies after
 I've been messing around with this enemy generator, and I'm currently using a counter from the standard library. It's kinda messy again.
 I'll get back to it after dinner. I think I already know what I'm overcomplicating.
 Note: time.sleep() doesn't work, since it freezes the whole program. 
+
+#4
+--
+Created a timer with modulo. I kinda assumed it was a bit too heavy on the memory, like being afraid of an overflow somewhere. But it
+works, afaik. This is driving the spawning of enemies.
+I had some trouble with enemies being generated in bursts, so before te program could detect that I wanted to turn generation off it'd
+already create a bunch. Using modulo and a switch removed that problem.
+In the original setup I used the standard library time. I assume it works better than pygame's timer. I thought it gave a more precise output
+while messing around with it. Can't be 100% sure. To keep with the theme I switched to pygame's timer. I think it's the switch that 
+prevents the spamming of enemies, so it's all good. Checking with a print debugger shows just one enemy spawning and dying at every interval.
