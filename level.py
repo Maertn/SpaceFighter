@@ -19,9 +19,19 @@ class Level:
     def create_map(self):
         x = WIDTH // 2
         y = HEIGHT // 2
-        Player((x,y), [self.visible_sprites])
+        self.player = Player((x,y), [self.visible_sprites])
+
+    def shoot_stuff(self, player):
+        if self.player.shooting == True:
+            x = self.player.rect.centerx
+            y = self.player.rect.top
+            Bullet((x,y), [self.visible_sprites])
+            print('shooting')
+            
 
     def run(self):
+        self.shoot_stuff(self.player)
         self.visible_sprites.draw(self.display_surface)
         self.visible_sprites.update()
+        
         

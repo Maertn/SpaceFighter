@@ -22,6 +22,8 @@ class Player(pg.sprite.Sprite):
         self.dodge_cooldown = 300
         self.dodge_speed = 6
 
+        self.shooting = False
+
         # sprite group for bullets
         self.visible_sprites = pg.sprite.Group()
 
@@ -51,7 +53,9 @@ class Player(pg.sprite.Sprite):
                 self.dodgeroll()
             
             if keys[pg.K_SPACE]:
-                self.spawn_bullets()
+                self.shooting = True
+            else:
+                self.shooting = False
 
     def move(self):
         if self.direction.magnitude() != 0:
@@ -90,5 +94,3 @@ class Player(pg.sprite.Sprite):
         self.move()
         self.dodgeroll()
         self.cooldowns()
-        self.visible_sprites.draw(self.display_surface)
-        self.visible_sprites.update()
