@@ -224,3 +224,11 @@ or follow the trajectory of a quadratic.
 Another question that I'm asking myself is whether or not I want the program to be deterministic.
 I think I do, to prevent situations that are completely unfair. On the other hand, it might become boring really quick if
 everything is predetermined. We'll see when we get to the creation of bullets.
+
+#3
+-- 
+I created a bouncy move, which lets the enemy bounce from wall to wall. I also created a line move, which moves the player from
+right to left. I want to create an enemy generator that spawns the enemies after a certain amount of time.
+I've been messing around with this enemy generator, and I'm currently using a counter from the standard library. It's kinda messy again.
+I'll get back to it after dinner. I think I already know what I'm overcomplicating.
+Note: time.sleep() doesn't work, since it freezes the whole program. 
