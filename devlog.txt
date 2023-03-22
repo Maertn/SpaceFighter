@@ -190,3 +190,37 @@ I couldn't help myself, and tried the idea to draw bullets to display from the P
 It worked like a charm. We've got a moving red rectangle that generates white rectangles. Incl. dodgerolls.
 
 Next up is generating some enemies.
+
+--
+2023-03-22
+#1
+--
+Moved the spawning of bullets to the level, so we don't get messy with trying to combine several lists of visible_sprites.
+I already tried something like that, importing bullet sprites from player to level, 
+but I keep getting errors for trying to import a None type. 
+I don't really know what's happening there. I'm quickly learning that if I can avoid using the built-in pygame features I probably should.
+My guess is that stuff is happening in pygame with data strutures that I poorly understand. Maybe they're custom, I'm not entirely sure.
+I could use some print debugging more often to be sure, but I mostly end up with stuff like Group.object which isn't illuminating to me
+for the moment. I guess I could start reading the code of pygame and try to understand what's happenig there, but it seems like a lot of
+work that doesn't translate into immediate gains. I'd rather just focus on building some fun stuff for now. I'll go back to analysing things
+in a day or two. Might check out that threading thing then.
+
+Let's do some actual enemy generation.
+
+#2
+--
+We have one enemy printed on screen. That's technically some enemy generation.
+From the top of my head we need three components to the enemies.
+We need some behaviour to put them on screen. Then we need two behaviours when they're on screen, movement and shooting.
+That's two timers, and one algorithm for movement.
+
+I guess it makes sense to implement movement first. No point in spawning them when they don't do stuff.
+I'll go with the simplest movement; just an x-direction and speed.
+Here's an idea for the future tho. I'll create a list or dict, and move the index by a small amount with time or number of enemies killed. 
+Whenever we enter the threshold into a new index we can change movement. 
+I could try adjusting the movement by manipulating the direction with trigonometry to have it be wavey, 
+or follow the trajectory of a quadratic.
+
+Another question that I'm asking myself is whether or not I want the program to be deterministic.
+I think I do, to prevent situations that are completely unfair. On the other hand, it might become boring really quick if
+everything is predetermined. We'll see when we get to the creation of bullets.

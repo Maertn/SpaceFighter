@@ -2,6 +2,7 @@ import pygame as pg
 from settings import *
 from player import Player
 from bullets import Bullet
+from enemies import Enemy
 
 class Level:
     def __init__(self):
@@ -20,9 +21,10 @@ class Level:
         x = WIDTH // 2
         y = HEIGHT // 2
         self.player = Player((x,y), [self.visible_sprites])
+        self.enemy = Enemy((x, y - 300), [self.visible_sprites])
 
     def shoot_stuff(self, player):
-        if self.player.shooting == True:
+        if self.player.shooting and not self.player.dodging:
             x = self.player.rect.centerx
             y = self.player.rect.top
             Bullet((x,y), [self.visible_sprites])
