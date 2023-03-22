@@ -5,8 +5,7 @@ class Bullet(pg.sprite.Sprite):
         super().__init__(groups)
         self.image = pg.Surface((5, 5)).convert_alpha()
         self.image.fill('white')
-        self.rect = self.image.get_rect(center = pos)
-        self.pos = pos
+        self.rect = self.image.get_rect(center = pos)     
 
     def trajectory(self):
         self.rect.centery -= 20
