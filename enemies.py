@@ -1,4 +1,5 @@
 import pygame as pg
+from bullets import EnemyBullet
 
 class Enemy(pg.sprite.Sprite):
     def __init__(self, pos, groups):
@@ -10,6 +11,8 @@ class Enemy(pg.sprite.Sprite):
         # movement
         self.direction = pg.math.Vector2()
         self.speed = 5
+
+        self.fire_bullet = False
 
     def line_move(self):
         self.direction = (-1, 0)
@@ -30,7 +33,17 @@ class Enemy(pg.sprite.Sprite):
             print('enemy died by boundaries')
             self.kill()
 
+    def spawn_bullets(self):
+        i = int(pg.time.get_ticks() / 100)
+        if i % 2 == 0:
+            self.fire_bullet = True
+        else:
+            self.fire_bullet = False
+
+
+
     def update(self):
         self.line_move()
-        self.destroy_enemy()       
+        self.destroy_enemy()
+        self.spawn_bullets()
         
