@@ -33,10 +33,6 @@ class Level:
         elif int(i % 2) == 1 and self.spawn_switch:
             Enemy((WIDTH, HEIGHT // 2 - 300), [self.visible_sprites])
             self.spawn_switch = False
-                
-
-
-    
 
     def shoot_stuff(self, player):
         if self.player.shooting and not self.player.dodging:
