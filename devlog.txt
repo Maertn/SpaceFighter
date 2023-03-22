@@ -245,3 +245,40 @@ prevents the spamming of enemies, so it's all good. Checking with a print debugg
 
 Last step for the enemies is the spawning of bullets. I think I'd like to create two seperate classes for player and enemy bullets, 
 so we don't accidentally shoot ourselves. After that it's probably an idea to setup collision detection.
+
+#5
+--
+Added enemy bullets, and finished the section of enemy generation.
+The implementation of bullets is pretty wild.
+The EnemyBullet class inherits from Bullet. The only change we make is the direction, which is the same as the players, but in the
+opposite direction.
+Wihin enemies I setup a switch, which is used in the generation of enemy bullets. 
+The switch checks only at a certain interal (pg.time.get_ticks()/100 % 2). If the switch is False, enemy_fire is halted.
+This switch is the product of trial and error, and was a left-over in the code. In practice it serves to give a bit prettier behaviour
+in enemy_fire, since we don't allow for short bursts to be too dense. It takes some of the edges off.
+
+Bullet generation is done from the Level class. I've created a seperate sprite.Group called enemy_sprites.
+When generating enemy_fire() I check for enemy in enemy_sprites. Upon execution a timer is assigned to each enemy.
+Within the enemy_fire() method we have it's own switch which is connected to the timer. 
+We add some randomness in the conditions for the switch, so each enemy has it's own probability of generating a bullet.
+If both the switch in empty_fire and the Enemy object are satisfied, a bullet will spawn. 
+
+I'm not a 100% sure on how this works. I can edit the randomness, but editing the timing is a bit finnicky.
+Working with modulo isn't that intuitive to me. The timers differ in their sensitivity (say, pg.time.get_ticks()/1, /10, or /100).
+Changig the sensitivity changes the behaviour.
+Then we have the modulo itself. Increasing this number slows the generation. I'm unsure what, if anything, happens when inputting decimals.
+I tried inputting decimals, but my setup is so weird it's hard to draw conclusions.
+
+These behaviours in interacting switches are kind of unpredictable to me. 
+And I feel like this whole things isn't working all that consistently. This whole setup is borne out of inaccuracies when requesting
+timers. A timer would register its trigger condition for too long if the setup is too precise, but miss it's trigger condition when 
+moving too fast. E.g., get_ticks() % 2 registering seems purely random, since the timeunits are too small to be read processed correctly.
+I remember asking myself if I wanted a determistic setup... Yeah, about that.
+
+If I remove the deliberate randomness I can get pretty consistent behaviour tho. 
+Since I'm setting the modulo condition to be equal to anything I'd want, I could have one setup that acts consistently with a 
+modulo of number n, and that would give me n different actions to plan within that setup. This could provide some pretty interesting
+bullet patterns.  
+
+A pretty neat idea would be to add stuff like giving different directions to bullets, with some enemies firing at the player, 
+or bullets having properties like ricochet against the boundaries. Or wavey patterns. So many options opening up. Pretty cool.
