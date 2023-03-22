@@ -242,3 +242,6 @@ already create a bunch. Using modulo and a switch removed that problem.
 In the original setup I used the standard library time. I assume it works better than pygame's timer. I thought it gave a more precise output
 while messing around with it. Can't be 100% sure. To keep with the theme I switched to pygame's timer. I think it's the switch that 
 prevents the spamming of enemies, so it's all good. Checking with a print debugger shows just one enemy spawning and dying at every interval.
+
+Last step for the enemies is the spawning of bullets. I think I'd like to create two seperate classes for player and enemy bullets, 
+so we don't accidentally shoot ourselves. After that it's probably an idea to setup collision detection.
