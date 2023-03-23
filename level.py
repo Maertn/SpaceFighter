@@ -5,7 +5,7 @@ import math
 from settings import *
 from player import Player
 from bullets import Bullet, EnemyBullet, WaveyBullet1, WaveyBullet2
-from enemies import Enemy
+from enemies import Enemy, EnemyFromLeft
 
 class Level:
     def __init__(self):
@@ -25,7 +25,8 @@ class Level:
         self.create_map()
 
         # enemy behaviour switches
-        self.spawn_switch = None
+        self.spawn_switch_right = None
+        self.spawn_switch_left = None
         self.enemy_fire_switch = None
 
         # player behaviour switches
@@ -41,11 +42,20 @@ class Level:
 
     def spawn_enemies(self):
         i = int(pg.time.get_ticks() / 1000)
-        if int(i % 2) == 0 and not self.spawn_switch:
-            self.spawn_switch = True
-        elif int(i % 2) == 1 and self.spawn_switch:
+        
+        # Enemies from the right
+        if int(i % 2) == 0 and not self.spawn_switch_right:
+            self.spawn_switch_right = True
+        elif int(i % 2) == 1 and self.spawn_switch_right:
             Enemy((WIDTH, HEIGHT // 2 - 300), [self.visible_sprites, self.enemy_sprites])
-            self.spawn_switch = False
+            self.spawn_switch_right = False
+
+        # Enemies from the left
+        if int(i % 2) == 0 and not self.spawn_switch_left:
+            self.spawn_switch_left = True
+        elif int(i % 2) == 1 and self.spawn_switch_left:
+            EnemyFromLeft((0, HEIGHT // 2 - 200), [self.visible_sprites, self.enemy_sprites])
+            self.spawn_switch_left = False
 
     def shoot_stuff(self, player):
         if self.shoot_stuff_switch and self.player.shooting and not self.player.dodging and self.player_alive:
@@ -98,7 +108,7 @@ class Level:
             i = pg.time.get_ticks() 
             x = enemy.rect.centerx
             y = enemy.rect.centery
-            if (int(i % 10) == 5 + randint(-5,5)) and not self.spawn_switch:
+            if (int(i % 10) == 5 + randint(-5,5)) and not enemy_fire_switch:
                 enemy_fire_switch = True
             if enemy_fire_switch and enemy.fire_bullet:
                 enemy.fire_bullet = False

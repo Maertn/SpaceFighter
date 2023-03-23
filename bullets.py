@@ -39,7 +39,8 @@ class EnemyBullet(Bullet):
     def trajectory(self):
         self.rect.centerx += self.direction[0] * self.speed
         self.rect.centery += self.direction[1] * self.speed
-        # self.rect.centerx += math.sin(pg.time.get_ticks()/40)*4 # wavey trajectory
+
+
 
 class WaveyBullet1(Bullet):
     def __init__(self, pos, groups):
@@ -51,6 +52,7 @@ class WaveyBullet1(Bullet):
         self.rect.centerx += self.direction[0] * self.speed
         self.rect.centery += self.direction[1] * self.speed
         self.rect.centerx += math.sin(pg.time.get_ticks()/40)*4
+
 
 class WaveyBullet2(Bullet):
     def __init__(self, pos, groups):

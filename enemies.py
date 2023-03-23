@@ -43,4 +43,8 @@ class Enemy(pg.sprite.Sprite):
         self.line_move()
         self.destroy_enemy()
         self.spawn_bullets()
-        
+
+class EnemyFromLeft(Enemy):
+    def __init__(self, pos, groups):
+        super().__init__(pos,groups)
+        self.speed = -5
