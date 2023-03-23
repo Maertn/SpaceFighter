@@ -327,5 +327,24 @@ Seems like I can create multiple bullets. Combat mode for player is changed thro
 the future that change this combat mode.
 To make bullets have a wavey trajectory I'll need to create different Bullet classes, since bullets themselves aren't updated in the
 Level class. The initial direction and number of bullets can be set in Level. It's gonna make for an unwieldy shoot_stuff() method,
-but it works.  
+but it works.
+
+#3
+--
+Added some more player fire patterns. I know have a total of 6. The first three consist of lines, with the third firing with an angle.
+The latter three consist of two bullets that move according to a sine function. They're wavey, giving them a bigger area of effect,
+and looking nice.
+
+Experimented a bit with adding more enemy spawn patterns. A row moving from left to right has been added. These extra enemies
+turn the game from a boring side scroller into an actual bullet hell. When testing the prototype I feel my gamer credentials
+basically getting nullified. Pretty amazing how fast this thing is turning into something that's actually fun to play.
+
+I think I've got some feeling for how to further enemy spawning. To set patterns of enemies appearing we'll have to code in the
+spawn_enemies() method in level. A timer is already present, so I could use that to set ramp up the difficulty in spawn patterns.
+When writing spawn patterns I'll have to specify the groups that the sprite is a member off, so I could create some extra groups to
+set which attack patterns the enemies get during a certain wave.
+
+I'll probably have to create some protocol with pen and paper to have an algorithm for myself that
+ensures all the proper parts are created when designing a particular wave. It's a bit unwieldy, but not overly so.
+I think I'm able to work with this, and create some cool wave patterns.
 
