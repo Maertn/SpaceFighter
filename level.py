@@ -33,7 +33,7 @@ class Level:
         self.shoot_stuff_timer = 0
         self.shoot_stuff_cooldown = 200
         self.shoot_stuff_switch = True
-        self.player_fire_pattern_type = 'threewave'
+        self.player_fire_pattern_type = 'twoline'
 
     def create_map(self):
         x = WIDTH // 2

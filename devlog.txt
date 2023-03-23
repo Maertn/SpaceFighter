@@ -348,3 +348,26 @@ I'll probably have to create some protocol with pen and paper to have an algorit
 ensures all the proper parts are created when designing a particular wave. It's a bit unwieldy, but not overly so.
 I think I'm able to work with this, and create some cool wave patterns.
 
+#4
+--
+Before we add more complex spawning patterns we need to know the dimensions of the screen. 
+The screen should be mostly vertical. Some remaining area on the sides can be used for interface,
+like hi-score, active power-ups, or timers.
+
+Maybe there are two ideas that I should focus on, both related to enemy movement.
+First off, it should be easy to calculate positions using acceleration. Instead of thinking about describing quadratic movement
+through a function, I could wing it a bit and give enemies an entry with positive velocity but negative acceleration. With timers I could 
+have enemies move into frame, do a bit, and leave again. Checking for self.speed in range (0.1, -0.1) could catch when to stop, and a timer
+could activate speed / acceleration again.
+Another idea for movement would be through parametric equations. It'd be nice to have enemies circle and stuff. Iirc, you need a formula
+for both x and y, which yields a unique solution to provide a path.
+
+I'll move on to the next branch, which makes 4.enemy_patterns a bit of a misnomer. I see Git allows for renaming, so let's try that.
+It should be 4.basic bullet patterns. The next part will be creating the right dimension. Let's tag on a start, game over screen and 
+high score. I might also take a look at buttons and mouse controls. Mouse controls won't be part of the game, but it might be a nice touch
+when implementing UI. I think this part is a bit more of grind to setup, but having concrete dimensions and some variables that work nicely 
+when implementing enemy movement will be a boon moving along.
+
+One important thing to setup before starting to plan waves is a sheet where the movements are planned. Could be an external document with
+pseudo-code, but even nicer would be something like settings.py containing a counter that controls all switches with regard to enemy 
+and power-up generation.
