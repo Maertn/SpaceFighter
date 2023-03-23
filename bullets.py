@@ -7,7 +7,7 @@ class Bullet(pg.sprite.Sprite):
         self.color = 'white'
         self.rect = self.image.get_rect(center = pos)   
         self.directionx = 0
-        self.directiony = -20
+        self.directiony = -10
 
     def trajectory(self):
         self.rect.centery += self.directiony
@@ -29,5 +29,5 @@ class Bullet(pg.sprite.Sprite):
 class EnemyBullet(Bullet):
     def __init__(self, pos, groups):
         super().__init__(pos, groups)
-        self.directiony = 20
+        self.directiony = 10
         self.color = 'yellow'

@@ -291,3 +291,23 @@ I can write all collision checks in one function maybe, and simply turn it off i
 On another note. I just heard about implementing wave function collapse in procedural generation. The creator of Bad North,
 Oskar Stalberg, has done some work on that (https://oskarstalbreg.com/game/wave/wave.html). Here's the original implementation of 
 WFC on GitHub (https://github.com/mxgmn/WaveFunctionCollapse).
+
+#7
+--
+Making nice progress. Finished collisions. Created a cooldown system in level, basically same as in Zelda.
+It's nice to have two seperate timer systems. Let's call them the modulo and the cooldown type timers.
+The modulo would be nice for expanding enemy spawning, which could be rather tedious to do through cooldown timers.
+It might be possible to create a small library of modulo settings. I could expand level to have three enemy generators, set them
+to None by default, and according to requirements load a modulo setting into the generator. Combine that with a library of trajectories,
+and we have a nice way to create a diverse set of challenges. Rather, I'd have a combat state for enemies, so we can have multiple bullets
+which take from a library. I'll have to think of a way to abstract away from this one specific instance... 
+
+Do I want to create multiple enemy types? For the moment not really. Let's have everything working on 1 hp.
+So I could do with one enemy class, that accepts different states. The state that's given to an object is determined by a more
+overall game state, like a difficulty setting that increases over time. I'll have the difficulty setting in level, since that's where all
+the object are created. The different states can be in their own file, or in settings. The arguments for Enemy will have to be 
+expanded to accept this combat state. The code that creates the different combat states will be independent from the settings for 
+spawning behaviour, but both will be determined by difficulty settings. This sounds like it should work.
+
+Before we can get into this upscaling we'll have to create different bullet trajectories, combat modes and spawning patterns.
+Let's start with some bullet trajectories.
