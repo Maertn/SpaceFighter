@@ -25,7 +25,6 @@ class Player(pg.sprite.Sprite):
 
         # shooting
         self.shooting = False
-        self.fire_bullet = False
 
         # sprite group for bullets
         self.visible_sprites = pg.sprite.Group()
@@ -87,16 +86,8 @@ class Player(pg.sprite.Sprite):
         current_direction = self.direction
         return current_direction
 
-    def spawn_bullet_switch(self):
-        i = int(pg.time.get_ticks() / 100)
-        if i % 2 == 0:
-            self.fire_bullet = True
-        else:
-            self.fire_bullet = False
-
     def update(self):
         self.keylog()
-        self.spawn_bullet_switch()
         self.move()
         self.dodgeroll()
         self.cooldowns()

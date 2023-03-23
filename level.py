@@ -18,12 +18,19 @@ class Level:
         self.obstacle_sprites = pg.sprite.Group()
         self.enemy_bullet_sprites = pg.sprite.Group()
         self.player_bullets_sprites = pg.sprite.Group()
+        self.player_alive = True
 
         # sprite setup
         self.create_map()
 
+        # enemy behaviour switches
         self.spawn_switch = None
         self.enemy_fire_switch = None
+
+        # player behaviour switches
+        self.shoot_stuff_timer = 0
+        self.shoot_stuff_cooldown = 200
+        self.shoot_stuff_switch = True
 
     def create_map(self):
         x = WIDTH // 2
@@ -39,10 +46,12 @@ class Level:
             self.spawn_switch = False
 
     def shoot_stuff(self, player):
-        if self.player.shooting and not self.player.dodging and self.player.spawn_bullet_switch:
+        if self.shoot_stuff_switch and self.player.shooting and not self.player.dodging and self.player_alive:
             x = self.player.rect.centerx
             y = self.player.rect.top
             Bullet((x,y), [self.visible_sprites, self.player_bullets_sprites])
+            self.shoot_stuff_switch = False
+            self.shoot_stuff_timer = pg.time.get_ticks()
 
     def enemy_fire(self):
         for enemy in self.enemy_sprites:
@@ -67,18 +76,25 @@ class Level:
             if bullet.rect.centerx in range(player.rect.left,player.rect.right) and bullet.rect.centery in range(player.rect.top, player.rect.bottom) and not self.player.dodging:
                 player.kill()
                 bullet.kill()
+                self.player_alive = False
         
         for enemy in self.enemy_sprites:
             if enemy.rect.centerx in range(player.rect.left,player.rect.right) and enemy.rect.centery in range(player.rect.top, player.rect.bottom) and not self.player.dodging:
                 player.kill()
+                self.player_alive = False
 
-    
-                
+    def cooldowns(self):
+        current_time = pg.time.get_ticks()
+        if not self.shoot_stuff_switch and current_time - self.shoot_stuff_timer >= self.shoot_stuff_cooldown:
+            self.shoot_stuff_switch = True
+            
+
     def run(self):
         self.shoot_stuff(self.player)
         self.spawn_enemies()
         self.enemy_fire()
         self.collisions(self.player)
+        self.cooldowns()
         self.visible_sprites.draw(self.display_surface)
         self.visible_sprites.update()
         
