@@ -311,3 +311,5 @@ spawning behaviour, but both will be determined by difficulty settings. This sou
 
 Before we can get into this upscaling we'll have to create different bullet trajectories, combat modes and spawning patterns.
 Let's start with some bullet trajectories.
+
+test

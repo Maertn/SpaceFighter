@@ -1,5 +1,4 @@
 import pygame as pg
-import math
 
 class Bullet(pg.sprite.Sprite):
     def __init__(self, pos, groups):
