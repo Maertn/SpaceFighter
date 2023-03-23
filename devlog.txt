@@ -282,3 +282,12 @@ bullet patterns.
 
 A pretty neat idea would be to add stuff like giving different directions to bullets, with some enemies firing at the player, 
 or bullets having properties like ricochet against the boundaries. Or wavey patterns. So many options opening up. Pretty cool.
+
+#6
+--
+When implementing collision I want to be able to turn it off easily, so I can continue testing bullet and spawn patterns.
+I can write all collision checks in one function maybe, and simply turn it off in update method of Level.
+
+On another note. I just heard about implementing wave function collapse in procedural generation. The creator of Bad North,
+Oskar Stalberg, has done some work on that (https://oskarstalbreg.com/game/wave/wave.html). Here's the original implementation of 
+WFC on GitHub (https://github.com/mxgmn/WaveFunctionCollapse).
