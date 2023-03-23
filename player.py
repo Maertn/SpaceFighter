@@ -17,12 +17,15 @@ class Player(pg.sprite.Sprite):
         self.pos = pos
         self.direction = pg.math.Vector2()
 
+        # dodging
         self.dodging = False
         self.dodge_time = None
         self.dodge_cooldown = 300
         self.dodge_speed = 6
 
+        # shooting
         self.shooting = False
+        self.fire_bullet = False
 
         # sprite group for bullets
         self.visible_sprites = pg.sprite.Group()
@@ -83,14 +86,17 @@ class Player(pg.sprite.Sprite):
     def get_direction(self):
         current_direction = self.direction
         return current_direction
-    
-    def spawn_bullets(self):
-        x = self.rect.centerx
-        y = self.rect.top
-        Bullet((x,y), [self.visible_sprites])
+
+    def spawn_bullet_switch(self):
+        i = int(pg.time.get_ticks() / 100)
+        if i % 2 == 0:
+            self.fire_bullet = True
+        else:
+            self.fire_bullet = False
 
     def update(self):
         self.keylog()
+        self.spawn_bullet_switch()
         self.move()
         self.dodgeroll()
         self.cooldowns()

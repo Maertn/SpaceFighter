@@ -16,6 +16,8 @@ class Level:
         self.visible_sprites = pg.sprite.Group()
         self.enemy_sprites = pg.sprite.Group()
         self.obstacle_sprites = pg.sprite.Group()
+        self.enemy_bullet_sprites = pg.sprite.Group()
+        self.player_bullets_sprites = pg.sprite.Group()
 
         # sprite setup
         self.create_map()
@@ -37,11 +39,10 @@ class Level:
             self.spawn_switch = False
 
     def shoot_stuff(self, player):
-        if self.player.shooting and not self.player.dodging:
+        if self.player.shooting and not self.player.dodging and self.player.spawn_bullet_switch:
             x = self.player.rect.centerx
             y = self.player.rect.top
-            Bullet((x,y), [self.visible_sprites])
-            print('shooting')
+            Bullet((x,y), [self.visible_sprites, self.player_bullets_sprites])
 
     def enemy_fire(self):
         for enemy in self.enemy_sprites:
@@ -53,12 +54,31 @@ class Level:
                 enemy_fire_switch = True
             if enemy_fire_switch and enemy.fire_bullet:
                 enemy.fire_bullet = False
-                EnemyBullet((x,y), [self.visible_sprites])
+                EnemyBullet((x,y), [self.visible_sprites, self.enemy_bullet_sprites])
+    
+    def collisions(self, player):
+        for bullet in self.player_bullets_sprites:
+            for enemy in self.enemy_sprites:
+                if bullet.rect.centerx in range(enemy.rect.left,enemy.rect.right) and bullet.rect.centery in range(enemy.rect.top, enemy.rect.bottom):
+                    enemy.kill()
+                    bullet.kill()
+
+        for bullet in self.enemy_bullet_sprites:
+            if bullet.rect.centerx in range(player.rect.left,player.rect.right) and bullet.rect.centery in range(player.rect.top, player.rect.bottom) and not self.player.dodging:
+                player.kill()
+                bullet.kill()
+        
+        for enemy in self.enemy_sprites:
+            if enemy.rect.centerx in range(player.rect.left,player.rect.right) and enemy.rect.centery in range(player.rect.top, player.rect.bottom) and not self.player.dodging:
+                player.kill()
+
+    
                 
     def run(self):
         self.shoot_stuff(self.player)
         self.spawn_enemies()
         self.enemy_fire()
+        self.collisions(self.player)
         self.visible_sprites.draw(self.display_surface)
         self.visible_sprites.update()
         
