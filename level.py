@@ -32,7 +32,7 @@ class Level:
         self.shoot_stuff_timer = 0
         self.shoot_stuff_cooldown = 200
         self.shoot_stuff_switch = True
-        self.player_fire_pattern_type = 'onewave'
+        self.player_fire_pattern_type = 'threewave'
 
     def create_map(self):
         x = WIDTH // 2
@@ -67,8 +67,26 @@ class Level:
                 bullet3.direction = pg.math.Vector2((math.sin(-45), 1))
 
             if self.player_fire_pattern_type == 'onewave':
-                bullet1 = WaveyBullet1((x,y), [self.visible_sprites, self.player_bullets_sprites])
-                bullet2 = WaveyBullet2((x,y), [self.visible_sprites, self.player_bullets_sprites])
+                bullet1_1 = WaveyBullet1((x,y), [self.visible_sprites, self.player_bullets_sprites])
+                bullet1_2 = WaveyBullet2((x,y), [self.visible_sprites, self.player_bullets_sprites])
+
+            if self.player_fire_pattern_type == 'twowave':
+                bullet1_1 = WaveyBullet1((x-32,y), [self.visible_sprites, self.player_bullets_sprites])
+                bullet1_2 = WaveyBullet2((x-32,y), [self.visible_sprites, self.player_bullets_sprites])
+                bullet2_1 = WaveyBullet1((x+32,y), [self.visible_sprites, self.player_bullets_sprites])
+                bullet2_2 = WaveyBullet2((x+32,y), [self.visible_sprites, self.player_bullets_sprites])
+
+            if self.player_fire_pattern_type == 'threewave':
+                bullet1_1 = WaveyBullet1((x-32,y), [self.visible_sprites, self.player_bullets_sprites])
+                bullet1_1.direction = pg.math.Vector2((math.sin(30), 1))
+                bullet1_2 = WaveyBullet2((x-32,y), [self.visible_sprites, self.player_bullets_sprites])
+                bullet1_2.direction = pg.math.Vector2((math.sin(30), 1))
+                bullet2_1 = WaveyBullet1((x,y), [self.visible_sprites, self.player_bullets_sprites])
+                bullet2_2 = WaveyBullet2((x,y), [self.visible_sprites, self.player_bullets_sprites])
+                bullet3_1 = WaveyBullet1((x+32,y), [self.visible_sprites, self.player_bullets_sprites])
+                bullet3_1.direction = pg.math.Vector2((math.sin(-30), 1))
+                bullet3_2 = WaveyBullet2((x+32,y), [self.visible_sprites, self.player_bullets_sprites])
+                bullet3_2.direction = pg.math.Vector2((math.sin(-30), 1))
 
             self.shoot_stuff_switch = False
             self.shoot_stuff_timer = pg.time.get_ticks()

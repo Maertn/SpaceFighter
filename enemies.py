@@ -30,7 +30,6 @@ class Enemy(pg.sprite.Sprite):
 
     def destroy_enemy(self):
         if self.rect.centerx <= -50 or self.rect.centerx >= 1300:
-            print('enemy died by boundaries')
             self.kill()
 
     def spawn_bullets(self):
