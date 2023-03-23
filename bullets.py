@@ -1,4 +1,5 @@
 import pygame as pg
+import math
 
 class Bullet(pg.sprite.Sprite):
     def __init__(self, pos, groups):
@@ -10,6 +11,8 @@ class Bullet(pg.sprite.Sprite):
         self.speed = -10
 
     def trajectory(self):
+        if self.direction.magnitude() != 0:
+            self.direction = self.direction.normalize()
         self.rect.centerx += self.direction[0] * self.speed
         self.rect.centery += self.direction[1] * self.speed
 
@@ -37,3 +40,27 @@ class EnemyBullet(Bullet):
         self.rect.centerx += self.direction[0] * self.speed
         self.rect.centery += self.direction[1] * self.speed
         # self.rect.centerx += math.sin(pg.time.get_ticks()/40)*4 # wavey trajectory
+
+class WaveyBullet1(Bullet):
+    def __init__(self, pos, groups):
+        super().__init__(pos, groups)
+        self.speed = -10
+        self.color = 'white'
+        
+    def trajectory(self):
+        self.rect.centerx += self.direction[0] * self.speed
+        self.rect.centery += self.direction[1] * self.speed
+        self.rect.centerx += math.sin(pg.time.get_ticks()/40)*4
+
+class WaveyBullet2(Bullet):
+    def __init__(self, pos, groups):
+        super().__init__(pos, groups)
+        self.speed = -10
+        self.color = 'white'
+        
+    def trajectory(self):
+        self.rect.centerx += self.direction[0] * self.speed
+        self.rect.centery += self.direction[1] * self.speed
+        self.rect.centerx += math.sin(-pg.time.get_ticks()/40)*4
+ 
+ 

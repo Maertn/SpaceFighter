@@ -1,9 +1,10 @@
 import pygame as pg
 from random import randint
+import math
 
 from settings import *
 from player import Player
-from bullets import Bullet, EnemyBullet
+from bullets import Bullet, EnemyBullet, WaveyBullet1, WaveyBullet2
 from enemies import Enemy
 
 class Level:
@@ -31,6 +32,7 @@ class Level:
         self.shoot_stuff_timer = 0
         self.shoot_stuff_cooldown = 200
         self.shoot_stuff_switch = True
+        self.player_fire_pattern_type = 'onewave'
 
     def create_map(self):
         x = WIDTH // 2
@@ -49,10 +51,28 @@ class Level:
         if self.shoot_stuff_switch and self.player.shooting and not self.player.dodging and self.player_alive:
             x = self.player.rect.centerx
             y = self.player.rect.top
-            Bullet((x,y), [self.visible_sprites, self.player_bullets_sprites])
-            print('bullet')
+            
+            if self.player_fire_pattern_type == 'oneline':
+                Bullet((x,y), [self.visible_sprites, self.player_bullets_sprites])
+                
+            if self.player_fire_pattern_type == 'twoline':
+                bullet1 = Bullet((x-32,y), [self.visible_sprites, self.player_bullets_sprites])
+                bullet2 = Bullet((x+32,y), [self.visible_sprites, self.player_bullets_sprites])
+
+            if self.player_fire_pattern_type == 'threeline':
+                bullet1 = Bullet((x-32,y), [self.visible_sprites, self.player_bullets_sprites])
+                bullet1.direction = pg.math.Vector2((math.sin(45), 1))
+                bullet2 = Bullet((x,y), [self.visible_sprites, self.player_bullets_sprites])
+                bullet3 = Bullet((x+32,y), [self.visible_sprites, self.player_bullets_sprites])
+                bullet3.direction = pg.math.Vector2((math.sin(-45), 1))
+
+            if self.player_fire_pattern_type == 'onewave':
+                bullet1 = WaveyBullet1((x,y), [self.visible_sprites, self.player_bullets_sprites])
+                bullet2 = WaveyBullet2((x,y), [self.visible_sprites, self.player_bullets_sprites])
+
             self.shoot_stuff_switch = False
             self.shoot_stuff_timer = pg.time.get_ticks()
+
 
     def enemy_fire(self):
         for enemy in self.enemy_sprites:
