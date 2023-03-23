@@ -6,11 +6,13 @@ class Bullet(pg.sprite.Sprite):
         self.image = pg.Surface((5, 5)).convert_alpha()
         self.color = 'white'
         self.rect = self.image.get_rect(center = pos)   
-        self.direction = -20
+        self.directionx = 0
+        self.directiony = -20
 
     def trajectory(self):
-        self.rect.centery += self.direction
-        
+        self.rect.centery += self.directiony
+        self.rect.centerx += self.directionx
+
     def remove_bullet(self):
         if self.rect.centery <= 0 or self.rect.centery >= 720:
             self.kill()
@@ -27,5 +29,5 @@ class Bullet(pg.sprite.Sprite):
 class EnemyBullet(Bullet):
     def __init__(self, pos, groups):
         super().__init__(pos, groups)
-        self.direction = 20
+        self.directiony = 20
         self.color = 'yellow'
