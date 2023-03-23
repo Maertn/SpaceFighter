@@ -50,6 +50,7 @@ class Level:
             x = self.player.rect.centerx
             y = self.player.rect.top
             Bullet((x,y), [self.visible_sprites, self.player_bullets_sprites])
+            print('bullet')
             self.shoot_stuff_switch = False
             self.shoot_stuff_timer = pg.time.get_ticks()
 
