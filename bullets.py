@@ -8,7 +8,7 @@ class Bullet(pg.sprite.Sprite):
         self.color = 'white'
         self.rect = self.image.get_rect(center = pos)   
         self.direction = pg.math.Vector2(0,1)
-        self.speed = -10
+        self.speed = -8
 
     def trajectory(self):
         if self.direction.magnitude() != 0:
@@ -32,7 +32,7 @@ class Bullet(pg.sprite.Sprite):
 class EnemyBullet(Bullet):
     def __init__(self, pos, groups):
         super().__init__(pos, groups)
-        self.speed = 10
+        self.speed = 8
         self.color = 'yellow'
         
 
@@ -45,7 +45,7 @@ class EnemyBullet(Bullet):
 class WaveyBullet1(Bullet):
     def __init__(self, pos, groups):
         super().__init__(pos, groups)
-        self.speed = -10
+        self.speed = -8
         self.color = 'white'
         
     def trajectory(self):
@@ -57,7 +57,7 @@ class WaveyBullet1(Bullet):
 class WaveyBullet2(Bullet):
     def __init__(self, pos, groups):
         super().__init__(pos, groups)
-        self.speed = -10
+        self.speed = -8
         self.color = 'white'
         
     def trajectory(self):

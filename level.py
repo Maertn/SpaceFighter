@@ -3,6 +3,7 @@ from random import randint
 import math
 
 from settings import *
+from ui import UI
 from player import Player
 from bullets import Bullet, EnemyBullet, WaveyBullet1, WaveyBullet2
 from enemies import Enemy, EnemyFromLeft
@@ -12,6 +13,9 @@ class Level:
 
         # get display surface
         self.display_surface = pg.display.get_surface()
+
+        # borders
+        self.ui = UI()
 
         # sprite groups
         self.visible_sprites = pg.sprite.Group()
@@ -36,8 +40,8 @@ class Level:
         self.player_fire_pattern_type = 'twoline'
 
     def create_map(self):
-        x = WIDTH // 2
-        y = HEIGHT // 2
+        x = SCREEN_WIDTH // 2
+        y = SCREEN_HEIGHT // 2
         self.player = Player((x,y), [self.visible_sprites])
 
     def spawn_enemies(self):
@@ -47,14 +51,14 @@ class Level:
         if int(i % 2) == 0 and not self.spawn_switch_right:
             self.spawn_switch_right = True
         elif int(i % 2) == 1 and self.spawn_switch_right:
-            Enemy((WIDTH, HEIGHT // 2 - 300), [self.visible_sprites, self.enemy_sprites])
+            Enemy((GAME_SCREEN_RIGHT, SCREEN_HEIGHT // 2 - 300), [self.visible_sprites, self.enemy_sprites])
             self.spawn_switch_right = False
 
         # Enemies from the left
         if int(i % 2) == 0 and not self.spawn_switch_left:
             self.spawn_switch_left = True
         elif int(i % 2) == 1 and self.spawn_switch_left:
-            EnemyFromLeft((0, HEIGHT // 2 - 200), [self.visible_sprites, self.enemy_sprites])
+            EnemyFromLeft((GAME_SCREEN_LEFT, SCREEN_HEIGHT // 2 - 200), [self.visible_sprites, self.enemy_sprites])
             self.spawn_switch_left = False
 
     def shoot_stuff(self, player):
@@ -139,6 +143,7 @@ class Level:
             
 
     def run(self):
+        self.ui.display()
         self.shoot_stuff(self.player)
         self.spawn_enemies()
         self.enemy_fire()

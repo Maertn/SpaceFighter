@@ -371,3 +371,15 @@ when implementing enemy movement will be a boon moving along.
 One important thing to setup before starting to plan waves is a sheet where the movements are planned. Could be an external document with
 pseudo-code, but even nicer would be something like settings.py containing a counter that controls all switches with regard to enemy 
 and power-up generation.
+
+--
+2023-03-24
+#1
+--
+Created dimensions that feel nice. Adjusted player and enemy size.
+UI is created in ui.py and rendered in Level. Additions, like the game over screen, will be created here.
+We already have a player_alive attribute, so I'd best remember to use that.
+
+The enemies are visible when exiting the borders. The solution would be a YSortCamera.
+The YSort is the next thing I'll create. After that, let's create a rudimentary score and the game over screen so I don't
+have to restart the program every time I die.

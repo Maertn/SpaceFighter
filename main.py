@@ -2,11 +2,12 @@ import pygame as pg
 import sys
 from settings import *
 from level import Level
+from ui import UI
 
 class Game:
     def __init__(self):
         pg.init()
-        self.screen = pg.display.set_mode((WIDTH, HEIGHT))
+        self.screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         pg.display.set_caption('SpaceFighter')
         self.clock = pg.time.Clock()
 
@@ -27,5 +28,3 @@ class Game:
 if __name__ == '__main__':
     game = Game()
     game.run()
-
-    #added something for test

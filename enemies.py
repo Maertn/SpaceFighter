@@ -1,10 +1,12 @@
 import pygame as pg
+from settings import *
 from bullets import EnemyBullet
+
 
 class Enemy(pg.sprite.Sprite):
     def __init__(self, pos, groups):
         super().__init__(groups)
-        self.image = pg.Surface((48,48)).convert_alpha()
+        self.image = pg.Surface((24,24)).convert_alpha()
         self.image.fill('blue')
         self.rect = self.image.get_rect(center = pos)
 
@@ -29,7 +31,7 @@ class Enemy(pg.sprite.Sprite):
         self.rect.x += self.direction[0] * self.speed
 
     def destroy_enemy(self):
-        if self.rect.centerx <= -50 or self.rect.centerx >= 1300:
+        if self.rect.centerx <= GAME_SCREEN_LEFT - 50 or self.rect.centerx >= GAME_SCREEN_RIGHT + 50:
             self.kill()
 
     def spawn_bullets(self):
