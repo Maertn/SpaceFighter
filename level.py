@@ -37,7 +37,7 @@ class Level:
         self.shoot_stuff_timer = 0
         self.shoot_stuff_cooldown = 200
         self.shoot_stuff_switch = True
-        self.player_fire_pattern_type = 'twoline'
+        self.player_fire_pattern_type = 'threewave'
 
     def create_map(self):
         x = SCREEN_WIDTH // 2
@@ -143,7 +143,6 @@ class Level:
             
 
     def run(self):
-        self.ui.display()
         self.shoot_stuff(self.player)
         self.spawn_enemies()
         self.enemy_fire()
@@ -151,5 +150,4 @@ class Level:
         self.cooldowns()
         self.visible_sprites.draw(self.display_surface)
         self.visible_sprites.update()
-        
-        
+        self.ui.display()
