@@ -75,10 +75,10 @@ class Level:
 
             if self.player_fire_pattern_type == 'threeline':
                 bullet1 = Bullet((x-16,y), [self.visible_sprites, self.player_bullets_sprites])
-                bullet1.direction = pg.math.Vector2((math.sin(45), 1))
+                bullet1.direction = pg.math.Vector2((math.sin(math.pi/6), 1))
                 bullet2 = Bullet((x,y), [self.visible_sprites, self.player_bullets_sprites])
                 bullet3 = Bullet((x+16,y), [self.visible_sprites, self.player_bullets_sprites])
-                bullet3.direction = pg.math.Vector2((math.sin(-45), 1))
+                bullet3.direction = pg.math.Vector2((math.sin(-math.pi/6), 1))
 
             if self.player_fire_pattern_type == 'onewave':
                 bullet1_1 = WaveyBullet1((x,y), [self.visible_sprites, self.player_bullets_sprites])
@@ -92,15 +92,15 @@ class Level:
 
             if self.player_fire_pattern_type == 'threewave':
                 bullet1_1 = WaveyBullet1((x-16,y), [self.visible_sprites, self.player_bullets_sprites])
-                bullet1_1.direction = pg.math.Vector2((math.sin(30), 1))
+                bullet1_1.direction = pg.math.Vector2((math.sin(math.pi/6), 1))
                 bullet1_2 = WaveyBullet2((x-16,y), [self.visible_sprites, self.player_bullets_sprites])
-                bullet1_2.direction = pg.math.Vector2((math.sin(30), 1))
+                bullet1_2.direction = pg.math.Vector2((math.sin(math.pi/6), 1))
                 bullet2_1 = WaveyBullet1((x,y), [self.visible_sprites, self.player_bullets_sprites])
                 bullet2_2 = WaveyBullet2((x,y), [self.visible_sprites, self.player_bullets_sprites])
                 bullet3_1 = WaveyBullet1((x+16,y), [self.visible_sprites, self.player_bullets_sprites])
-                bullet3_1.direction = pg.math.Vector2((math.sin(-30), 1))
+                bullet3_1.direction = pg.math.Vector2((math.sin(-math.pi/6), 1))
                 bullet3_2 = WaveyBullet2((x+32,y), [self.visible_sprites, self.player_bullets_sprites])
-                bullet3_2.direction = pg.math.Vector2((math.sin(-30), 1))
+                bullet3_2.direction = pg.math.Vector2((math.sin(-math.pi/6), 1))
 
             self.shoot_stuff_switch = False
             self.shoot_stuff_timer = pg.time.get_ticks()
