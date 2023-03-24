@@ -388,3 +388,6 @@ have to restart the program every time I die.
 --
 Adjusted player, enemy and bullet speed. This feels more playable. I can't wait to have wave patterns so I can get back to
 the non-random enemy bullets. Let's also create some borders for the player real quick.
+
+Borders done. I also wanted to implement a smaller hitbox for the player. Not sure if I should do so right now, since I kinda
+want to create a sprite for the player. No point in optimizing something that's going to be replaced regardless.
