@@ -393,3 +393,53 @@ Borders done. I also wanted to implement a smaller hitbox for the player. Not su
 want to create a sprite for the player. No point in optimizing something that's going to be replaced regardless.
 
 Didn't need YSortCamera to fix the border issue. Just draw the ui later instead of earlier.
+
+#3
+--
+I'm a bit scatterbrained right now. I'm still working on the implementation of nice circular motion. I guess getting a grip on the motion
+and timers is as important as anything else. I thought about opening a second branch, one in which I work with motions, the other for UI.
+I'll just keep this in the current branch tho.
+
+What I'm trying to do is starting the circular motion after 0.1 seconds, so the enemy gets loaded in at the correct location.
+This means working the details of movement into level, since that's where the enemies are updated.
+To know when to start the movement I've created an attribute in Enemy that holds the time when spawned. This requires an additional
+parameter in Enemy, since we want to keep feed the time from Level into the attribute.
+We'll need a seperate timer to start the motion.
+
+#4
+--
+I managed to move the circular motion to level, where I gave it a timer. It didn't fix the problem, but it allowed me to observe
+the start of the motion. What I think is happening is that the circular motion starts when cos(t) is at a random point, which the code
+handles as y = 0. So if cos(t) = -1, the enemy starts their motion from -1 and moves up 2 units.
+One way to fix this is to set the enemy spawn timers to corresponding intervals, which I think would be multiples of pi.
+Or, if I set the the speed of circular motion to units of pi, wouldn't that work as well? Let's give it a try.
+
+#5
+--
+It didn't work, so I used git restore . because things were getting messy. I've lost the migration of the circular motion to 
+Level. I'm not even sure if I wanted it there.
+
+Actually, I might've lost some really useful code. I might want to move enemy movement to level, because there I can create a variable 
+which is the program time - time of enemy spawn, which allows me for each enemy to have their own person timer counting from 0, which
+is exactly what I want for maintaining the y spawn position. It's starting to look like I'll have to move almost all methods from enemies
+into level to describe enemy behaviour in time, reducing the Class to a switchboard. Maybe there's a more efficient way, tho. I could write 
+a very big Enemy class, and have Level call methods from the class at certain times. So maybe I could write in Level to execute
+enemy.line_move() and enemy.circle_move(), having them run at the same time, creating composite motion. That would be insanely useful.
+I'll have Level be a switchboard to Enemy, which sounds like a logical thing to do. Level can keep track of the difference between 
+enemy.spawn_time and get_ticks(), and when detecting certain differences call methods.
+
+Now that I theoretically have the system with which I want to describe enemy motion, I'll still need a way to input variations 
+in Enemy spawning location. One way to do it would be through a dictionary where the index is moved through time. A way better idea is to
+manually set a time in Level, and call for each enemy the relevant parameters. If we have two groups on screen with differing sets 
+of instructions we can use the Group system to add an extra ID. This means some boilerplate, because we'll have to manually call each
+enemy. I was already thinking about abstracting the enemy creation in some way, but what we have now is probably 
+complicated enough to implement.
+
+I've included some code that shows composite movement. I've also removed the EnemyFromLeft, and set speed to be a parameter.
+Let's implement a game over screen real fast.
+
+#6
+--
+Still messing with the code. Still no game over screen... Expert level procrastination.
+I'm thinking to make direction a parameter as well. I think I might want to. Let's try to get a enemies spawning at a high Y value and 
+make a diagonal to exit somewhere on top of the screen. Let's first push to git before I break stuff again. 

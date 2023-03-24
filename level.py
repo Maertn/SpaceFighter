@@ -6,7 +6,7 @@ from settings import *
 from ui import UI
 from player import Player
 from bullets import Bullet, EnemyBullet, WaveyBullet1, WaveyBullet2
-from enemies import Enemy, EnemyFromLeft
+from enemies import Enemy
 
 class Level:
     def __init__(self):
@@ -45,21 +45,36 @@ class Level:
         self.player = Player((x,y), [self.visible_sprites])
 
     def spawn_enemies(self):
-        i = int(pg.time.get_ticks() / 1000)
+        t = int(pg.time.get_ticks() / 1000)
+        spawn_time = int(pg.time.get_ticks() / 10)
         
         # Enemies from the right
-        if int(i % 2) == 0 and not self.spawn_switch_right:
+        if int(t % 2) == 0 and not self.spawn_switch_right:
             self.spawn_switch_right = True
-        elif int(i % 2) == 1 and self.spawn_switch_right:
-            Enemy((GAME_SCREEN_RIGHT, SCREEN_HEIGHT // 2 - 300), [self.visible_sprites, self.enemy_sprites])
+        elif int(t % 2) == 1 and self.spawn_switch_right:
+            Enemy((GAME_SCREEN_RIGHT, SCREEN_HEIGHT // 2 - 300), [self.visible_sprites, self.enemy_sprites], 3, spawn_time)
             self.spawn_switch_right = False
 
         # Enemies from the left
-        if int(i % 2) == 0 and not self.spawn_switch_left:
+        if int(t % 2) == 0 and not self.spawn_switch_left:
             self.spawn_switch_left = True
-        elif int(i % 2) == 1 and self.spawn_switch_left:
-            EnemyFromLeft((GAME_SCREEN_LEFT, SCREEN_HEIGHT // 2 - 200), [self.visible_sprites, self.enemy_sprites])
+        elif int(t % 2) == 1 and self.spawn_switch_left:
+            Enemy((GAME_SCREEN_LEFT, SCREEN_HEIGHT // 2 - 200), [self.visible_sprites, self.enemy_sprites], -3, spawn_time)
             self.spawn_switch_left = False
+
+    def enemy_move(self):
+        current_time = pg.time.get_ticks() / 10
+        for enemy in self.enemy_sprites:
+            print(enemy.spawn_time)
+            if current_time - enemy.spawn_time <= 200:
+                enemy.line_move()
+            elif current_time - enemy.spawn_time <= 400:
+                enemy.line_move()
+                enemy.circle_move()
+            else:
+                enemy.kill()
+
+
 
     def shoot_stuff(self, player):
         if self.shoot_stuff_switch and self.player.shooting and not self.player.dodging and self.player_alive:
@@ -146,6 +161,7 @@ class Level:
         self.shoot_stuff(self.player)
         self.spawn_enemies()
         self.enemy_fire()
+        self.enemy_move()
         self.collisions(self.player)
         self.cooldowns()
         self.visible_sprites.draw(self.display_surface)
