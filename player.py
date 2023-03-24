@@ -1,5 +1,6 @@
 import pygame as pg
 from bullets import Bullet
+from settings import *
 
 class Player(pg.sprite.Sprite):
     def __init__(self, pos, groups):
@@ -33,17 +34,17 @@ class Player(pg.sprite.Sprite):
         keys = pg.key.get_pressed()
         if not self.dodging:    
             # movement over the y direction
-            if keys[pg.K_UP]:
+            if keys[pg.K_UP] and self.rect.top >= 0:
                 self.direction.y = -1
-            elif keys[pg.K_DOWN]:
+            elif keys[pg.K_DOWN] and self.rect.bottom <= SCREEN_HEIGHT:
                 self.direction.y = 1
             else:
                 self.direction.y = 0
 
             # movement over the x direction
-            if keys[pg.K_LEFT]:
+            if keys[pg.K_LEFT] and self.rect.left >= GAME_SCREEN_LEFT:
                 self.direction.x = -1
-            elif keys[pg.K_RIGHT]:
+            elif keys[pg.K_RIGHT] and self.rect.right <= GAME_SCREEN_RIGHT:
                 self.direction.x = 1
             else:
                 self.direction.x = 0
@@ -60,11 +61,11 @@ class Player(pg.sprite.Sprite):
                 self.shooting = False
 
     def move(self):
-        if self.direction.magnitude() != 0:
-            self.direction = self.direction.normalize()
+            if self.direction.magnitude() != 0:
+                self.direction = self.direction.normalize()
 
-        self.rect.x += self.direction[0] * self.speed
-        self.rect.y += self.direction[1] * self.speed
+            self.rect.x += self.direction[0] * self.speed
+            self.rect.y += self.direction[1] * self.speed
 
     def dodgeroll(self):
         dodge_direction = self.get_direction()

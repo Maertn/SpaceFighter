@@ -383,3 +383,8 @@ We already have a player_alive attribute, so I'd best remember to use that.
 The enemies are visible when exiting the borders. The solution would be a YSortCamera.
 The YSort is the next thing I'll create. After that, let's create a rudimentary score and the game over screen so I don't
 have to restart the program every time I die.
+
+#2
+--
+Adjusted player, enemy and bullet speed. This feels more playable. I can't wait to have wave patterns so I can get back to
+the non-random enemy bullets. Let's also create some borders for the player real quick.

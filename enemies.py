@@ -6,13 +6,13 @@ from bullets import EnemyBullet
 class Enemy(pg.sprite.Sprite):
     def __init__(self, pos, groups):
         super().__init__(groups)
-        self.image = pg.Surface((24,24)).convert_alpha()
+        self.image = pg.Surface((32,32)).convert_alpha()
         self.image.fill('blue')
         self.rect = self.image.get_rect(center = pos)
 
         # movement
         self.direction = pg.math.Vector2()
-        self.speed = 5
+        self.speed = 3
 
         self.fire_bullet = False
 
@@ -49,4 +49,4 @@ class Enemy(pg.sprite.Sprite):
 class EnemyFromLeft(Enemy):
     def __init__(self, pos, groups):
         super().__init__(pos,groups)
-        self.speed = -5
+        self.speed = -3
