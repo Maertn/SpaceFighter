@@ -1,4 +1,6 @@
 import pygame as pg
+import math
+
 from settings import *
 from bullets import EnemyBullet
 
@@ -9,6 +11,7 @@ class Enemy(pg.sprite.Sprite):
         self.image = pg.Surface((32,32)).convert_alpha()
         self.image.fill('blue')
         self.rect = self.image.get_rect(center = pos)
+        self.current_time = pg.time.get_ticks()
 
         # movement
         self.direction = pg.math.Vector2()
@@ -30,6 +33,11 @@ class Enemy(pg.sprite.Sprite):
 
         self.rect.x += self.direction[0] * self.speed
 
+    def circle_move(self):
+        self.direction = (-1, 0)
+        self.rect.centerx += (((0.5 * math.cos(pg.time.get_ticks()/150)) + self.direction[0]) * self.speed) 
+        self.rect.centery += (((0.5 * math.sin(pg.time.get_ticks()/150)) + self.direction[1]) * self.speed)
+
     def destroy_enemy(self):
         if self.rect.centerx <= GAME_SCREEN_LEFT - 50 or self.rect.centerx >= GAME_SCREEN_RIGHT + 50:
             self.kill()
@@ -42,7 +50,7 @@ class Enemy(pg.sprite.Sprite):
             self.fire_bullet = False
 
     def update(self):
-        self.line_move()
+        self.circle_move()
         self.destroy_enemy()
         self.spawn_bullets()
 
