@@ -488,4 +488,7 @@ destroying an enemy. Let's take a break first.
 
 Quick note: If I'm creating a high number of different enemy groups, they'll all have to be removed after death.
 What I might do to simplify the emptying of groups is to create a list somewhere that contains all the groups loaded
-into the game. I'll itterate over that list to get all the groups that need emptying. 
+into the game. I'll itterate over that list to get all the groups that need emptying.
+
+More quick notes: I currently don't have health for my enemies. I might want to though, and once I start programming the waves
+it's gonna be cumbersome to add a new parameter. I'm sure I want health for bosses. So I probably want to implement health now.

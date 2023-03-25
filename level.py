@@ -173,9 +173,6 @@ class Level:
                 self.create_map()
                 self.player.alive = True
 
-                
-
-
     def run(self):
         self.ui.display()
         if self.player.alive:
