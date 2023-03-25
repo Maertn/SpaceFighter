@@ -492,3 +492,14 @@ into the game. I'll itterate over that list to get all the groups that need empt
 
 More quick notes: I currently don't have health for my enemies. I might want to though, and once I start programming the waves
 it's gonna be cumbersome to add a new parameter. I'm sure I want health for bosses. So I probably want to implement health now.
+
+#2.
+--
+Let's organize some of the loose ends. I want implementation of health and powerups. I also want to easily empty the groups.
+Those three features shouldn't be that hard to implement.
+Hi-score is still on the to do list for the UI branch. Code for emptying groups is also part of UI. 
+After UI I'll do the power-ups. Health will be headed under the power-up branch, because it has to happen sometime.
+I also wanted to have some visual indicator that the player is dodging. And I could integrate the power-ups into the UI at this
+point to show the player which power-ups are active. How quickly the addition of a simple feautre explodes into a somewhat daunting
+list of tasks. This is definitely enough work to warrent its own branch. At least I've got a clear road map now. Let's grab some
+dinner, do some relaxing, and I'll be able to pick off easily where I left off.  

@@ -174,7 +174,6 @@ class Level:
                 self.player.alive = True
 
     def run(self):
-        self.ui.display()
         if self.player.alive:
             self.shoot_stuff(self.player)
             self.spawn_enemies()
@@ -199,3 +198,4 @@ class Level:
             else:
                 self.game_over.display()
         self.keylog()
+        self.ui.display()
