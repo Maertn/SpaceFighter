@@ -502,4 +502,17 @@ After UI I'll do the power-ups. Health will be headed under the power-up branch,
 I also wanted to have some visual indicator that the player is dodging. And I could integrate the power-ups into the UI at this
 point to show the player which power-ups are active. How quickly the addition of a simple feautre explodes into a somewhat daunting
 list of tasks. This is definitely enough work to warrent its own branch. At least I've got a clear road map now. Let's grab some
-dinner, do some relaxing, and I'll be able to pick off easily where I left off.  
+dinner, do some relaxing, and I'll be able to pick off easily where I left off.
+
+#3
+--
+I wanted to check some more complicated parametric equations, so I tried implementing the butterfly curve.
+To not mess up the code too badly I created a test suite, where I can input PE and see the trajectory, more or less.
+I'm getting something reminiscent of the butterfly curve, but I'm definitely missing something.
+The resulting figure should be way more elegant.
+I really need to dig up some math skills... Experimenting with my newly created test suite is one way to move forward.
+At least I'm getting visual feedback on my attempts to graph equation through Python code.
+
+Currently in the SpaceFighter code we have one enemy loaded with an attempt at the butterfly curve. Seeing that it didn't behave
+as expected was the driving motivation to create the suite. Also quick mental note that collision has been turned off in the 
+update of Level.

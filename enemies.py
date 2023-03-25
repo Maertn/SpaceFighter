@@ -1,5 +1,6 @@
 import pygame as pg
 import math
+import time
 
 from settings import *
 from bullets import EnemyBullet
@@ -8,6 +9,9 @@ from bullets import EnemyBullet
 class Enemy(pg.sprite.Sprite):
     def __init__(self, pos, groups, speed, direction, spawn_time, *movement_switch1):
         super().__init__(groups)
+        
+        self.display_surface = pg.display.get_surface()
+
         self.image = pg.Surface((32,32)).convert_alpha()
         self.image.fill('blue')
         self.rect = self.image.get_rect(center = pos)
@@ -36,6 +40,14 @@ class Enemy(pg.sprite.Sprite):
     def circle_move(self):
         self.rect.centerx += (math.cos(((pg.time.get_ticks()/100)-self.spawn_time)/1.5)) * self.speed 
         self.rect.centery += (math.sin(((pg.time.get_ticks()/100)-self.spawn_time)/1.5)) * self.speed
+
+    # doesn't work as intended
+    def butterfly_move(self):
+        t = ((pg.time.get_ticks()/10) - self.spawn_time) / 10
+        print(t)
+        """Parametric equations for the butterfly curve"""
+        self.rect.x = (SCREEN_WIDTH / 2) + (20 * math.sin(math.radians(t)) * (math.exp(math.cos(math.radians(t)) - (2*math.cos(math.radians(4*t)) - pow(math.sin(math.radians(t)/12), 5)))))
+        self.rect.y = (SCREEN_HEIGHT / 2) + (20 * math.cos(math.radians(t)) * (math.exp(math.cos(math.radians(t)) - (2*math.cos(math.radians(4*t)) - pow(math.sin(math.radians(t)/12), 5)))))
 
     def destroy_enemy(self):
         if self.rect.centerx <= GAME_SCREEN_LEFT - 50 or self.rect.centerx >= GAME_SCREEN_RIGHT + 50:
