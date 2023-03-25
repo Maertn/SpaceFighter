@@ -485,3 +485,7 @@ This bug made me run go over the code several times, so let's call it exercise a
 
 To be wholly consistent with my goals for this branch, I still need a highscore counter. Let's say 1 point per second and 10 for 
 destroying an enemy. Let's take a break first.
+
+Quick note: If I'm creating a high number of different enemy groups, they'll all have to be removed after death.
+What I might do to simplify the emptying of groups is to create a list somewhere that contains all the groups loaded
+into the game. I'll itterate over that list to get all the groups that need emptying. 
