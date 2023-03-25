@@ -470,3 +470,18 @@ Enemy(
     ):
 I'll be using this a lot. I love how everything is coming along. It feels like small steps, especially given that the visuals haven't changed
 all that much. But I feel like today was a big breakthrough in understanding how to organize the code. Still no game over screen tho.
+
+--
+2023-03-25
+#1
+--
+Created a main menu and a game over screen.
+Resetting the game state was kind of iffy. It feels somewhat cobbled together. But it's functional.
+After death all visible and enemy sprites were removed, but then I encountered some weird bug that had me dying all the time.
+In an effort to fix it I moved some attributes around, like checking if the player is alive, which went from Level to Player.
+Turns out that I forgot to empty the bullet groups, leaving bullets from the previous run rendered invisible due to emptying 
+the visible_sprite group. 
+This bug made me run go over the code several times, so let's call it exercise and move on.
+
+To be wholly consistent with my goals for this branch, I still need a highscore counter. Let's say 1 point per second and 10 for 
+destroying an enemy. Let's take a break first.

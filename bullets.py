@@ -64,6 +64,3 @@ class EnemyBullet(Bullet):
     def trajectory(self):
         self.rect.centerx += self.direction[0] * self.speed
         self.rect.centery += self.direction[1] * self.speed
-
-
-

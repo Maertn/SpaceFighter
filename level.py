@@ -3,7 +3,7 @@ from random import randint
 import math
 
 from settings import *
-from ui import UI
+from ui import UI, MainMenu, GameOver
 from player import Player
 from bullets import Bullet, EnemyBullet, WaveyBullet1, WaveyBullet2
 from enemies import Enemy
@@ -14,8 +14,14 @@ class Level:
         # get display surface
         self.display_surface = pg.display.get_surface()
 
-        # borders
+        # get clock
+        self.run_time = pg.time.get_ticks()
+
+        # borders / menu
         self.ui = UI()
+        self.main_menu = MainMenu()
+        self.title_screen = True
+        self.game_over = GameOver()
 
         # sprite groups
         self.visible_sprites = pg.sprite.Group()
@@ -23,9 +29,8 @@ class Level:
         self.obstacle_sprites = pg.sprite.Group()
         self.enemy_bullet_sprites = pg.sprite.Group()
         self.player_bullets_sprites = pg.sprite.Group()
-        self.player_alive = True
 
-        # sprite setup
+        # player sprite setup
         self.create_map()
 
         # enemy behaviour switches
@@ -81,10 +86,8 @@ class Level:
             else:
                 enemy.kill()
 
-
-
     def shoot_stuff(self, player):
-        if self.shoot_stuff_switch and self.player.shooting and not self.player.dodging and self.player_alive:
+        if self.shoot_stuff_switch and self.player.shooting and not self.player.dodging and self.player.alive:
             x = self.player.rect.centerx
             y = self.player.rect.top
             
@@ -145,30 +148,57 @@ class Level:
                 if bullet.rect.centerx in range(enemy.rect.left,enemy.rect.right) and bullet.rect.centery in range(enemy.rect.top, enemy.rect.bottom):
                     enemy.kill()
                     bullet.kill()
-
+                    
         for bullet in self.enemy_bullet_sprites:
             if bullet.rect.centerx in range(player.rect.left,player.rect.right) and bullet.rect.centery in range(player.rect.top, player.rect.bottom) and not self.player.dodging:
                 player.kill()
                 bullet.kill()
-                self.player_alive = False
+                self.player.alive = False
         
         for enemy in self.enemy_sprites:
             if enemy.rect.centerx in range(player.rect.left,player.rect.right) and enemy.rect.centery in range(player.rect.top, player.rect.bottom) and not self.player.dodging:
                 player.kill()
-                self.player_alive = False
+                self.player.alive = False
 
     def cooldowns(self):
         current_time = pg.time.get_ticks()
         if not self.shoot_stuff_switch and current_time - self.shoot_stuff_timer >= self.shoot_stuff_cooldown:
             self.shoot_stuff_switch = True
             
+    def keylog(self):
+        keys = pg.key.get_pressed()
+        if not self.player.alive:
+            if keys[pg.K_SPACE]:
+                self.title_screen = False
+                self.create_map()
+                self.player.alive = True
+
+                
+
+
     def run(self):
-        self.shoot_stuff(self.player)
-        self.spawn_enemies()
-        self.enemy_fire()
-        self.enemy_patterns()
-        self.collisions(self.player)
-        self.cooldowns()
-        self.visible_sprites.draw(self.display_surface)
-        self.visible_sprites.update()
         self.ui.display()
+        if self.player.alive:
+            self.shoot_stuff(self.player)
+            self.spawn_enemies()
+            self.enemy_fire()
+            self.enemy_patterns()
+            self.collisions(self.player)
+            self.cooldowns()
+            self.visible_sprites.draw(self.display_surface)
+            self.visible_sprites.update()
+        else:
+            if self.enemy_sprites:
+                self.enemy_sprites.empty()
+            if self.visible_sprites:
+                self.visible_sprites.empty()
+            if self.enemy_bullet_sprites:
+                self.enemy_bullet_sprites.empty()
+            if self.player_bullets_sprites:
+                self.player_bullets_sprites.empty()
+            
+            if self.title_screen == True:
+                self.main_menu.display()
+            else:
+                self.game_over.display()
+        self.keylog()

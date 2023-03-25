@@ -30,6 +30,8 @@ class Player(pg.sprite.Sprite):
         # sprite group for bullets
         self.visible_sprites = pg.sprite.Group()
 
+        self.alive = False
+
     def keylog(self):
         keys = pg.key.get_pressed()
         if not self.dodging:    
