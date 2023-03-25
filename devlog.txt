@@ -442,4 +442,31 @@ Let's implement a game over screen real fast.
 --
 Still messing with the code. Still no game over screen... Expert level procrastination.
 I'm thinking to make direction a parameter as well. I think I might want to. Let's try to get a enemies spawning at a high Y value and 
-make a diagonal to exit somewhere on top of the screen. Let's first push to git before I break stuff again. 
+make a diagonal to exit somewhere on top of the screen. Let's first push to git before I break stuff again.
+
+The diagonal movement works. So allowing for initial direction through the parameter is useful. My trig skills are pretty terrible tho,
+so the math used is really ugly. I should redo some old trig math tbh. But it works. The setup is quite nice. I think I'm able to program
+whatever behaviour I want. Except for bullets ofc... which could be a new parameter, or I could rework the spawn_bullets() methd in Enemies
+that has been reduced to bare bones since bullet spawning moved to Level. I think I'd like bullet spawning in the Enemy class, 
+same as with movement. Let's make bullets methods that can be called from Level.
+
+#7
+--
+Played around a bit, cleaned up the code. The setup seems to work.
+I gave a spawning pattern the instruction to move diagonally till t=2, stop and rotate till t=3, then move diagonally
+with 90 degrees resp. original trajectory. I had some trouble with the rotation, since the direction was spinning so fast that no
+movement could be established, so I made an *arg for the enemy class which contains a movement switch. Whenever I want singular 
+instructions executed I can add such switches.
+
+The code for ememy generation is getting long and unwieldy. It's time to create some sort of template, or maybe it's called a snippet.
+Some boilerplate with the parameters already outlined. Something like:
+Enemy(
+    pos=, 
+    groups=, 
+    speed=, 
+    direction=, 
+    spawn_time=, 
+    *movement_switch1=
+    ):
+I'll be using this a lot. I love how everything is coming along. It feels like small steps, especially given that the visuals haven't changed
+all that much. But I feel like today was a big breakthrough in understanding how to organize the code. Still no game over screen tho.

@@ -6,7 +6,7 @@ from bullets import EnemyBullet
 
 
 class Enemy(pg.sprite.Sprite):
-    def __init__(self, pos, groups, speed, spawn_time):
+    def __init__(self, pos, groups, speed, direction, spawn_time, *movement_switch1):
         super().__init__(groups)
         self.image = pg.Surface((32,32)).convert_alpha()
         self.image.fill('blue')
@@ -14,15 +14,14 @@ class Enemy(pg.sprite.Sprite):
         self.spawn_time = spawn_time
 
         # movement
-        self.direction = pg.math.Vector2()
+        self.direction = pg.math.Vector2(direction).normalize()
         self.speed = speed
+        self.movement_switch1 = movement_switch1
 
         self.fire_bullet = False
 
     def line_move(self):
-        self.direction = (-1,0)
-        self.rect.x += self.direction[0] * self.speed
-        self.rect.y += self.direction[1] * self.speed
+        self.rect.center += self.direction * self.speed
 
     def bouncy_move(self):
         if self.rect.centerx <= 0 or self.direction == (0,0):
@@ -35,9 +34,8 @@ class Enemy(pg.sprite.Sprite):
         self.rect.x += self.direction[0] * self.speed
 
     def circle_move(self):
-        self.direction = (-1,0)
-        self.rect.centerx += ((math.cos(pg.time.get_ticks()/150)) * self.speed) 
-        self.rect.centery += ((math.sin(pg.time.get_ticks()/150)) * self.speed)
+        self.rect.centerx += (math.cos(((pg.time.get_ticks()/100)-self.spawn_time)/1.5)) * self.speed 
+        self.rect.centery += (math.sin(((pg.time.get_ticks()/100)-self.spawn_time)/1.5)) * self.speed
 
     def destroy_enemy(self):
         if self.rect.centerx <= GAME_SCREEN_LEFT - 50 or self.rect.centerx >= GAME_SCREEN_RIGHT + 50:

@@ -52,25 +52,32 @@ class Level:
         if int(t % 2) == 0 and not self.spawn_switch_right:
             self.spawn_switch_right = True
         elif int(t % 2) == 1 and self.spawn_switch_right:
-            Enemy((GAME_SCREEN_RIGHT, SCREEN_HEIGHT // 2 - 300), [self.visible_sprites, self.enemy_sprites], 3, spawn_time)
+            Enemy((GAME_SCREEN_RIGHT, SCREEN_HEIGHT * 2 / 3), [self.visible_sprites, self.enemy_sprites], -3, (math.cos(-math.pi/6), -2*math.sin(-math.pi/6)), spawn_time, True)
             self.spawn_switch_right = False
 
         # Enemies from the left
         if int(t % 2) == 0 and not self.spawn_switch_left:
             self.spawn_switch_left = True
         elif int(t % 2) == 1 and self.spawn_switch_left:
-            Enemy((GAME_SCREEN_LEFT, SCREEN_HEIGHT // 2 - 200), [self.visible_sprites, self.enemy_sprites], -3, spawn_time)
+            Enemy((GAME_SCREEN_LEFT, SCREEN_HEIGHT * 2 / 3), [self.visible_sprites, self.enemy_sprites], 3, (math.cos(math.pi/6), -2*math.sin(math.pi/6)), spawn_time, True)
             self.spawn_switch_left = False
 
-    def enemy_move(self):
-        current_time = pg.time.get_ticks() / 10
-        for enemy in self.enemy_sprites:
-            print(enemy.spawn_time)
+    def enemy_patterns(self):
+        current_time = int(pg.time.get_ticks() / 10)
+        for i, enemy in enumerate(self.enemy_sprites):
+            #print(i, enemy.rect.center)
             if current_time - enemy.spawn_time <= 200:
                 enemy.line_move()
-            elif current_time - enemy.spawn_time <= 400:
-                enemy.line_move()
+            elif current_time - enemy.spawn_time <= 300:
                 enemy.circle_move()
+            elif current_time - enemy.spawn_time <= 600:
+                if enemy.movement_switch1 and enemy.speed > 0:
+                    enemy.movement_switch1 = False
+                    enemy.direction = enemy.direction.rotate(-90)
+                if enemy.movement_switch1 and enemy.speed < 0:
+                    enemy.movement_switch1 = False
+                    enemy.direction = enemy.direction.rotate(90)
+                enemy.line_move()
             else:
                 enemy.kill()
 
@@ -120,7 +127,6 @@ class Level:
             self.shoot_stuff_switch = False
             self.shoot_stuff_timer = pg.time.get_ticks()
 
-
     def enemy_fire(self):
         for enemy in self.enemy_sprites:
             enemy_fire_switch = None
@@ -156,12 +162,11 @@ class Level:
         if not self.shoot_stuff_switch and current_time - self.shoot_stuff_timer >= self.shoot_stuff_cooldown:
             self.shoot_stuff_switch = True
             
-
     def run(self):
         self.shoot_stuff(self.player)
         self.spawn_enemies()
         self.enemy_fire()
-        self.enemy_move()
+        self.enemy_patterns()
         self.collisions(self.player)
         self.cooldowns()
         self.visible_sprites.draw(self.display_surface)
