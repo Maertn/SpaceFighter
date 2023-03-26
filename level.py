@@ -35,7 +35,7 @@ class Level:
 
         # enemy behaviour switches
         self.spawn_switch_right = True
-        self.spawn_switch_left = None
+        self.spawn_switch_left = True
         self.enemy_fire_switch = None
 
         # player behaviour switches
@@ -50,53 +50,41 @@ class Level:
         self.player = Player((x,y), [self.visible_sprites])
 
     def spawn_enemies(self):
-        # t = int(pg.time.get_ticks() / 1000)
+        t = int(pg.time.get_ticks() / 1000)
         spawn_time = pg.time.get_ticks() / 10
         
-        # # Enemies from the right
-        # if int(t % 2) == 0 and not self.spawn_switch_right:
-        #     self.spawn_switch_right = True
-        # elif int(t % 2) == 1 and self.spawn_switch_right:
-        #     Enemy((GAME_SCREEN_RIGHT, SCREEN_HEIGHT * 2 / 3), [self.visible_sprites, self.enemy_sprites], -3, (math.cos(-math.pi/6), -2*math.sin(-math.pi/6)), spawn_time, True)
-        #     self.spawn_switch_right = False
-
-        # # Enemies from the left
-        # if int(t % 2) == 0 and not self.spawn_switch_left:
-        #     self.spawn_switch_left = True
-        # elif int(t % 2) == 1 and self.spawn_switch_left:
-        #     Enemy((GAME_SCREEN_LEFT, SCREEN_HEIGHT * 2 / 3), [self.visible_sprites, self.enemy_sprites], 3, (math.cos(math.pi/6), -2*math.sin(math.pi/6)), spawn_time, True)
-        #     self.spawn_switch_left = False
-
-        if self.spawn_switch_right:
-            Enemy(
-                pos=(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), 
-                groups=[self.visible_sprites, self.enemy_sprites], 
-                speed=1, 
-                direction=((1,0)), 
-                spawn_time=spawn_time
-                )
+        # Enemies from the right
+        if int(t % 2) == 0 and not self.spawn_switch_right:
+            self.spawn_switch_right = True
+        elif int(t % 2) == 1 and self.spawn_switch_right:
+            Enemy((GAME_SCREEN_RIGHT, SCREEN_HEIGHT * 2 / 3), [self.visible_sprites, self.enemy_sprites], -3, (math.cos(-math.pi/6), -2*math.sin(-math.pi/6)), spawn_time, True)
             self.spawn_switch_right = False
 
+        # Enemies from the left
+        if int(t % 2) == 0 and not self.spawn_switch_left:
+            self.spawn_switch_left = True
+        elif int(t % 2) == 1 and self.spawn_switch_left:
+            Enemy((GAME_SCREEN_LEFT, SCREEN_HEIGHT * 2 / 3), [self.visible_sprites, self.enemy_sprites], 3, (math.cos(math.pi/6), -2*math.sin(math.pi/6)), spawn_time, True)
+            self.spawn_switch_left = False
+
     def enemy_patterns(self):
-        # current_time = int(pg.time.get_ticks() / 10)
-        # for i, enemy in enumerate(self.enemy_sprites):
-        #     #print(i, enemy.rect.center)
-        #     if current_time - enemy.spawn_time <= 200:
-        #         enemy.line_move()
-        #     elif current_time - enemy.spawn_time <= 300:
-        #         enemy.circle_move()
-        #     elif current_time - enemy.spawn_time <= 600:
-        #         if enemy.movement_switch1 and enemy.speed > 0:
-        #             enemy.movement_switch1 = False
-        #             enemy.direction = enemy.direction.rotate(-90)
-        #         if enemy.movement_switch1 and enemy.speed < 0:
-        #             enemy.movement_switch1 = False
-        #             enemy.direction = enemy.direction.rotate(90)
-        #         enemy.line_move()
-        #     else:
-        #         enemy.kill()
-        for enemy in self.enemy_sprites:
-            enemy.butterfly_move()
+        current_time = int(pg.time.get_ticks() / 10)
+        for i, enemy in enumerate(self.enemy_sprites):
+            #print(i, enemy.rect.center)
+            if current_time - enemy.spawn_time <= 200:
+                enemy.line_move()
+            elif current_time - enemy.spawn_time <= 300:
+                enemy.circle_move()
+            elif current_time - enemy.spawn_time <= 600:
+                if enemy.movement_switch1 and enemy.speed > 0:
+                    enemy.movement_switch1 = False
+                    enemy.direction = enemy.direction.rotate(-90)
+                if enemy.movement_switch1 and enemy.speed < 0:
+                    enemy.movement_switch1 = False
+                    enemy.direction = enemy.direction.rotate(90)
+                enemy.line_move()
+            else:
+                enemy.kill()
 
     def shoot_stuff(self, player):
         if self.shoot_stuff_switch and self.player.shooting and not self.player.dodging and self.player.alive:

@@ -12,11 +12,11 @@ class TestPath(pg.sprite.Sprite):
         self.rect = self.image.get_rect(center = pos)
 
     def butterfly_move(self):
-        t = pg.time.get_ticks() / 10
+        t = math.radians(pg.time.get_ticks() / 10)
 
         """Parametric equations for the butterfly curve"""
-        x = math.sin(math.radians(t)) * (math.exp(math.cos(math.radians(t)) - (2*(math.cos(4*math.radians(t))) + pow(math.sin(math.radians(t)/12),5)))) 
-        y = math.cos(math.radians(t)) * (math.exp(math.cos(math.radians(t)) - (2*(math.cos(4*math.radians(t))) + pow(math.sin(math.radians(t)/12),5))))
+        x = math.sin(t) * (math.exp(math.cos(t) - (2*(math.cos(4*t)) + pow(math.sin(t/12),5)))) 
+        y = math.cos(t) * (math.exp(math.cos(t) - (2*(math.cos(4*t)) + pow(math.sin(t/12),5))))
 
         self.direction = pg.math.Vector2(x,y)
         self.rect.center += self.direction * 20
