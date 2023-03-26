@@ -12,14 +12,14 @@ class TestPath(pg.sprite.Sprite):
         self.rect = self.image.get_rect(center = pos)
 
     def butterfly_move(self):
-        t = math.radians(pg.time.get_ticks() / 10)
+        t = math.radians(pg.time.get_ticks() / 100)
 
         """Parametric equations for the butterfly curve"""
-        x = math.sin(t) * (math.exp(math.cos(t) - (2*(math.cos(4*t)) + pow(math.sin(t/12),5)))) 
-        y = math.cos(t) * (math.exp(math.cos(t) - (2*(math.cos(4*t)) + pow(math.sin(t/12),5))))
+        x = math.sin(t) * ((math.exp(math.cos(t)) - (2*(math.cos(4*t)) + pow(math.sin(t/12),5))))
+        y = math.cos(t) * ((math.exp(math.cos(t)) - (2*(math.cos(4*t)) + pow(math.sin(t/12),5))))
 
         self.direction = pg.math.Vector2(x,y)
-        self.rect.center += self.direction * 20
+        self.rect.center += -self.direction * 60
 
         print(int(t/10)/10, self.rect.x, self.rect.y)
 
@@ -44,13 +44,13 @@ class TestSuite:
             
             self.visible_sprites = pg.sprite.Group()
 
-            test = TestPath((640, 160), [self.visible_sprites])
+            test = TestPath((640, 360), [self.visible_sprites])
 
             test.update()
             self.visible_sprites.draw(self.display_surface)
             self.visible_sprites.update()
             pg.display.update()
-            self.clock.tick(60)
+            self.clock.tick(120)
 
 if __name__ == '__main__':
     suite = TestSuite()

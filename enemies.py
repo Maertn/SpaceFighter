@@ -46,9 +46,12 @@ class Enemy(pg.sprite.Sprite):
         t = ((pg.time.get_ticks()/10) - self.spawn_time) / 10
         print(t)
         """Parametric equations for the butterfly curve"""
-        self.rect.x = (SCREEN_WIDTH / 2) + (20 * math.sin(math.radians(t)) * (math.exp(math.cos(math.radians(t)) - (2*math.cos(math.radians(4*t)) - pow(math.sin(math.radians(t)/12), 5)))))
-        self.rect.y = (SCREEN_HEIGHT / 2) + (20 * math.cos(math.radians(t)) * (math.exp(math.cos(math.radians(t)) - (2*math.cos(math.radians(4*t)) - pow(math.sin(math.radians(t)/12), 5)))))
+        x = math.sin(t) * ((math.exp(math.cos(t)) - (2*(math.cos(4*t)) + pow(math.sin(t/12),5))))
+        y = math.cos(t) * ((math.exp(math.cos(t)) - (2*(math.cos(4*t)) + pow(math.sin(t/12),5))))
 
+        self.direction = pg.math.Vector2(x,y)
+        self.rect.center += self.direction * self.speed * 10 # might need tweaking
+         
     def destroy_enemy(self):
         if self.rect.centerx <= GAME_SCREEN_LEFT - 50 or self.rect.centerx >= GAME_SCREEN_RIGHT + 50:
             self.kill()

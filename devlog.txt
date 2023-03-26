@@ -516,3 +516,10 @@ At least I'm getting visual feedback on my attempts to graph equation through Py
 Currently in the SpaceFighter code we have one enemy loaded with an attempt at the butterfly curve. Seeing that it didn't behave
 as expected was the driving motivation to create the suite. Also quick mental note that collision has been turned off in the 
 update of Level.
+
+--
+2023-03-26
+#1
+--
+Butterfly curve fixed. Asked stockoverlow, turns out I placed a huge part of expressing as a power of e because I misplaced parenthesis.
+Kind of embarrassing.
