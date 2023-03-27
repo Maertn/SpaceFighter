@@ -580,4 +580,22 @@ Almost done with the power-up branch. All we need is enemy health, and we're goo
 Bullet spawning patterns and trajectories are something that I still need to experiment with to see the possibilities. As a complete noob to the Shmup genre I find
 the bullet generation patterns the most impressive looking aspect of the games. Looking at Touhou or Mushihimesama I've gotten a lot of inspiration for cool patterns, trajectories,
 small adjustments in velocity of bullets. This is the part that I'm most looking forward to experimenting with. If I can think of another janitorial task that requires implementing
-I'll do so first, but it looks I'm pretty much done with the basics.  
+I'll do so first, but it looks I'm pretty much done with the basics.
+
+#6
+--
+Changed the power-ups so you can grab them while dodging.
+I also don't really like that the player is locked out of controls if they weren't moving while dodging. You just sit there and die, which is sad.
+A better mechanic would be to have the player sprite waiting in dodging state, accepting one input and then giving that direction to the player. At least, I think
+that would be better. Gotta build it and try it first. 
+Also, I want dodging to have a cooldown. As it is, I can keep LCTRL down and be kind of immortal until the janky movement decides to end my dodge inside a bullet.
+There should be a visual indicator for dodging, as well as a visual indicator for the dodging cooldown.
+Now that I'm thinking about it, giving cooldown timers visual displays would be a great way to fill up the borders with interesting visuals. This is definitely something
+for later tho, when / if the UI and objects are replaced with sprites.
+One idea for a visual indicator of dodging would be an afterimage that becomes translucent before disappearing. I think that would look really cool.
+
+I wanted to write in the devlog because I've been checking up on shmup footage. It's inspiring, but also depressing to see so many great games expertly developed being
+ignored on Steam. A developer, I think they're called Hey, created Mecha Ritz and Dezatopia. If I understood correctly, both games implement a mechanic where difficulty 
+ramps up over time in an infinitely procedurally generated setting, only to slow down upon death, inciting players to play better next time just to see how crazy things get.
+That sounds really cool, and suitable for a project where I don't have to choreograph every bullet like I'm setting up now. Gotta learn the basics before you can automate them
+in procedural generation, if you'd even want to, given that a lot of games that use procedural generation end up quite bland and incoherent.    
