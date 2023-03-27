@@ -50,7 +50,6 @@ class Level:
         self.shoot_stuff_timer = 0
         self.shoot_stuff_cooldown = 50
         self.shoot_stuff_switch = True
-        self.player_fire_pattern_type = 'threeline'
 
     def create_map(self):
         x = SCREEN_WIDTH // 2
@@ -100,31 +99,31 @@ class Level:
             x = self.player.rect.centerx
             y = self.player.rect.top
             
-            if self.player_fire_pattern_type == 'oneline':
+            if player.fire_pattern == 0:
                 Bullet((x,y), [self.visible_sprites, self.player_bullets_sprites])
                 
-            if self.player_fire_pattern_type == 'twoline':
+            if player.fire_pattern == 1:
                 bullet1 = Bullet((x-16,y), [self.visible_sprites, self.player_bullets_sprites])
                 bullet2 = Bullet((x+16,y), [self.visible_sprites, self.player_bullets_sprites])
 
-            if self.player_fire_pattern_type == 'threeline':
+            if player.fire_pattern == 2:
                 bullet1 = Bullet((x-16,y), [self.visible_sprites, self.player_bullets_sprites])
                 bullet1.direction = pg.math.Vector2((math.sin(math.pi/12), 1))
                 bullet2 = Bullet((x,y), [self.visible_sprites, self.player_bullets_sprites])
                 bullet3 = Bullet((x+16,y), [self.visible_sprites, self.player_bullets_sprites])
                 bullet3.direction = pg.math.Vector2((math.sin(-math.pi/12), 1))
 
-            if self.player_fire_pattern_type == 'onewave':
+            if player.fire_pattern == 0 and player.wave_pattern:
                 bullet1_1 = WaveyBullet1((x,y), [self.visible_sprites, self.player_bullets_sprites])
                 bullet1_2 = WaveyBullet2((x,y), [self.visible_sprites, self.player_bullets_sprites])
 
-            if self.player_fire_pattern_type == 'twowave':
+            if player.fire_pattern == 1 and player.wave_pattern:
                 bullet1_1 = WaveyBullet1((x-16,y), [self.visible_sprites, self.player_bullets_sprites])
                 bullet1_2 = WaveyBullet2((x-16,y), [self.visible_sprites, self.player_bullets_sprites])
                 bullet2_1 = WaveyBullet1((x+16,y), [self.visible_sprites, self.player_bullets_sprites])
                 bullet2_2 = WaveyBullet2((x+16,y), [self.visible_sprites, self.player_bullets_sprites])
 
-            if self.player_fire_pattern_type == 'threewave':
+            if player.fire_pattern == 2 and player.wave_pattern:
                 bullet1_1 = WaveyBullet1((x-16,y), [self.visible_sprites, self.player_bullets_sprites])
                 bullet1_1.direction = pg.math.Vector2((math.sin(math.pi/12), 1))
                 bullet1_2 = WaveyBullet2((x-16,y), [self.visible_sprites, self.player_bullets_sprites])

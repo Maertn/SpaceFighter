@@ -27,10 +27,13 @@ class Player(pg.sprite.Sprite):
 
         # shooting
         self.shooting = False
+        self.fire_pattern = 1
+        self.wave_pattern = True
 
         # sprite group for bullets
         self.visible_sprites = pg.sprite.Group()
 
+        # data for level
         self.alive = False
         self.current_score = 0
 
@@ -88,6 +91,7 @@ class Player(pg.sprite.Sprite):
                 self.dodging = False
 
     def get_direction(self):
+        """This mehod is used in dodge roll to lock the direction of movement for the player."""
         current_direction = self.direction
         return current_direction
 

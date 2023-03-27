@@ -548,3 +548,13 @@ However, I need to collect data from level to add enemy kills to score.
 Also, when resetting, the hi-score needs to know that the player died and reset the scoring.
 Guess I can make some bare bones setup in UI, and give all the relevant data to UI from level where it'll be called.
 This is more tricky than I imagined.
+
+#3
+--
+Hi-score implemented. Enemies give only 1 extra score, but that's fine. Created new branch for implementation of the power-ups.
+What I want is a sprite that if collision with the player detected the player's fire pattern type will upgrade.
+Looking around in the code this might be an opportunity to migrate the fire patterns to player, since they don't really belong in level.
+I guess I wrote this bit when I didn't appreciate the ability to call methods from somewhere else.
+
+Okay, I'm not gonna migrate the code, since the bullets need to be loaded into level for collision checks. I remember why I had all that stuff
+in level now. Bullet generation has to be in Level afaik, but the switches for fire pattern can be attributes of the player. Currently they're attributes of Level. 
