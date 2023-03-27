@@ -48,9 +48,9 @@ class Level:
 
         # player behaviour switches
         self.shoot_stuff_timer = 0
-        self.shoot_stuff_cooldown = 200
+        self.shoot_stuff_cooldown = 50
         self.shoot_stuff_switch = True
-        self.player_fire_pattern_type = 'threewave'
+        self.player_fire_pattern_type = 'oneline'
 
     def create_map(self):
         x = SCREEN_WIDTH // 2
