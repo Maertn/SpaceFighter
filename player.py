@@ -27,8 +27,8 @@ class Player(pg.sprite.Sprite):
 
         # shooting
         self.shooting = False
-        self.fire_pattern = 1
-        self.wave_pattern = True
+        self.fire_pattern = 0
+        self.wave_pattern = False
 
         # sprite group for bullets
         self.visible_sprites = pg.sprite.Group()

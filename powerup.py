@@ -2,10 +2,10 @@ import pygame as pg
 from settings import *
 
 class PowerUp(pg.sprite.Sprite):
-    def __init__(self, pos, groups, upgrade):
+    def __init__(self, pos, groups, upgrade, color):
         super().__init__(groups)
         self.image = pg.Surface((12, 12)).convert_alpha()
-        self.image.fill('green')
+        self.image.fill(color)
         self.rect = self.image.get_rect(center = pos)
         self.upgrade = upgrade
 

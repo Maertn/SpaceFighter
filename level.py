@@ -31,14 +31,14 @@ class Level:
         self.enemy_sprites = pg.sprite.Group()
         self.enemy_bullet_sprites = pg.sprite.Group()
         self.player_bullets_sprites = pg.sprite.Group()
-        self.powerup_sprites = pg.sprite.Group()
+        self.power_up_sprites = pg.sprite.Group()
 
         self.list_of_sprite_groups = [
                     self.visible_sprites,
                     self.enemy_sprites,
                     self.enemy_bullet_sprites,
                     self.player_bullets_sprites,
-                    self.powerup_sprites
+                    self.power_up_sprites
                     ]
 
         # player sprite setup
@@ -58,6 +58,9 @@ class Level:
         self.power_up_timer = 0
         self.power_up_spawn_switch = True
         self.power_up_switch_cooldown = 1100
+        self.power_up_wave_timer = 0
+        self.power_up_wave_switch = True
+        self.power_up_wave_cooldown = 3000
 
     def create_map(self):
         x = SCREEN_WIDTH // 2
@@ -83,13 +86,17 @@ class Level:
             Enemy((GAME_SCREEN_LEFT, SCREEN_HEIGHT * 2 / 3), [self.visible_sprites, self.enemy_sprites], 3, (math.cos(math.pi/6), -2*math.sin(math.pi/6)), spawn_time, True)
             self.spawn_switch_left = False
 
-    def spawn_powerups(self):
+    def spawn_power_ups(self):
         current_time = int(pg.time.get_ticks()/1000)
         current_time_in_ms = pg.time.get_ticks()
-        if current_time % 2 == 0 and self.power_up_spawn_switch:
-            PowerUp((randint(GAME_SCREEN_LEFT, GAME_SCREEN_RIGHT), 0), [self.visible_sprites, self.powerup_sprites], 'shots')
+        if current_time % 10 == 0 and self.power_up_spawn_switch and self.player.fire_pattern <2:
+            PowerUp((randint(GAME_SCREEN_LEFT, GAME_SCREEN_RIGHT), 0), [self.visible_sprites, self.power_up_sprites], 'power_up_shots', 'green')
             self.power_up_spawn_switch = False
             self.power_up_timer = current_time_in_ms
+        if current_time % 10 == 5 and self.power_up_spawn_switch and not self.player.wave_pattern:
+            PowerUp((randint(GAME_SCREEN_LEFT, GAME_SCREEN_RIGHT), 0), [self.visible_sprites, self.power_up_sprites], 'power_up_wave', 'purple')
+            self.power_up_spawn_switch = False
+            self.power_up_timer = current_time_in_ms            
 
     def enemy_patterns(self):
         current_time = int(pg.time.get_ticks() / 10)
@@ -115,14 +122,14 @@ class Level:
             x = self.player.rect.centerx
             y = self.player.rect.top
             
-            if player.fire_pattern == 0:
+            if player.fire_pattern == 0 and not player.wave_pattern:
                 Bullet((x,y), [self.visible_sprites, self.player_bullets_sprites])
                 
-            if player.fire_pattern == 1:
+            if player.fire_pattern == 1 and not player.wave_pattern:
                 bullet1 = Bullet((x-16,y), [self.visible_sprites, self.player_bullets_sprites])
                 bullet2 = Bullet((x+16,y), [self.visible_sprites, self.player_bullets_sprites])
 
-            if player.fire_pattern == 2:
+            if player.fire_pattern == 2 and not player.wave_pattern:
                 bullet1 = Bullet((x-16,y), [self.visible_sprites, self.player_bullets_sprites])
                 bullet1.direction = pg.math.Vector2((math.sin(math.pi/12), 1))
                 bullet2 = Bullet((x,y), [self.visible_sprites, self.player_bullets_sprites])
@@ -185,13 +192,30 @@ class Level:
                 player.kill()
                 self.player.alive = False
 
-    def cooldowns(self):
+        for power_up in self.power_up_sprites:
+            if power_up.rect.centerx in range(player.rect.left,player.rect.right) and power_up.rect.centery in range(player.rect.top, player.rect.bottom) and not self.player.dodging:
+                if power_up.upgrade == 'power_up_shots' and player.fire_pattern <2: 
+                    player.fire_pattern += 1
+                    power_up.kill()
+                if power_up.upgrade == 'power_up_wave' and self.power_up_spawn_switch:
+                    player.wave_pattern = True
+                    self.power_up_wave_switch = False
+                    power_up.kill()
+                    self.power_up_wave_timer = pg.time.get_ticks()
+                    
+
+    def cooldowns(self, player):
         current_time = pg.time.get_ticks()
         if not self.shoot_stuff_switch and current_time - self.shoot_stuff_timer >= self.shoot_stuff_cooldown:
             self.shoot_stuff_switch = True
 
         if not self.power_up_spawn_switch and current_time - self.power_up_switch_cooldown >= self.power_up_timer:
             self.power_up_spawn_switch = True
+
+        if not self.power_up_wave_switch and current_time - self.power_up_wave_cooldown >= self.power_up_wave_timer:
+            self.power_up_wave_switch = True
+            player.wave_pattern = False
+            print(True)
             
     def create_time_score(self):
         self.score_time = int(pg.time.get_ticks()/1000) + self.minus_score_time  
@@ -209,12 +233,12 @@ class Level:
         if self.player.alive:
             self.create_time_score()
             self.shoot_stuff(self.player)
-            self.spawn_powerups()
+            self.spawn_power_ups()
             self.spawn_enemies()
             self.enemy_fire()
             self.enemy_patterns()
             self.collisions(self.player)
-            self.cooldowns()
+            self.cooldowns(self.player)
             self.visible_sprites.draw(self.display_surface)
             self.visible_sprites.update()
             self.ui.display()

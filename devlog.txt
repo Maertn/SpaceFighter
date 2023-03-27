@@ -566,3 +566,18 @@ accordingly. I want to have the wavey pattern be a temporary power-up and the nu
 which powerups will be temporary until I have a more detailed vision of the types of powerups I want to integrate.
 
 One cool gimmick might be to have a lot of different temporary upgrades that give overpowered combos. Not sure about that one, but it's an idea.
+
+#5 
+--
+Implemented power-ups. They currently spawn on a timer. If the player has max number of bullets, the power-ups for bullets won't spawn.
+The wave upgrade lasts for 3 seconds. It's already coded that the uprades won't spawn while the pattern is active, but those periods don't overlap for now.
+Upon testing everything seemed to work.
+
+I tied making child classes for different power-ups, but I got somewhat bogged down by setting up the super().__init__ wrong, or something. Didn't want to deal with it, so
+I put the power-up type and color in the parameters. I'll be doing so much manually when the waves are created that it doesn't hurt to require the same for power-ups.
+
+Almost done with the power-up branch. All we need is enemy health, and we're good to go. Gotta start planning for the next requirements.
+Bullet spawning patterns and trajectories are something that I still need to experiment with to see the possibilities. As a complete noob to the Shmup genre I find
+the bullet generation patterns the most impressive looking aspect of the games. Looking at Touhou or Mushihimesama I've gotten a lot of inspiration for cool patterns, trajectories,
+small adjustments in velocity of bullets. This is the part that I'm most looking forward to experimenting with. If I can think of another janitorial task that requires implementing
+I'll do so first, but it looks I'm pretty much done with the basics.  
