@@ -21,15 +21,14 @@ class UI:
         pg.draw.rect(self.display_surface, BORDER_COLOR, self.left_border)
         pg.draw.rect(self.display_surface, BORDER_COLOR, self.right_border)
 
-    def display_score(self):
-        self.current_score = int(pg.time.get_ticks()/1000)
+    def display_score(self, score_time, score_kills):
+        self.current_score = score_time + score_kills
         self.score_surf = self.score_font.render(f'Hi-Score: {self.current_score}', False, 'black')
         self.score_rect = self.score_surf.get_rect(center = (GAME_SCREEN_LEFT / 2, 100))
         self.display_surface.blit(self.score_surf, self.score_rect)
 
     def display(self):
         self.draw_border()
-        self.display_score()
         
 
 class Menu:

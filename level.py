@@ -14,14 +14,16 @@ class Level:
         # get display surface
         self.display_surface = pg.display.get_surface()
 
-        # get clock
-        self.run_time = pg.time.get_ticks()
-
         # borders / menu
         self.ui = UI()
         self.main_menu = MainMenu()
         self.title_screen = True
         self.game_over = GameOver()
+
+        # hi-score
+        self.minus_score_time = 0
+        self.score_time = 0
+        self.kill_count = 0
 
         # sprite groups
         self.visible_sprites = pg.sprite.Group()
@@ -54,6 +56,7 @@ class Level:
         x = SCREEN_WIDTH // 2
         y = SCREEN_HEIGHT // 2 + 300
         self.player = Player((x,y), [self.visible_sprites])
+        self.minus_score_time = -int(pg.time.get_ticks()/1000)
 
     def spawn_enemies(self):
         t = int(pg.time.get_ticks() / 1000)
@@ -154,7 +157,7 @@ class Level:
                 if bullet.rect.centerx in range(enemy.rect.left,enemy.rect.right) and bullet.rect.centery in range(enemy.rect.top, enemy.rect.bottom):
                     enemy.kill()
                     bullet.kill()
-                    self.ui.current_score += 10
+                    self.kill_count += 1
                     
         for bullet in self.enemy_bullet_sprites:
             if bullet.rect.centerx in range(player.rect.left,player.rect.right) and bullet.rect.centery in range(player.rect.top, player.rect.bottom) and not self.player.dodging:
@@ -172,16 +175,21 @@ class Level:
         if not self.shoot_stuff_switch and current_time - self.shoot_stuff_timer >= self.shoot_stuff_cooldown:
             self.shoot_stuff_switch = True
             
+    def create_time_score(self):
+        self.score_time = int(pg.time.get_ticks()/1000) + self.minus_score_time  
+
     def keylog(self):
         keys = pg.key.get_pressed()
         if not self.player.alive:
             if keys[pg.K_SPACE]:
                 self.title_screen = False
                 self.create_map()
+                self.kill_count = 0
                 self.player.alive = True
 
     def run(self):
         if self.player.alive:
+            self.create_time_score()
             self.shoot_stuff(self.player)
             self.spawn_enemies()
             self.enemy_fire()
@@ -190,16 +198,19 @@ class Level:
             self.cooldowns()
             self.visible_sprites.draw(self.display_surface)
             self.visible_sprites.update()
+            self.ui.display()
+            self.ui.display_score(self.score_time, self.kill_count)
         else:
             # removing the sprites after death
             for sprite_group in self.list_of_sprite_groups:
                 if sprite_group:
                     sprite_group.empty()
-                    print('removing groups')
             
             if self.title_screen == True:
+                self.ui.display()
                 self.main_menu.display()
             else:
+                self.ui.display()
                 self.game_over.display()
         self.keylog()
-        self.ui.display()
+        
