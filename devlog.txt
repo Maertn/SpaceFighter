@@ -598,4 +598,6 @@ I wanted to write in the devlog because I've been checking up on shmup footage. 
 ignored on Steam. A developer, I think they're called Hey, created Mecha Ritz and Dezatopia. If I understood correctly, both games implement a mechanic where difficulty 
 ramps up over time in an infinitely procedurally generated setting, only to slow down upon death, inciting players to play better next time just to see how crazy things get.
 That sounds really cool, and suitable for a project where I don't have to choreograph every bullet like I'm setting up now. Gotta learn the basics before you can automate them
-in procedural generation, if you'd even want to, given that a lot of games that use procedural generation end up quite bland and incoherent.    
+in procedural generation, if you'd even want to, given that a lot of games that use procedural generation end up quite bland and incoherent.
+
+Quick note: The player can leave the screen while dodging. I think I'll create an invisible border on the edges to ensure that the player can't leave at all.
