@@ -1,16 +1,12 @@
 import pygame as pg
 import math
-import time
 
 from settings import *
-from bullets import EnemyBullet
 
 
 class Enemy(pg.sprite.Sprite):
     def __init__(self, pos, groups, speed, direction, spawn_time, *movement_switch1):
         super().__init__(groups)
-        
-        self.display_surface = pg.display.get_surface()
 
         self.image = pg.Surface((32,32)).convert_alpha()
         self.image.fill('blue')

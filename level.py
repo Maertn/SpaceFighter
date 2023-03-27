@@ -7,6 +7,7 @@ from ui import UI, MainMenu, GameOver
 from player import Player
 from bullets import Bullet, EnemyBullet, WaveyBullet1, WaveyBullet2
 from enemies import Enemy
+from powerup import PowerUp
 
 class Level:
     def __init__(self):
@@ -30,12 +31,14 @@ class Level:
         self.enemy_sprites = pg.sprite.Group()
         self.enemy_bullet_sprites = pg.sprite.Group()
         self.player_bullets_sprites = pg.sprite.Group()
+        self.powerup_sprites = pg.sprite.Group()
 
         self.list_of_sprite_groups = [
                     self.visible_sprites,
                     self.enemy_sprites,
                     self.enemy_bullet_sprites,
                     self.player_bullets_sprites,
+                    self.powerup_sprites
                     ]
 
         # player sprite setup
@@ -50,6 +53,11 @@ class Level:
         self.shoot_stuff_timer = 0
         self.shoot_stuff_cooldown = 50
         self.shoot_stuff_switch = True
+
+        # power ups
+        self.power_up_timer = 0
+        self.power_up_spawn_switch = True
+        self.power_up_switch_cooldown = 1100
 
     def create_map(self):
         x = SCREEN_WIDTH // 2
@@ -74,6 +82,14 @@ class Level:
         elif int(t % 2) == 1 and self.spawn_switch_left:
             Enemy((GAME_SCREEN_LEFT, SCREEN_HEIGHT * 2 / 3), [self.visible_sprites, self.enemy_sprites], 3, (math.cos(math.pi/6), -2*math.sin(math.pi/6)), spawn_time, True)
             self.spawn_switch_left = False
+
+    def spawn_powerups(self):
+        current_time = int(pg.time.get_ticks()/1000)
+        current_time_in_ms = pg.time.get_ticks()
+        if current_time % 2 == 0 and self.power_up_spawn_switch:
+            PowerUp((randint(GAME_SCREEN_LEFT, GAME_SCREEN_RIGHT), 0), [self.visible_sprites, self.powerup_sprites], 'shots')
+            self.power_up_spawn_switch = False
+            self.power_up_timer = current_time_in_ms
 
     def enemy_patterns(self):
         current_time = int(pg.time.get_ticks() / 10)
@@ -173,6 +189,9 @@ class Level:
         current_time = pg.time.get_ticks()
         if not self.shoot_stuff_switch and current_time - self.shoot_stuff_timer >= self.shoot_stuff_cooldown:
             self.shoot_stuff_switch = True
+
+        if not self.power_up_spawn_switch and current_time - self.power_up_switch_cooldown >= self.power_up_timer:
+            self.power_up_spawn_switch = True
             
     def create_time_score(self):
         self.score_time = int(pg.time.get_ticks()/1000) + self.minus_score_time  
@@ -190,6 +209,7 @@ class Level:
         if self.player.alive:
             self.create_time_score()
             self.shoot_stuff(self.player)
+            self.spawn_powerups()
             self.spawn_enemies()
             self.enemy_fire()
             self.enemy_patterns()

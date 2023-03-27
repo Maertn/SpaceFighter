@@ -557,4 +557,12 @@ Looking around in the code this might be an opportunity to migrate the fire patt
 I guess I wrote this bit when I didn't appreciate the ability to call methods from somewhere else.
 
 Okay, I'm not gonna migrate the code, since the bullets need to be loaded into level for collision checks. I remember why I had all that stuff
-in level now. Bullet generation has to be in Level afaik, but the switches for fire pattern can be attributes of the player. Currently they're attributes of Level. 
+in level now. Bullet generation has to be in Level afaik, but the switches for fire pattern can be attributes of the player. Currently they're attributes of Level.
+
+#4
+--
+Migrated switches to player. Created sprite that represents power-up. The only thing to do is have a collision check and manipulate the fire patterns attributes in player
+accordingly. I want to have the wavey pattern be a temporary power-up and the number of shots to be permanent, just to see if I can get a setup like that. I don't know
+which powerups will be temporary until I have a more detailed vision of the types of powerups I want to integrate.
+
+One cool gimmick might be to have a lot of different temporary upgrades that give overpowered combos. Not sure about that one, but it's an idea.
