@@ -601,3 +601,11 @@ That sounds really cool, and suitable for a project where I don't have to choreo
 in procedural generation, if you'd even want to, given that a lot of games that use procedural generation end up quite bland and incoherent.
 
 Quick note: The player can leave the screen while dodging. I think I'll create an invisible border on the edges to ensure that the player can't leave at all.
+
+#7
+--
+Implemented enemy health. I also need a cooldown on the death screen. It's easy to simply see the player teleporting and the hi-score resetting because I was pressing space
+when dying.
+
+Implemented a second pause on death. This was a bit of a puzzle, until I found that cooldowns() is only active if the player is alive. Luckily I don't get errors when migrating
+to outside of the if player_alive conditional, which I expected given that self.player is an argument to cooldowns(). Anyway, that's another tweak done.

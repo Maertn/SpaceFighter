@@ -1,6 +1,7 @@
 import pygame as pg
 from random import randint
 import math
+import time
 
 from settings import *
 from ui import UI, MainMenu, GameOver
@@ -20,6 +21,9 @@ class Level:
         self.main_menu = MainMenu()
         self.title_screen = True
         self.game_over = GameOver()
+        self.death_screen_cooldown = 1000
+        self.death_screen_switch = False
+        self.death_screen_timer = 0
 
         # hi-score
         self.minus_score_time = 0
@@ -77,14 +81,26 @@ class Level:
         if int(t % 2) == 0 and not self.spawn_switch_right:
             self.spawn_switch_right = True
         elif int(t % 2) == 1 and self.spawn_switch_right:
-            Enemy((GAME_SCREEN_RIGHT, SCREEN_HEIGHT * 2 / 3), [self.visible_sprites, self.enemy_sprites], -3, (math.cos(-math.pi/6), -2*math.sin(-math.pi/6)), spawn_time, True)
+            Enemy(pos = (GAME_SCREEN_RIGHT, SCREEN_HEIGHT * 2 / 3), 
+                groups = [self.visible_sprites, self.enemy_sprites],
+                speed = -3, 
+                direction = (math.cos(-math.pi/6), -2*math.sin(-math.pi/6)), 
+                spawn_time = spawn_time, 
+                health = 3, 
+                movement_switch1 = True)
             self.spawn_switch_right = False
 
         # Enemies from the left
         if int(t % 2) == 0 and not self.spawn_switch_left:
             self.spawn_switch_left = True
         elif int(t % 2) == 1 and self.spawn_switch_left:
-            Enemy((GAME_SCREEN_LEFT, SCREEN_HEIGHT * 2 / 3), [self.visible_sprites, self.enemy_sprites], 3, (math.cos(math.pi/6), -2*math.sin(math.pi/6)), spawn_time, True)
+            Enemy(pos = (GAME_SCREEN_LEFT, SCREEN_HEIGHT * 2 / 3), 
+                groups = [self.visible_sprites, self.enemy_sprites],
+                speed = 3, 
+                direction = (math.cos(math.pi/6), -2*math.sin(math.pi/6)), 
+                spawn_time = spawn_time, 
+                health = 3, 
+                movement_switch1 = True)
             self.spawn_switch_left = False
 
 
@@ -183,20 +199,29 @@ class Level:
         for bullet in self.player_bullets_sprites:
             for enemy in self.enemy_sprites:
                 if bullet.rect.centerx in range(enemy.rect.left,enemy.rect.right) and bullet.rect.centery in range(enemy.rect.top, enemy.rect.bottom):
-                    enemy.kill()
+                    enemy.health -= 1
                     bullet.kill()
-                    self.kill_count += 1
+                    if enemy.health <=0:
+                        self.kill_count += 1
+                        enemy.kill()
+
                     
         for bullet in self.enemy_bullet_sprites:
             if bullet.rect.centerx in range(player.rect.left,player.rect.right) and bullet.rect.centery in range(player.rect.top, player.rect.bottom) and not self.player.dodging:
                 player.kill()
                 bullet.kill()
                 self.player.alive = False
+                self.death_screen_timer = pg.time.get_ticks()
+                self.death_screen_switch = True
+                
         
         for enemy in self.enemy_sprites:
             if enemy.rect.centerx in range(player.rect.left,player.rect.right) and enemy.rect.centery in range(player.rect.top, player.rect.bottom) and not self.player.dodging:
                 player.kill()
                 self.player.alive = False
+                self.death_screen_timer = pg.time.get_ticks()
+                self.death_screen_switch = True
+                
 
         for power_up in self.power_up_sprites:
             if power_up.rect.centerx in range(player.rect.left,player.rect.right) and power_up.rect.centery in range(player.rect.top, player.rect.bottom):
@@ -209,26 +234,32 @@ class Level:
                     power_up.kill()
                     self.power_up_wave_timer = pg.time.get_ticks()
                     
-
     def cooldowns(self, player):
         current_time = pg.time.get_ticks()
+        
+        # cooldown on player shoot ability
         if not self.shoot_stuff_switch and current_time - self.shoot_stuff_timer >= self.shoot_stuff_cooldown:
             self.shoot_stuff_switch = True
 
+        # cooldown on spawning of bullet upgrades
         if not self.power_up_spawn_switch and current_time - self.power_up_switch_cooldown >= self.power_up_timer:
             self.power_up_spawn_switch = True
 
+        # cooldown on spawning of wavey upgrades 
         if not self.power_up_wave_switch and current_time - self.power_up_wave_cooldown >= self.power_up_wave_timer:
             self.power_up_wave_switch = True
             player.wave_pattern = False
-            print(True)
+
+        # cooldown on death screen
+        if current_time - self.death_screen_timer >= self.death_screen_cooldown:
+            self.death_screen_switch = False
             
     def create_time_score(self):
         self.score_time = int(pg.time.get_ticks()/1000) + self.minus_score_time  
 
     def keylog(self):
         keys = pg.key.get_pressed()
-        if not self.player.alive:
+        if not self.player.alive and not self.death_screen_switch:
             if keys[pg.K_SPACE]:
                 self.title_screen = False
                 self.create_map()
@@ -236,6 +267,8 @@ class Level:
                 self.player.alive = True
 
     def run(self):
+        self.keylog()
+        self.cooldowns(self.player)
         if self.player.alive:
             self.create_time_score()
             self.shoot_stuff(self.player)
@@ -244,7 +277,6 @@ class Level:
             self.enemy_fire()
             self.enemy_patterns()
             self.collisions(self.player)
-            self.cooldowns(self.player)
             self.visible_sprites.draw(self.display_surface)
             self.visible_sprites.update()
             self.ui.display()
@@ -261,5 +293,6 @@ class Level:
             else:
                 self.ui.display()
                 self.game_over.display()
-        self.keylog()
+
+        
         

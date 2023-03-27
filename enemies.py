@@ -5,12 +5,13 @@ from settings import *
 
 
 class Enemy(pg.sprite.Sprite):
-    def __init__(self, pos, groups, speed, direction, spawn_time, *movement_switch1):
+    def __init__(self, pos, groups, speed, direction, spawn_time, health, **movement_switch1):
         super().__init__(groups)
 
         self.image = pg.Surface((32,32)).convert_alpha()
         self.image.fill('blue')
         self.rect = self.image.get_rect(center = pos)
+        
         self.spawn_time = spawn_time
 
         # movement
@@ -18,7 +19,9 @@ class Enemy(pg.sprite.Sprite):
         self.speed = speed
         self.movement_switch1 = movement_switch1
 
+        # combat attributes
         self.fire_bullet = False
+        self.health = health
 
     def line_move(self):
         self.rect.center += self.direction * self.speed
