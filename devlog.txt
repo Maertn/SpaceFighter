@@ -523,3 +523,10 @@ update of Level.
 --
 Butterfly curve fixed. Asked stockoverlow, turns out I placed a huge part of expressing as a power of e because I misplaced parenthesis.
 Kind of embarrassing.
+
+--
+2023-03-27
+#1
+--
+Created a list of groups to remove the groups with one line of code. The group has to be added manually to a list, but that list
+is right below the setup of groups in Level, so it's easy to edit.

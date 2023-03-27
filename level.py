@@ -30,6 +30,14 @@ class Level:
         self.enemy_bullet_sprites = pg.sprite.Group()
         self.player_bullets_sprites = pg.sprite.Group()
 
+        self.list_of_sprite_groups = [
+                    self.visible_sprites,
+                    self.enemy_sprites,
+                    self.obstacle_sprites,
+                    self.enemy_bullet_sprites,
+                    self.player_bullets_sprites,
+                    ]
+
         # player sprite setup
         self.create_map()
 
@@ -179,19 +187,15 @@ class Level:
             self.spawn_enemies()
             self.enemy_fire()
             self.enemy_patterns()
-            #self.collisions(self.player)
+            self.collisions(self.player)
             self.cooldowns()
             self.visible_sprites.draw(self.display_surface)
             self.visible_sprites.update()
         else:
-            if self.enemy_sprites:
-                self.enemy_sprites.empty()
-            if self.visible_sprites:
-                self.visible_sprites.empty()
-            if self.enemy_bullet_sprites:
-                self.enemy_bullet_sprites.empty()
-            if self.player_bullets_sprites:
-                self.player_bullets_sprites.empty()
+            for sprite_group in self.list_of_sprite_groups:
+                if sprite_group:
+                    sprite_group.empty()
+                    print('removing groups')
             
             if self.title_screen == True:
                 self.main_menu.display()
