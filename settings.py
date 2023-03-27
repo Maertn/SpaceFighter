@@ -5,7 +5,7 @@ GAME_SCREEN_RIGHT  =int(4*SCREEN_WIDTH / 5)
 
 FPS = 60
 
-SCORE_FONT = 'graphics\\Roboto-Regular.ttf'
+SCORE_FONT = 'graphics\\SpecialElite.ttf'
 TITLE_FONT = 'graphics\\Fancy.ttf'
 TITLE_FONT_SIZE = 100
 TITLE_TEXT_COLOR = 'white'
