@@ -154,6 +154,7 @@ class Level:
                 if bullet.rect.centerx in range(enemy.rect.left,enemy.rect.right) and bullet.rect.centery in range(enemy.rect.top, enemy.rect.bottom):
                     enemy.kill()
                     bullet.kill()
+                    self.ui.current_score += 10
                     
         for bullet in self.enemy_bullet_sprites:
             if bullet.rect.centerx in range(player.rect.left,player.rect.right) and bullet.rect.centery in range(player.rect.top, player.rect.bottom) and not self.player.dodging:

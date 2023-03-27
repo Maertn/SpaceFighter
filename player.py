@@ -1,4 +1,5 @@
 import pygame as pg
+
 from bullets import Bullet
 from settings import *
 
@@ -31,6 +32,7 @@ class Player(pg.sprite.Sprite):
         self.visible_sprites = pg.sprite.Group()
 
         self.alive = False
+        self.current_score = 0
 
     def keylog(self):
         keys = pg.key.get_pressed()

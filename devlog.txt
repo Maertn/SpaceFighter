@@ -540,3 +540,11 @@ I've been worried about having excessive slow down once I'm trying to put 100+ b
 from checking collision for every bullet. I'm not sure if it'll help if I'm just checking the player hitbox for collision, since the code could
 just check for every bullet still, but it might. I currently have for bullet in enemy.bullet, but writing "if player.rect.collide()", or 
 something similar, could speed up the code, maybe. I'll try it out once I have some lag to cure.
+
+#2
+--
+When trying to create a display for hi-score, I want to have it as a part of the UI.
+However, I need to collect data from level to add enemy kills to score.
+Also, when resetting, the hi-score needs to know that the player died and reset the scoring.
+Guess I can make some bare bones setup in UI, and give all the relevant data to UI from level where it'll be called.
+This is more tricky than I imagined.
