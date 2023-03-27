@@ -60,7 +60,7 @@ class Level:
         self.power_up_switch_cooldown = 1100
         self.power_up_wave_timer = 0
         self.power_up_wave_switch = True
-        self.power_up_wave_cooldown = 3000
+        self.power_up_wave_cooldown = 8000
 
     def create_map(self):
         x = SCREEN_WIDTH // 2
@@ -69,6 +69,7 @@ class Level:
         self.minus_score_time = -int(pg.time.get_ticks()/1000)
 
     def spawn_enemies(self):
+        """A function used in testing to spawn enemies ever 2 seconds."""
         t = int(pg.time.get_ticks() / 1000)
         spawn_time = pg.time.get_ticks() / 10
         
@@ -86,7 +87,9 @@ class Level:
             Enemy((GAME_SCREEN_LEFT, SCREEN_HEIGHT * 2 / 3), [self.visible_sprites, self.enemy_sprites], 3, (math.cos(math.pi/6), -2*math.sin(math.pi/6)), spawn_time, True)
             self.spawn_switch_left = False
 
+
     def spawn_power_ups(self):
+        """A function used in testing that spawns power-ups every 5 seconds."""
         current_time = int(pg.time.get_ticks()/1000)
         current_time_in_ms = pg.time.get_ticks()
         if current_time % 10 == 0 and self.power_up_spawn_switch and self.player.fire_pattern <2:
@@ -98,7 +101,9 @@ class Level:
             self.power_up_spawn_switch = False
             self.power_up_timer = current_time_in_ms            
 
+    
     def enemy_patterns(self):
+        """A function used in testing that describes a sequence of motion for enemy sprites"""
         current_time = int(pg.time.get_ticks() / 10)
         for i, enemy in enumerate(self.enemy_sprites):
             #print(i, enemy.rect.center)
@@ -162,6 +167,7 @@ class Level:
             self.shoot_stuff_timer = pg.time.get_ticks()
 
     def enemy_fire(self):
+        """Used in testing. Makes all enemies fire a bullet at random intervals"""
         for enemy in self.enemy_sprites:
             enemy_fire_switch = None
             i = pg.time.get_ticks() 
@@ -193,7 +199,7 @@ class Level:
                 self.player.alive = False
 
         for power_up in self.power_up_sprites:
-            if power_up.rect.centerx in range(player.rect.left,player.rect.right) and power_up.rect.centery in range(player.rect.top, player.rect.bottom) and not self.player.dodging:
+            if power_up.rect.centerx in range(player.rect.left,player.rect.right) and power_up.rect.centery in range(player.rect.top, player.rect.bottom):
                 if power_up.upgrade == 'power_up_shots' and player.fire_pattern <2: 
                     player.fire_pattern += 1
                     power_up.kill()
