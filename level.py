@@ -192,6 +192,7 @@ class Level:
             self.visible_sprites.draw(self.display_surface)
             self.visible_sprites.update()
         else:
+            # removing the sprites after death
             for sprite_group in self.list_of_sprite_groups:
                 if sprite_group:
                     sprite_group.empty()

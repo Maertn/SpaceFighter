@@ -521,7 +521,7 @@ update of Level.
 2023-03-26
 #1
 --
-Butterfly curve fixed. Asked stockoverlow, turns out I placed a huge part of expressing as a power of e because I misplaced parenthesis.
+Butterfly curve fixed. Asked stockoverlow, turns out I placed a huge part of the expression as a power of e because I misplaced parenthesis.
 Kind of embarrassing.
 
 --
@@ -530,3 +530,13 @@ Kind of embarrassing.
 --
 Created a list of groups to remove the groups with one line of code. The group has to be added manually to a list, but that list
 is right below the setup of groups in Level, so it's easy to edit.
+I found that I've created a group, obstacles, that I'm not using. There's no real reason to keep it around. If I'm creating 
+environment that the player can crash into I could just create an enemy with no speed and no behaviour specified. Or, if I'm maintaining
+the illusion of movement, I can give the enemy some speed in the y-direction.
+Testing the behaviour of this empty group confirmed that after death the code isn't trying to empty an epmty list. Not important, but it's
+nice to know that the program behaves efficiently, in that regard at least.
+
+I've been worried about having excessive slow down once I'm trying to put 100+ bullets on the screen, and one of the problem could come
+from checking collision for every bullet. I'm not sure if it'll help I'm just checking the player hitbox for collision, since the code could
+just check for every bullet still, but it might. I currently have for bullet in enemy.bullet, but writing "if player.rect.collide()", or 
+something similar, could speed up the code, maybe. I'll try it out once I have some lag to cure.
