@@ -26,14 +26,12 @@ class Level:
         # sprite groups
         self.visible_sprites = pg.sprite.Group()
         self.enemy_sprites = pg.sprite.Group()
-        self.obstacle_sprites = pg.sprite.Group()
         self.enemy_bullet_sprites = pg.sprite.Group()
         self.player_bullets_sprites = pg.sprite.Group()
 
         self.list_of_sprite_groups = [
                     self.visible_sprites,
                     self.enemy_sprites,
-                    self.obstacle_sprites,
                     self.enemy_bullet_sprites,
                     self.player_bullets_sprites,
                     ]
