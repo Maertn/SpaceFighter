@@ -30,12 +30,18 @@ class Level:
         self.score_time = 0
         self.kill_count = 0
 
+        # enemy behaviour switch
+        self.enemy_spawn_switch1 = True
+        self.enemy_spawn_switch2 = True
+
         # sprite groups
         self.visible_sprites = pg.sprite.Group()
         self.enemy_sprites = pg.sprite.Group()
         self.enemy_bullet_sprites = pg.sprite.Group()
         self.player_bullets_sprites = pg.sprite.Group()
         self.power_up_sprites = pg.sprite.Group()
+        self.enemy_group1 = pg.sprite.Group()
+        self.enemy_group2 = pg.sprite.Group()
 
         self.list_of_sprite_groups = [
                     self.visible_sprites,
@@ -47,8 +53,6 @@ class Level:
 
         # player sprite setup
         self.create_map()
-
-
 
         # player behaviour switches
         self.shoot_stuff_timer = 0
@@ -81,6 +85,43 @@ class Level:
             PowerUp((randint(GAME_SCREEN_LEFT, GAME_SCREEN_RIGHT), 0), [self.visible_sprites, self.power_up_sprites], 'power_up_wave', 'purple')
             self.power_up_spawn_switch = False
             self.power_up_timer = current_time_in_ms            
+
+    def enemies(self):
+        spawn_time = pg.time.get_ticks() / 10
+        
+        if self.enemy_spawn_switch1 == True:
+            Enemy(
+            pos=(GAME_SCREEN_LEFT, 10), 
+            groups=[self.visible_sprites, self.enemy_sprites, self.enemy_group1], 
+            speed=8, 
+            direction=(0,1), 
+            spawn_time=spawn_time, 
+            health =1
+            )
+            self.enemy_spawn_switch1 = False
+
+        if spawn_time >= 200 and self.enemy_spawn_switch2:
+            Enemy(
+                pos=(GAME_SCREEN_LEFT, 10), 
+                groups=[self.visible_sprites, self.enemy_sprites, self.enemy_group2], 
+                speed=0, 
+                direction=(0,1), 
+                spawn_time=spawn_time, 
+                health =1
+                )
+            self.enemy_spawn_switch2 = False
+
+        
+        for enemy in self.enemy_sprites:
+            if enemy in self.enemy_group1:
+                enemy.line_move()
+                enemy.rect.centerx += 3
+                enemy.speed -= 0.06
+            if enemy in self.enemy_group2:
+                enemy.rect.centerx += 3
+                enemy.rect.centery = pow(enemy.rect.centerx - GAME_SCREEN_LEFT, 2) / 100
+                
+
 
     def shoot_stuff(self, player):
         if self.shoot_stuff_switch and self.player.shooting and not self.player.dodging and self.player.alive:
@@ -125,8 +166,6 @@ class Level:
 
             self.shoot_stuff_switch = False
             self.shoot_stuff_timer = pg.time.get_ticks()
-
-
     
     def collisions(self, player):
         for bullet in self.player_bullets_sprites:
@@ -200,6 +239,7 @@ class Level:
         self.keylog()
         self.cooldowns(self.player)
         if self.player.alive:
+            self.enemies()
             self.create_time_score()
             self.shoot_stuff(self.player)
             self.spawn_power_ups()

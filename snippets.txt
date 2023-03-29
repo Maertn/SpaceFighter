@@ -1,12 +1,12 @@
-# Enemy(
-#     pos=, 
-#     groups=, 
-#     speed=, 
-#     direction=, 
-#     spawn_time=, 
-#     health =,
-#     *movement_switch1=
-#     ):
+Enemy(
+    pos=, 
+    groups=, 
+    speed=, 
+    direction=, 
+    spawn_time=, 
+    health =,
+    *movement_switch1=
+    )
 
 
 
@@ -97,3 +97,42 @@ def spawn_bullets(self):
         self.fire_bullet = True
     else:
         self.fire_bullet = False
+
+
+***
+Code that gives a crude parabolic motion:
+
+def enemies(self):
+    spawn_time = pg.time.get_ticks() / 10
+    
+    if self.enemy_spawn_switch1 == True:
+        Enemy(
+        pos=(GAME_SCREEN_LEFT, 10), 
+        groups=[self.visible_sprites, self.enemy_sprites, self.enemy_group1], 
+        speed=8, 
+        direction=(0,1), 
+        spawn_time=spawn_time, 
+        health =1
+        )
+        self.enemy_spawn_switch1 = False
+
+    if spawn_time >= 200 and self.enemy_spawn_switch2:
+        Enemy(
+            pos=(GAME_SCREEN_LEFT, 10), 
+            groups=[self.visible_sprites, self.enemy_sprites, self.enemy_group2], 
+            speed=0, 
+            direction=(0,1), 
+            spawn_time=spawn_time, 
+            health =1
+            )
+        self.enemy_spawn_switch2 = False
+
+    
+    for enemy in self.enemy_sprites:
+        if enemy in self.enemy_group1:
+            enemy.line_move()
+            enemy.rect.centerx += 3
+            enemy.speed -= 0.06
+        if enemy in self.enemy_group2:
+            enemy.rect.centerx += 3
+            enemy.rect.centery = pow(enemy.rect.centerx - GAME_SCREEN_LEFT, 2) / 100

@@ -664,3 +664,11 @@ This should be quite the test of my setup and current skills.
 
 Quick note: I've familiarized myself a bit with the shmup genre, and I can now say that I'm definitely not going for an Ikaruga clone.
 More like a Touhou clone. Something that me and my friends could play, basically. 
+
+#3
+--
+Challenge 0 is done, more or less. I didn't get the parametric equations to work nicely, but that doesn't matter, because I probably won't be
+using them for parabolic motion. It shouldn't be that hard, but when I try to get the result I want, it kind of is, so I'm not going to bother.
+
+I added the result in the snippets.txt, where I'll be dumping old code from now on. I'll be using this file for copying code that'll be 
+often used, and I can keep old code there for reference

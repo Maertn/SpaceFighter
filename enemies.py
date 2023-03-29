@@ -57,4 +57,4 @@ class Enemy(pg.sprite.Sprite):
 
     def update(self):
         self.destroy_enemy()
-        self.spawn_bullets()
+        # self.spawn_bullets()
