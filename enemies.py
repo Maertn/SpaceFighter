@@ -55,13 +55,6 @@ class Enemy(pg.sprite.Sprite):
         if self.rect.centerx <= GAME_SCREEN_LEFT - 50 or self.rect.centerx >= GAME_SCREEN_RIGHT + 50:
             self.kill()
 
-    def spawn_bullets(self):
-        i = int(pg.time.get_ticks() / 10)
-        if i % 2 == 0:
-            self.fire_bullet = True
-        else:
-            self.fire_bullet = False
-
     def update(self):
         self.destroy_enemy()
         self.spawn_bullets()

@@ -609,3 +609,23 @@ when dying.
 
 Implemented a second pause on death. This was a bit of a puzzle, until I found that cooldowns() is only active if the player is alive. Luckily I don't get errors when migrating
 to outside of the if player_alive conditional, which I expected given that self.player is an argument to cooldowns(). Anyway, that's another tweak done.
+
+--
+2023-03-29
+#1.
+--
+Cleaned up the code by removing the enemy spawn, enemy fire and enemy cooldown parts from the script. Also removed the switches in Level.
+Now that we have a clean sheet I'll try adding interesting bullet patterns.
+
+I can't spend too much time coding rn, so I'll make a quick note. This might sound silly, but I realized yesterday that I'm creating
+a system that aims to describe simplified 2D kinematics. This gives some freedom, since I know there are equivalent ways of describing
+such a system. I could go with vectors, as I've been doing, which seems quite reasonable and integrates nicely with features from pygame.
+I have been wondering if I should try to describe the circular motion in complex numbers. This might give some extra ways to describe
+rotating enemies. I'll have to ponder this one.
+
+We also have energy to describe systems, and I could also look into Lagrangians, which I've never used before, but since it's a way to describe
+dynamic systems there might be something to be gained from studying them. These are just options, and not the main point of focus for the
+upcoming week.
+
+Next step will be setting some challenges for myself. I want to create a little demo with complex bullet behaviour to test if I can create
+some interesting patterns.

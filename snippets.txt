@@ -1,0 +1,99 @@
+# Enemy(
+#     pos=, 
+#     groups=, 
+#     speed=, 
+#     direction=, 
+#     spawn_time=, 
+#     health =,
+#     *movement_switch1=
+#     ):
+
+
+
+
+
+
+###OLD CODE###
+
+!!From level.py
+# enemy behaviour switches
+self.spawn_switch_right = True
+self.spawn_switch_left = True
+self.enemy_fire_switch = None
+
+!!From level.py
+def enemy_patterns(self):
+    """A function used in testing that describes a sequence of motion for enemy sprites"""
+    current_time = int(pg.time.get_ticks() / 10)
+    for i, enemy in enumerate(self.enemy_sprites):
+        #print(i, enemy.rect.center)
+        if current_time - enemy.spawn_time <= 200:
+            enemy.line_move()
+        elif current_time - enemy.spawn_time <= 300:
+            enemy.circle_move()
+        elif current_time - enemy.spawn_time <= 600:
+            if enemy.movement_switch1 and enemy.speed > 0:
+                enemy.movement_switch1 = False
+                enemy.direction = enemy.direction.rotate(-90)
+            if enemy.movement_switch1 and enemy.speed < 0:
+                enemy.movement_switch1 = False
+                enemy.direction = enemy.direction.rotate(90)
+            enemy.line_move()
+        else:
+            enemy.kill()
+
+
+!!From level.py
+def enemy_fire(self):
+    """Used in testing. Makes all enemies fire a bullet at random intervals"""
+    for enemy in self.enemy_sprites:
+        enemy_fire_switch = None
+        i = pg.time.get_ticks() 
+        x = enemy.rect.centerx
+        y = enemy.rect.centery
+        if (int(i % 10) == 5 + randint(-5,5)) and not enemy_fire_switch:
+            enemy_fire_switch = True
+        if enemy_fire_switch and enemy.fire_bullet:
+            enemy.fire_bullet = False
+            EnemyBullet((x,y), [self.visible_sprites, self.enemy_bullet_sprites])
+
+!!From level.py
+def spawn_enemies(self):
+    """A function used in testing to spawn enemies ever 2 seconds."""
+    t = int(pg.time.get_ticks() / 1000)
+    spawn_time = pg.time.get_ticks() / 10
+    
+    # Enemies from the right
+    if int(t % 2) == 0 and not self.spawn_switch_right:
+        self.spawn_switch_right = True
+    elif int(t % 2) == 1 and self.spawn_switch_right:
+        Enemy(pos = (GAME_SCREEN_RIGHT, SCREEN_HEIGHT * 2 / 3), 
+            groups = [self.visible_sprites, self.enemy_sprites],
+            speed = -3, 
+            direction = (math.cos(-math.pi/6), -2*math.sin(-math.pi/6)), 
+            spawn_time = spawn_time, 
+            health = 3, 
+            movement_switch1 = True)
+        self.spawn_switch_right = False
+
+    # Enemies from the left
+    if int(t % 2) == 0 and not self.spawn_switch_left:
+        self.spawn_switch_left = True
+    elif int(t % 2) == 1 and self.spawn_switch_left:
+        Enemy(pos = (GAME_SCREEN_LEFT, SCREEN_HEIGHT * 2 / 3), 
+            groups = [self.visible_sprites, self.enemy_sprites],
+            speed = 3, 
+            direction = (math.cos(math.pi/6), -2*math.sin(math.pi/6)), 
+            spawn_time = spawn_time, 
+            health = 3, 
+            movement_switch1 = True)
+        self.spawn_switch_left = False
+
+
+!!From enemies.py
+def spawn_bullets(self):
+    i = int(pg.time.get_ticks() / 10)
+    if i % 2 == 0:
+        self.fire_bullet = True
+    else:
+        self.fire_bullet = False

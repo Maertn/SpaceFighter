@@ -48,10 +48,7 @@ class Level:
         # player sprite setup
         self.create_map()
 
-        # enemy behaviour switches
-        self.spawn_switch_right = True
-        self.spawn_switch_left = True
-        self.enemy_fire_switch = None
+
 
         # player behaviour switches
         self.shoot_stuff_timer = 0
@@ -72,38 +69,6 @@ class Level:
         self.player = Player((x,y), [self.visible_sprites])
         self.minus_score_time = -int(pg.time.get_ticks()/1000)
 
-    def spawn_enemies(self):
-        """A function used in testing to spawn enemies ever 2 seconds."""
-        t = int(pg.time.get_ticks() / 1000)
-        spawn_time = pg.time.get_ticks() / 10
-        
-        # Enemies from the right
-        if int(t % 2) == 0 and not self.spawn_switch_right:
-            self.spawn_switch_right = True
-        elif int(t % 2) == 1 and self.spawn_switch_right:
-            Enemy(pos = (GAME_SCREEN_RIGHT, SCREEN_HEIGHT * 2 / 3), 
-                groups = [self.visible_sprites, self.enemy_sprites],
-                speed = -3, 
-                direction = (math.cos(-math.pi/6), -2*math.sin(-math.pi/6)), 
-                spawn_time = spawn_time, 
-                health = 3, 
-                movement_switch1 = True)
-            self.spawn_switch_right = False
-
-        # Enemies from the left
-        if int(t % 2) == 0 and not self.spawn_switch_left:
-            self.spawn_switch_left = True
-        elif int(t % 2) == 1 and self.spawn_switch_left:
-            Enemy(pos = (GAME_SCREEN_LEFT, SCREEN_HEIGHT * 2 / 3), 
-                groups = [self.visible_sprites, self.enemy_sprites],
-                speed = 3, 
-                direction = (math.cos(math.pi/6), -2*math.sin(math.pi/6)), 
-                spawn_time = spawn_time, 
-                health = 3, 
-                movement_switch1 = True)
-            self.spawn_switch_left = False
-
-
     def spawn_power_ups(self):
         """A function used in testing that spawns power-ups every 5 seconds."""
         current_time = int(pg.time.get_ticks()/1000)
@@ -116,27 +81,6 @@ class Level:
             PowerUp((randint(GAME_SCREEN_LEFT, GAME_SCREEN_RIGHT), 0), [self.visible_sprites, self.power_up_sprites], 'power_up_wave', 'purple')
             self.power_up_spawn_switch = False
             self.power_up_timer = current_time_in_ms            
-
-    
-    def enemy_patterns(self):
-        """A function used in testing that describes a sequence of motion for enemy sprites"""
-        current_time = int(pg.time.get_ticks() / 10)
-        for i, enemy in enumerate(self.enemy_sprites):
-            #print(i, enemy.rect.center)
-            if current_time - enemy.spawn_time <= 200:
-                enemy.line_move()
-            elif current_time - enemy.spawn_time <= 300:
-                enemy.circle_move()
-            elif current_time - enemy.spawn_time <= 600:
-                if enemy.movement_switch1 and enemy.speed > 0:
-                    enemy.movement_switch1 = False
-                    enemy.direction = enemy.direction.rotate(-90)
-                if enemy.movement_switch1 and enemy.speed < 0:
-                    enemy.movement_switch1 = False
-                    enemy.direction = enemy.direction.rotate(90)
-                enemy.line_move()
-            else:
-                enemy.kill()
 
     def shoot_stuff(self, player):
         if self.shoot_stuff_switch and self.player.shooting and not self.player.dodging and self.player.alive:
@@ -182,18 +126,7 @@ class Level:
             self.shoot_stuff_switch = False
             self.shoot_stuff_timer = pg.time.get_ticks()
 
-    def enemy_fire(self):
-        """Used in testing. Makes all enemies fire a bullet at random intervals"""
-        for enemy in self.enemy_sprites:
-            enemy_fire_switch = None
-            i = pg.time.get_ticks() 
-            x = enemy.rect.centerx
-            y = enemy.rect.centery
-            if (int(i % 10) == 5 + randint(-5,5)) and not enemy_fire_switch:
-                enemy_fire_switch = True
-            if enemy_fire_switch and enemy.fire_bullet:
-                enemy.fire_bullet = False
-                EnemyBullet((x,y), [self.visible_sprites, self.enemy_bullet_sprites])
+
     
     def collisions(self, player):
         for bullet in self.player_bullets_sprites:
@@ -204,7 +137,6 @@ class Level:
                     if enemy.health <=0:
                         self.kill_count += 1
                         enemy.kill()
-
                     
         for bullet in self.enemy_bullet_sprites:
             if bullet.rect.centerx in range(player.rect.left,player.rect.right) and bullet.rect.centery in range(player.rect.top, player.rect.bottom) and not self.player.dodging:
@@ -213,16 +145,14 @@ class Level:
                 self.player.alive = False
                 self.death_screen_timer = pg.time.get_ticks()
                 self.death_screen_switch = True
-                
-        
+
         for enemy in self.enemy_sprites:
             if enemy.rect.centerx in range(player.rect.left,player.rect.right) and enemy.rect.centery in range(player.rect.top, player.rect.bottom) and not self.player.dodging:
                 player.kill()
                 self.player.alive = False
                 self.death_screen_timer = pg.time.get_ticks()
                 self.death_screen_switch = True
-                
-
+ 
         for power_up in self.power_up_sprites:
             if power_up.rect.centerx in range(player.rect.left,player.rect.right) and power_up.rect.centery in range(player.rect.top, player.rect.bottom):
                 if power_up.upgrade == 'power_up_shots' and player.fire_pattern <2: 
@@ -273,9 +203,6 @@ class Level:
             self.create_time_score()
             self.shoot_stuff(self.player)
             self.spawn_power_ups()
-            self.spawn_enemies()
-            self.enemy_fire()
-            self.enemy_patterns()
             self.collisions(self.player)
             self.visible_sprites.draw(self.display_surface)
             self.visible_sprites.update()
