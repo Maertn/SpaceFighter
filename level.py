@@ -90,36 +90,18 @@ class Level:
         spawn_time = pg.time.get_ticks() / 10
         
         if self.enemy_spawn_switch1 == True:
-            Enemy(
-            pos=(GAME_SCREEN_LEFT, 10), 
+            enemy = Enemy(
+            pos=(GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4), SCREEN_HEIGHT/4), 
             groups=[self.visible_sprites, self.enemy_sprites, self.enemy_group1], 
-            speed=8, 
+            speed=7, 
             direction=(0,1), 
             spawn_time=spawn_time, 
             health =1
             )
             self.enemy_spawn_switch1 = False
 
-        if spawn_time >= 200 and self.enemy_spawn_switch2:
-            Enemy(
-                pos=(GAME_SCREEN_LEFT, 10), 
-                groups=[self.visible_sprites, self.enemy_sprites, self.enemy_group2], 
-                speed=0, 
-                direction=(0,1), 
-                spawn_time=spawn_time, 
-                health =1
-                )
-            self.enemy_spawn_switch2 = False
-
-        
         for enemy in self.enemy_sprites:
-            if enemy in self.enemy_group1:
-                enemy.line_move()
-                enemy.rect.centerx += 3
-                enemy.speed -= 0.06
-            if enemy in self.enemy_group2:
-                enemy.rect.centerx += 3
-                enemy.rect.centery = pow(enemy.rect.centerx - GAME_SCREEN_LEFT, 2) / 100
+            enemy.move_to((((GAME_SCREEN_RIGHT - ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4))), SCREEN_HEIGHT/4), 3) 
                 
 
 
