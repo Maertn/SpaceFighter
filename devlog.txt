@@ -629,3 +629,35 @@ upcoming week.
 
 Next step will be setting some challenges for myself. I want to create a little demo with complex bullet behaviour to test if I can create
 some interesting patterns.
+
+#2
+--
+Before we start with bullets, let's create a challenge involving enemy motion. In my previous setup I let the enemies move in a direction
+with a speed for x amount of time, but say I want a specific pattern of positions (e.g. the form of a star) in specific positions of the screen
+things might get a bit cumbersome. The first challenge will be to create a path for enemies to walk described by vectors, where the enemy moves
+from (x1,y2) to (x2,y2) by walking along vector(x3, y3) at a constant speed.
+
+A bonus challenge to the first is to have the enemy periodically shoot at the player when one part of its motion is complete, just to have the
+code ready for bullets that are aimed at the player.
+
+Another bonus challenge is to then have the aiming take player movement into account, so the bullet will come to where the player is moving,
+not where the player is located.
+
+The second challenge will be to have an enemy spawn bullets in a circular pattern, say n = number of bullets, then for 2pi/number of bullets
+put bullets on screen. The bullets travel from the enemy, until they are all at a distance from the enemy. Bullets pause, 
+then start moving in a circular pattern, with one bullet going clockwise and the other counter-clockwise. After doing so for a certain
+amount of time the radius between the enemy and the bullets start expanding until the bullets are offscreen.
+
+The third challenge will have an enemy rotating, while periodically shooting bullets from the corners of its rectangle. I want the
+enemy rotation to be visually represented. The bullets will start firing everytime the rotation traveled 45 degrees. The bullets come 
+in salvos of three, with the bullets spread 30 degrees, times three with 0.1 second apart in time.
+This might require a new attribute of enemies, orientation. Or rather, maybe the code becomes easier to write if I have such an attribute.
+
+There's one more thing that I wanted to check, namely describing enemy motion through speed and acceleration. This should be the easiest,
+so I'll try this first. Let's call it challenge 0. The idea is to have an enemy enter the screen, where speed.x is constant, 
+but speed.y starts high, and speed.y -= -0.1. I'll have to tweak the numbers to see what actually works. If this turns out to be finnicky, 
+I can compare with describing the motion through parametric equations, which should also be able to produce a quadratic trajectory.
+There might even be a third way, with constant speed but the direction being updated with a trig function. Not sure if I like that idea
+tho, since it seems overly complex. 
+
+This should be quite the test of my setup and current skills. 
