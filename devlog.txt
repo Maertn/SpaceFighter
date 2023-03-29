@@ -660,4 +660,7 @@ I can compare with describing the motion through parametric equations, which sho
 There might even be a third way, with constant speed but the direction being updated with a trig function. Not sure if I like that idea
 tho, since it seems overly complex. 
 
-This should be quite the test of my setup and current skills. 
+This should be quite the test of my setup and current skills.
+
+Quick note: I've familiarized myself a bit with the shmup genre, and I can now say that I'm definitely not going for an Ikaruga clone.
+More like a Touhou clone. Something that me and my friends could play, basically. 
