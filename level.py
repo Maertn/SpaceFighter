@@ -100,7 +100,7 @@ class Level:
             pos=(GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4), SCREEN_HEIGHT/4), 
             groups=[self.visible_sprites, self.enemy_sprites, self.enemy_group1], 
             speed=3, 
-            direction=(0,1), 
+            direction=(0,-1), 
             spawn_time=spawn_time, 
             health =1,
             movement_switch1 = True,
@@ -114,9 +114,9 @@ class Level:
             destination = enemy.rect.center
             print(enemy.movement_switch1, enemy.movement_switch2, enemy.movement_switch3, enemy.movement_switch4)
             if enemy.movement_switch1:
-                destination = (GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4) + 200, SCREEN_HEIGHT/4 - 100)
+                destination = (GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4) + 200, (SCREEN_HEIGHT/4) - 100)
                 enemy.move_to(destination, speed = 1)
-                if enemy.rect.centerx >= destination[0]:
+                if enemy.rect.center == destination:
                     enemy.movement_switch1 = False
             
             elif enemy.movement_switch2:

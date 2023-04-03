@@ -801,3 +801,11 @@ It seems like everything is working now, regardless of aspect ratio, in all dire
 the change isn't that obvious, but looking at a print does show a rather wobbly motion. I guess this is where rounding errors come into
 play. I currently have no idea how that works. But maybe I'm messing up parenthesis again and blaming it on rounding errors. I'll look
 into it tomorrow.
+
+#11
+--
+A total of 7 direction changes can be seen. 4 are intended. When simply going in 1 direction (-y) there's no deformation. I've switched back to
+1:1 aspect ratio. Doesn't change anything ofc.
+
+When messing around with direction in move_to we can create other deformations. I think something in the math is going wrong here.
+I'll have to rethink it, or ask a friend / online.

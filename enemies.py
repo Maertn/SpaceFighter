@@ -15,7 +15,7 @@ class Enemy(pg.sprite.Sprite):
         self.spawn_time = spawn_time
 
         # movement
-        self.direction = pg.math.Vector2(direction).normalize()
+        self.direction = pg.math.Vector2(direction)
         self.speed = speed
         try:
             self.movement_switch1 = movement_switch["movement_switch1"]
