@@ -716,3 +716,36 @@ This was in level:
             enemy.move_to((((GAME_SCREEN_RIGHT - ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4))), SCREEN_HEIGHT/4), 3)
 
 I'll just push to git like this, and clean up afterwards when I'm ready to try the lerp() method in pygame.math.
+
+--
+2023-04-03
+#1
+--
+Adjusted self.direction to work in current case. The problem was a parenthesis.
+Experimenting shows that current move_to() doesn't work when the direction is negative.
+If this setup is worked out I'll probably need four cases behind if-statements, checking for combinations of dx and dy being either
+positive or negative. If pygame.math.Vector2.lerp() works as I hope it does I might skip those steps.
+
+#2
+--
+It 'works', but when creating a vector between two points somehow the aspect ratio of screen width:screen height is taken into 
+account, skewing the vector towards the x-axis. I don't know how to fix this, except making the ratio 1:1. Weird how this 
+problem didn't occur until now.
+
+Really funky stuff happening when I try to fix the problem. If I seperate movement for x and y into two lines, diving the movement of x by 4
+gives the result that I want when trying to move an enemy x and y equal distance in a positive direction. When I combine the two into one
+line, just checking for rect.center, I can get the movement that I want by setting the destination to be the negative value. This gives
+the motion that I want instead of the skewed variation, except when my detection range for stopping motion is activated, and the enemy gets
+teleported to the negative value, which is not the value that I actually want.
+
+It seems like I can correct the skewing, but I have to adjust for the ratio between movement over y and movement over x, which is ridiculous,
+because that's the whole reason why I want to express direction as a vector anyway.
+
+What might be causing this is the directionality of the y axis being the inverse of a normal graph, resulting in some funky behaviour
+when using the trig functions. I still don't know how to mathematically account for that, if that's what's happening in the first place.
+
+
+#3
+--
+Got a working example of movement. Only works for a positive dx, dy.
+Trying to extend the functionality didn't work initially, so I'll upload this bit instead.

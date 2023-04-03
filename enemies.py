@@ -5,7 +5,7 @@ from settings import *
 
 
 class Enemy(pg.sprite.Sprite):
-    def __init__(self, pos, groups, speed, direction, spawn_time, health, **movement_switch1):
+    def __init__(self, pos, groups, speed, direction, spawn_time, health, **movement_switch):
         super().__init__(groups)
 
         self.image = pg.Surface((32,32)).convert_alpha()
@@ -17,7 +17,8 @@ class Enemy(pg.sprite.Sprite):
         # movement
         self.direction = pg.math.Vector2(direction).normalize()
         self.speed = speed
-        self.movement_switch1 = movement_switch1
+        self.movement_switch1 = movement_switch
+        self.movement_switch2 = movement_switch
 
         # combat attributes
         self.fire_bullet = False
@@ -56,16 +57,17 @@ class Enemy(pg.sprite.Sprite):
             self.kill()
 
     def move_to(self, destination, speed):
-        self.move_to_switch = True
         distance = math.sqrt(pow((self.rect.centerx - destination[0]),2) + pow((self.rect.centery - destination[1]),2))
         if distance != 0:
-            self.direction = pg.math.Vector2(math.cos((destination[0] - self.rect.centerx)/distance), (math.sin((destination[1] - self.rect.centery)/distance))).normalize()
+            self.direction = pg.math.Vector2(((destination[0] - self.rect.centerx)/distance), ((destination[1] - self.rect.centery)/distance))
         else:
-            return print('at target')
-        print(destination)
-        if not self.rect.centerx == destination[0] or self.rect.centery == destination[1]:
+            self.rect.center = destination
+        
+        if not (self.rect.centerx >= destination[0] and self.rect.centery >= destination[1]):
             self.rect.centerx += self.direction[0] * speed
             self.rect.centery += self.direction[1] * speed
+        else:
+            self.rect.center = destination
 
         # print(distance, self.rect.center)
 

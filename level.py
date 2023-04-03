@@ -99,52 +99,34 @@ class Level:
             enemy = Enemy(
             pos=(GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4), SCREEN_HEIGHT/4), 
             groups=[self.visible_sprites, self.enemy_sprites, self.enemy_group1], 
-            speed=7, 
+            speed=3, 
             direction=(0,1), 
             spawn_time=spawn_time, 
-            health =1
+            health =1,
+            movement_switch1 = True,
+            movement_switch2 = True
             )
             self.enemy_spawn_switch1 = False
 
         for enemy in self.enemy_sprites:
-            enemy.move_to((((GAME_SCREEN_RIGHT - ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4))), SCREEN_HEIGHT/4), 3)
-            # enemy.move_to((GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4) + 20, SCREEN_HEIGHT/4), 3)
-            # print(enemy.direction, type((GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4))))
-    
-    # def enemies(self):
-    #     spawn_time = pg.time.get_ticks() / 10
-        
-    #     if self.enemy_spawn_switch1 == True:
-    #         Enemy(
-    #         pos=(GAME_SCREEN_LEFT, 10), 
-    #         groups=[self.visible_sprites, self.enemy_sprites, self.enemy_group1], 
-    #         speed=8, 
-    #         direction=(0,1), 
-    #         spawn_time=spawn_time, 
-    #         health =1
-    #         )
-    #         self.enemy_spawn_switch1 = False
+            print(enemy.movement_switch1)
+            if enemy.movement_switch1:
+                destination = (GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4) + 150, SCREEN_HEIGHT/4 + 150)
+                enemy.move_to(destination, 1)
+                if enemy.rect.center == destination:
+                    enemy.movement_switch1 = False
+            
+            if enemy.movement_switch2 and enemy.movement_switch1 == False:
+                destination = (GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4) + 300, SCREEN_HEIGHT/4 + 150)
+                enemy.move_to(destination, 1)
+                if enemy.rect.center == destination:
+                    enemy.movement_switch2 = False
 
-    #     if spawn_time >= 200 and self.enemy_spawn_switch2:
-    #         Enemy(
-    #             pos=(GAME_SCREEN_LEFT, 10), 
-    #             groups=[self.visible_sprites, self.enemy_sprites, self.enemy_group2], 
-    #             speed=0, 
-    #             direction=(0,1), 
-    #             spawn_time=spawn_time, 
-    #             health =1
-    #             )
-    #         self.enemy_spawn_switch2 = False
+            if enemy.movement_switch1 == False and enemy.movement_switch2 == False:
+                destination = (GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4) + 300, SCREEN_HEIGHT/4 + 200)
+                enemy.move_to(destination, 1)
 
-        
-    #     for enemy in self.enemy_sprites:
-    #         if enemy in self.enemy_group1:
-    #             enemy.line_move()
-    #             enemy.rect.centerx += 3
-    #             enemy.speed -= 0.06
-    #         if enemy in self.enemy_group2:
-    #             enemy.rect.centerx += 3
-    #             enemy.rect.centery = pow(enemy.rect.centerx + GAME_SCREEN_LEFT, 2) / 100
+
 
 
     def shoot_stuff(self, player):
@@ -267,7 +249,7 @@ class Level:
             self.create_time_score()
             self.shoot_stuff(self.player)
             self.spawn_power_ups()
-            self.collisions(self.player)
+            # self.collisions(self.player)
             self.visible_sprites.draw(self.display_surface)
             self.visible_sprites.update()
             self.ui.display()
