@@ -94,7 +94,7 @@ class Level:
 
     def enemies(self):
         spawn_time = pg.time.get_ticks() / 10
-        
+
         if self.enemy_spawn_switch1 == True:
             enemy = Enemy(
             pos=(GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4), SCREEN_HEIGHT/4), 
@@ -111,29 +111,25 @@ class Level:
 
         for enemy in self.enemy_sprites:
             
-            print(enemy.movement_switch1, enemy.movement_switch2, enemy.movement_switch3)
+            print(enemy.movement_switch1, enemy.movement_switch2)
             if enemy.movement_switch1:
                 destination = (GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4) + 150, SCREEN_HEIGHT/4 + 150)
-                enemy.move_to(destination, 1)
+                enemy.move_to(destination, speed = 1)
                 if enemy.rect.center == destination:
                     enemy.movement_switch1 = False
             
-            elif enemy.movement_switch2 and enemy.movement_switch1 == False:
+            elif enemy.movement_switch2:
                 destination = (GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4) + 400, SCREEN_HEIGHT/4 + 150)
-                enemy.move_to(destination, 2)
+                enemy.move_to(destination, speed = 2)
                 if enemy.rect.center == destination:
                     enemy.movement_switch2 = False
 
-            elif enemy.movement_switch1 == False and enemy.movement_switch2 == False and enemy.movement_switch3:
+            elif enemy.movement_switch3:
                 destination = (GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4) + 400, SCREEN_HEIGHT/4 - 100)
-                enemy.move_to(destination, 3)
-                if enemy.rect.center == destination:
-                    enemy.movement_switch3 == False
-            
-            else:
-                enemy.kill()
-
-
+                enemy.move_to(destination, speed = 3)
+                if enemy.rect.center <= destination:
+                    print(True)
+                    enemy.movement_switch3 = False
 
 
     def shoot_stuff(self, player):

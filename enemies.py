@@ -17,9 +17,18 @@ class Enemy(pg.sprite.Sprite):
         # movement
         self.direction = pg.math.Vector2(direction).normalize()
         self.speed = speed
-        self.movement_switch1 = movement_switch
-        self.movement_switch2 = movement_switch
-        self.movement_switch3 = movement_switch
+        try:
+            self.movement_switch1 = movement_switch["movement_switch1"]
+        except:
+            pass
+        try:
+            self.movement_switch2 = movement_switch["movement_switch2"]
+        except:
+            pass
+        try:
+            self.movement_switch3 = movement_switch["movement_switch3"]
+        except:
+            pass
 
         # combat attributes
         self.fire_bullet = False

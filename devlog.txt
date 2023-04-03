@@ -770,3 +770,17 @@ won't shut off, and keep giving a dictionary that says movement_switch1 and move
 the same print function returns those switches as being false. The enemy behaves as though the switches are false, except for the last 
 instruction. Turned the switch for movement off when rect.center == destination doesn't actually turn off the switch, which is actually
 a dictionary? I don't know. I'll check what's happening here later. It's probably to do with how to use keyword arguments.
+
+#7
+--
+Fixed movement. Switches work correctly. Don't really know what I've changed. Maybe a typo somewhere.
+It's still weird that I get "False False {'movement_switch1': True, 'movement_switch2': True, 'movement_switch3': True}"
+when printing movement_switch3. I don't understand why I'm getting a dictionary that contains all the switches, and shows the 
+switches to be true, even though in the same print they are shown to be set to false.
+
+#8
+--
+I think I understand how it works. The kwargs is a dictionary. If I set the attributes to be values, the values will register.
+Another problem that cropped up was that the enemy class expected all switches to be present. I circumvent this but a try-except block.
+If the value is present in the dict, register. If not, pass.
+It doesn't seem all that elegant, but it works.
