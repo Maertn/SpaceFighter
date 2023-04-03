@@ -58,12 +58,16 @@ class Enemy(pg.sprite.Sprite):
     def move_to(self, destination, speed):
         self.move_to_switch = True
         distance = math.sqrt(pow((self.rect.centerx - destination[0]),2) + pow((self.rect.centery - destination[1]),2))
-        self.direction = pg.math.Vector2(math.cos((self.rect.centerx - destination[0])/distance), (math.sin(self.rect.centery - destination[1]/distance))).normalize()
+        if distance != 0:
+            self.direction = pg.math.Vector2(math.cos((destination[0] - self.rect.centerx)/distance), (math.sin((destination[1] - self.rect.centery)/distance))).normalize()
+        else:
+            return print('at target')
+        print(destination)
         if not self.rect.centerx == destination[0] or self.rect.centery == destination[1]:
             self.rect.centerx += self.direction[0] * speed
             self.rect.centery += self.direction[1] * speed
 
-        print(distance, self.rect.center)
+        # print(distance, self.rect.center)
 
     def update(self):
         self.destroy_enemy()
