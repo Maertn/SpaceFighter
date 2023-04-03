@@ -93,12 +93,6 @@ class Enemy(pg.sprite.Sprite):
                 else:
                     self.rect.center = destination
 
-
-
-        
-        
-        # print(distance, self.rect.center)
-
     def update(self):
         self.destroy_enemy()
         # self.spawn_bullets()

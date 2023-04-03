@@ -109,6 +109,7 @@ class Level:
             self.enemy_spawn_switch1 = False
 
         for enemy in self.enemy_sprites:
+            
             print(enemy.movement_switch1)
             if enemy.movement_switch1:
                 destination = (GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4) + 150, SCREEN_HEIGHT/4 + 150)
@@ -257,8 +258,7 @@ class Level:
         else:
             # removing the sprites after death
             for sprite_group in self.list_of_sprite_groups:
-                if sprite_group:
-                    sprite_group.empty()
+                sprite_group.empty()
             
             if self.title_screen == True:
                 self.ui.display()

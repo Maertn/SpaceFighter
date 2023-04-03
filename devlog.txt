@@ -753,4 +753,11 @@ Trying to extend the functionality didn't work initially, so I'll upload this bi
 #4
 --
 Movement through coordinates works in all directions. Speed can be set for each path individually.
-The movement has to be linear. For curved path we still need paramatric.
+The movement has to be linear. For curved path we still need parametric, or rather the vague paths I have with high velocity in a direction
+then deceleration in the y direction.
+
+#5
+--
+Created a unit circle by 5 in testsuite to check coordinates for movement in the shape of a 5 pointed star.
+This is for scoring bonus points by making the movement of an enemy in the shape of a star, to test the move_to() method.
+
