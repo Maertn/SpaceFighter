@@ -104,28 +104,34 @@ class Level:
             spawn_time=spawn_time, 
             health =1,
             movement_switch1 = True,
-            movement_switch2 = True
+            movement_switch2 = True,
+            movement_switch3 = True
             )
             self.enemy_spawn_switch1 = False
 
         for enemy in self.enemy_sprites:
             
-            print(enemy.movement_switch1)
+            print(enemy.movement_switch1, enemy.movement_switch2, enemy.movement_switch3)
             if enemy.movement_switch1:
                 destination = (GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4) + 150, SCREEN_HEIGHT/4 + 150)
                 enemy.move_to(destination, 1)
                 if enemy.rect.center == destination:
                     enemy.movement_switch1 = False
             
-            if enemy.movement_switch2 and enemy.movement_switch1 == False:
-                destination = (GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4) + 300, SCREEN_HEIGHT/4 + 150)
-                enemy.move_to(destination, 1)
+            elif enemy.movement_switch2 and enemy.movement_switch1 == False:
+                destination = (GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4) + 400, SCREEN_HEIGHT/4 + 150)
+                enemy.move_to(destination, 2)
                 if enemy.rect.center == destination:
                     enemy.movement_switch2 = False
 
-            if enemy.movement_switch1 == False and enemy.movement_switch2 == False:
-                destination = (GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4) + 300, SCREEN_HEIGHT/4 - 100)
-                enemy.move_to(destination, 1)
+            elif enemy.movement_switch1 == False and enemy.movement_switch2 == False and enemy.movement_switch3:
+                destination = (GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4) + 400, SCREEN_HEIGHT/4 - 100)
+                enemy.move_to(destination, 3)
+                if enemy.rect.center == destination:
+                    enemy.movement_switch3 == False
+            
+            else:
+                enemy.kill()
 
 
 

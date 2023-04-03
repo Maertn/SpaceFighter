@@ -761,3 +761,12 @@ then deceleration in the y direction.
 Created a unit circle by 5 in testsuite to check coordinates for movement in the shape of a 5 pointed star.
 This is for scoring bonus points by making the movement of an enemy in the shape of a star, to test the move_to() method.
 
+#6
+--
+Got some funcky stuff happening with the movement_switches in the current setup.
+I'm using kwargs to create as many movement switches I need in the enemy, but when I print the status of movement switches I get a 
+dictionary for each switch. As soon as the switch is False, the dictionary isn't returned, but rather just False. However, the last switch
+won't shut off, and keep giving a dictionary that says movement_switch1 and movement_switch2 are True, even though printing those switches in
+the same print function returns those switches as being false. The enemy behaves as though the switches are false, except for the last 
+instruction. Turned the switch for movement off when rect.center == destination doesn't actually turn off the switch, which is actually
+a dictionary? I don't know. I'll check what's happening here later. It's probably to do with how to use keyword arguments.

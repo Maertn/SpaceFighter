@@ -19,6 +19,7 @@ class Enemy(pg.sprite.Sprite):
         self.speed = speed
         self.movement_switch1 = movement_switch
         self.movement_switch2 = movement_switch
+        self.movement_switch3 = movement_switch
 
         # combat attributes
         self.fire_bullet = False
