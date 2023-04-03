@@ -784,3 +784,20 @@ I think I understand how it works. The kwargs is a dictionary. If I set the attr
 Another problem that cropped up was that the enemy class expected all switches to be present. I circumvent this but a try-except block.
 If the value is present in the dict, register. If not, pass.
 It doesn't seem all that elegant, but it works.
+
+#9
+--
+I found some bugs. I tried adding a movement switch, which works. But during the last movement the enemy makes a change in direction, as if
+recalculating the vector. I've entered low numbers now, with aspect ratio 1:1, but even now the problem seems to exist.
+
+There's not much clutter in the code, so it's really unclear as to why this happens. I can't even fathom what's causing this.
+
+#10
+--
+Found what's happening. An else statement kept creating a motion. That might've been causing problems.
+It seems like everything is working now, regardless of aspect ratio, in all directions, with any number of movement instructions.
+
+... On more close examination, the direction does seem to shift at an unexpected point during the last motion. Because of the chosen points
+the change isn't that obvious, but looking at a print does show a rather wobbly motion. I guess this is where rounding errors come into
+play. I currently have no idea how that works. But maybe I'm messing up parenthesis again and blaming it on rounding errors. I'll look
+into it tomorrow.
