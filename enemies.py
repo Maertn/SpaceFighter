@@ -62,13 +62,41 @@ class Enemy(pg.sprite.Sprite):
             self.direction = pg.math.Vector2(((destination[0] - self.rect.centerx)/distance), ((destination[1] - self.rect.centery)/distance))
         else:
             self.rect.center = destination
-        
-        if not (self.rect.centerx >= destination[0] and self.rect.centery >= destination[1]):
-            self.rect.centerx += self.direction[0] * speed
-            self.rect.centery += self.direction[1] * speed
-        else:
-            self.rect.center = destination
 
+        if self.rect.centerx - destination[0] <= 0:
+            if self.rect.centery - destination[1] <= 0:
+                if not (self.rect.centerx >= destination[0] and self.rect.centery >= destination[1]):
+                    self.rect.centerx += self.direction[0] * speed
+                    self.rect.centery += self.direction[1] * speed
+                else:
+                    self.rect.center = destination
+            
+            else:
+                if not (self.rect.centerx >= destination[0] and self.rect.centery <= destination[1]):
+                    self.rect.centerx += self.direction[0] * speed
+                    self.rect.centery += self.direction[1] * speed
+                else:
+                    self.rect.center = destination
+        
+        else:
+            if self.rect.centery - destination[1] <= 0:
+                if not (self.rect.centerx <= destination[0] and self.rect.centery >= destination[1]):
+                    self.rect.centerx += self.direction[0] * speed
+                    self.rect.centery += self.direction[1] * speed
+                else:
+                    self.rect.center = destination
+
+            else:
+                if not (self.rect.centerx <= destination[0] and self.rect.centery <= destination[1]):
+                    self.rect.centerx += self.direction[0] * speed
+                    self.rect.centery += self.direction[1] * speed
+                else:
+                    self.rect.center = destination
+
+
+
+        
+        
         # print(distance, self.rect.center)
 
     def update(self):

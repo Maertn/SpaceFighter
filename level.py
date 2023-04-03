@@ -117,13 +117,13 @@ class Level:
                     enemy.movement_switch1 = False
             
             if enemy.movement_switch2 and enemy.movement_switch1 == False:
-                destination = (GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4) + 300, SCREEN_HEIGHT/4 + 150)
+                destination = (GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4) + 150, SCREEN_HEIGHT/4 + 150)
                 enemy.move_to(destination, 1)
                 if enemy.rect.center == destination:
                     enemy.movement_switch2 = False
 
             if enemy.movement_switch1 == False and enemy.movement_switch2 == False:
-                destination = (GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4) + 300, SCREEN_HEIGHT/4 + 200)
+                destination = (GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4) + 300, SCREEN_HEIGHT/4 + 100)
                 enemy.move_to(destination, 1)
 
 

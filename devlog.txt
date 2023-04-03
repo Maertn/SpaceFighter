@@ -749,3 +749,8 @@ when using the trig functions. I still don't know how to mathematically account 
 --
 Got a working example of movement. Only works for a positive dx, dy.
 Trying to extend the functionality didn't work initially, so I'll upload this bit instead.
+
+#4
+--
+Movement through coordinates works in all directions. Speed can be set for each path individually.
+The movement has to be linear. For curved path we still need paramatric.
