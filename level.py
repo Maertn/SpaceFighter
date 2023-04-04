@@ -122,32 +122,31 @@ class Level:
             print(enemy.direction)
             if enemy.movement_switch1:
                 destination = position3
-                enemy.move_to(destination, speed = 3)
+                enemy.move_to(destination, speed = 5)
                 if ((enemy.rect.centerx >= destination[0] + 1) or (enemy.rect.centerx >= destination[0] - 1)) or enemy.rect.centery >= destination[1]:
                     enemy.movement_switch1 = False
             
             elif enemy.movement_switch2 and not enemy.movement_switch1:
                 destination = position5
-                enemy.move_to(destination, speed = 3)
+                enemy.move_to(destination, speed = 5)
                 if enemy.rect.centerx <= destination[0]:
                     enemy.movement_switch2 = False
 
             elif enemy.movement_switch3 and not enemy.movement_switch2:
                 destination = position2
-                enemy.move_to(destination, speed = 3)
+                enemy.move_to(destination, speed = 5)
                 if (enemy.rect.centerx > destination[0] + 1) or (enemy.rect.centerx > destination[0] - 1):  
                     enemy.movement_switch3 = False
             
             elif enemy.movement_switch4 and not enemy.movement_switch3:
-                # destination = (GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4) - 100, SCREEN_HEIGHT/4 + 200)
                 destination = position4
-                enemy.move_to(destination, speed = 3)
+                enemy.move_to(destination, speed = 5)
                 if (enemy.rect.centerx <= destination[0] and enemy.rect.centery >= destination[1]):
                     enemy.movement_switch4 = False
                     
             else:
                 destination = position1
-                enemy.move_to(destination, speed = 3)
+                enemy.move_to(destination, speed = 5)
 
 
 
@@ -287,6 +286,3 @@ class Level:
             else:
                 self.ui.display()
                 self.game_over.display()
-
-        
-        
