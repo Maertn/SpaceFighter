@@ -18,6 +18,7 @@ class Enemy(pg.sprite.Sprite):
         self.direction = pg.math.Vector2(direction)
         self.speed = speed
         self.pos = pg.math.Vector2(self.rect.center)
+        print(self.pos.x, self.pos.y)
         try:
             self.movement_switch1 = movement_switch["movement_switch1"]
         except:
@@ -32,6 +33,10 @@ class Enemy(pg.sprite.Sprite):
             pass
         try:
             self.movement_switch4 = movement_switch["movement_switch4"]
+        except:
+            pass
+        try:
+            self.movement_switch5 = movement_switch["movement_switch5"]
         except:
             pass
 
@@ -86,12 +91,12 @@ class Enemy(pg.sprite.Sprite):
 
         if self.rect.centerx - destination[0] <= 0:
             if self.rect.centery - destination[1] <= 0:
-                x0 = self.pos.x + (self.direction[0] * speed) 
+                x0 = self.rect.centerx + (self.direction[0] * speed) 
                 x1 = (destination[0] + 1) or (destination[0] - 1)
-                y0 = self.pos.y + (self.direction[1] * speed)
+                y0 = self.rect.centery + (self.direction[1] * speed)
                 y1 = (destination[1] + 1) or (destination[1]-1)
                 
-                if not (self.pos.x >= destination[0] and self.pos.y >= destination[1]):
+                if not (self.rect.centerx >= destination[0] and self.rect.centery >= destination[1]):
                     self.pos.x += self.direction[0] * speed
                     self.pos.y += self.direction[1] * speed
                     self.rect.center = round(self.pos.x), round(self.pos.y)
@@ -99,7 +104,7 @@ class Enemy(pg.sprite.Sprite):
                         self.rect.center = destination
             
             else:
-                if not (self.pos.x >= destination[0] and self.pos.y <= destination[1]):
+                if not (self.rect.centerx >= destination[0] or self.rect.centery <= destination[1]):
                     self.pos.x += self.direction[0] * speed
                     self.pos.y += self.direction[1] * speed
                     self.rect.center = round(self.pos.x), round(self.pos.y)

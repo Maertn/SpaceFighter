@@ -93,10 +93,16 @@ class Level:
 
     def enemies(self):
         spawn_time = pg.time.get_ticks() / 10
+        k = math.pi * 2
+        position1 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 5/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 5/5)))
+        position2 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 1/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 1/5)))
+        position3 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 2/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 2/5)))
+        position4 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 3/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 3/5)))
+        position5 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 4/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 4/5)))
 
         if self.enemy_spawn_switch1 == True:
             enemy = Enemy( 
-            pos=(float(GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4)), float(SCREEN_HEIGHT/4)), 
+            pos=position1, 
             groups=[self.visible_sprites, self.enemy_sprites], 
             speed=0, 
             direction=(0,1), 
@@ -106,6 +112,7 @@ class Level:
             movement_switch2 = True,
             movement_switch3 = True,
             movement_switch4 = True,
+            movement_switch5 = True
             )
             self.enemy_spawn_switch1 = False
 
@@ -114,33 +121,33 @@ class Level:
             print(enemy.movement_switch1, enemy.movement_switch2, enemy.movement_switch3, enemy.movement_switch4)
             print(enemy.direction)
             if enemy.movement_switch1:
-                destination = (float(GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4) + 200), float((SCREEN_HEIGHT/4) + 100))
+                destination = position3
                 enemy.move_to(destination, speed = 3)
-                if enemy.rect.center == destination:
+                if ((enemy.rect.centerx >= destination[0] + 1) or (enemy.rect.centerx >= destination[0] - 1)) or enemy.rect.centery >= destination[1]:
                     enemy.movement_switch1 = False
             
             elif enemy.movement_switch2 and not enemy.movement_switch1:
-                destination = (GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4) + 300, SCREEN_HEIGHT/4 - 100)
+                destination = position5
                 enemy.move_to(destination, speed = 3)
-                if enemy.rect.centerx >= destination[0]:
+                if enemy.rect.centerx <= destination[0]:
                     enemy.movement_switch2 = False
 
             elif enemy.movement_switch3 and not enemy.movement_switch2:
-                destination = (GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4) + 300, SCREEN_HEIGHT/4 + 100)
+                destination = position2
                 enemy.move_to(destination, speed = 3)
-                if enemy.rect.centery >= destination[1]:
+                if (enemy.rect.centerx > destination[0] + 1) or (enemy.rect.centerx > destination[0] - 1):  
                     enemy.movement_switch3 = False
             
             elif enemy.movement_switch4 and not enemy.movement_switch3:
                 # destination = (GAME_SCREEN_LEFT + ((GAME_SCREEN_RIGHT-GAME_SCREEN_LEFT)/4) - 100, SCREEN_HEIGHT/4 + 200)
-                destination = (self.player.rect.centerx, self.player.rect.centery)
+                destination = position4
                 enemy.move_to(destination, speed = 3)
                 if (enemy.rect.centerx <= destination[0] and enemy.rect.centery >= destination[1]):
                     enemy.movement_switch4 = False
                     
-            # else:
-            #     destination = (360, 360)
-            #     enemy.move_to(destination, speed = 1)
+            else:
+                destination = position1
+                enemy.move_to(destination, speed = 3)
 
 
 
