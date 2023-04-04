@@ -17,6 +17,7 @@ class Enemy(pg.sprite.Sprite):
         # movement
         self.direction = pg.math.Vector2(direction)
         self.speed = speed
+        self.pos = pg.math.Vector2(self.rect.center)
         try:
             self.movement_switch1 = movement_switch["movement_switch1"]
         except:
@@ -68,47 +69,55 @@ class Enemy(pg.sprite.Sprite):
         self.rect.center += self.direction * self.speed * 10 # might need tweaking
          
     def destroy_enemy(self):
-        if self.rect.centerx <= GAME_SCREEN_LEFT - 50 or self.rect.centerx >= GAME_SCREEN_RIGHT + 50:
+        A = self.rect.centerx <= GAME_SCREEN_LEFT - 50 
+        B = self.rect.centerx >= GAME_SCREEN_RIGHT + 50
+        C = self.rect.bottom <= 0
+        D = self.rect.top >= SCREEN_HEIGHT
+        if A or B or C or D:
             self.kill()
 
     def move_to(self, destination, speed):
-        print(self.direction)
         distance = math.sqrt(pow((self.rect.centerx - destination[0]),2) + pow((self.rect.centery - destination[1]),2))
         if distance != 0:
-            self.direction = pg.math.Vector2(((destination[0] - self.rect.centerx)/distance), ((destination[1] - self.rect.centery)/distance))
+            direction = pg.math.Vector2(((destination[0] - self.rect.centerx)/distance), ((destination[1] - self.rect.centery)/distance))
+            self.direction = direction.normalize()
         else:
             pass
 
         if self.rect.centerx - destination[0] <= 0:
             if self.rect.centery - destination[1] <= 0:
-                if not (self.rect.centerx >= destination[0] and self.rect.centery >= destination[1]):
-                    self.rect.centerx += self.direction[0] * speed
-                    self.rect.centery += self.direction[1] * speed
+                if not (self.pos.x >= destination[0] and self.pos.y >= destination[1]):
+                    
+                    self.pos.x += self.direction[0] * speed
+                    self.pos.y += self.direction[1] * speed
+                    self.rect.center = round(self.pos.x), round(self.pos.y)
                 else:
                     pass
             
             else:
-                if not (self.rect.centerx >= destination[0] and self.rect.centery <= destination[1]):
-                    self.rect.centerx += self.direction[0] * speed
-                    self.rect.centery += self.direction[1] * speed
+                if not (self.pos.x >= destination[0] and self.pos.y <= destination[1]):
+                    self.pos.x += self.direction[0] * speed
+                    self.pos.y += self.direction[1] * speed
+                    self.rect.center = round(self.pos.x), round(self.pos.y)
                 else:
                     pass
         
         else:
             if self.rect.centery - destination[1] <= 0:
-                if not (self.rect.centerx <= destination[0] and self.rect.centery >= destination[1]):
-                    self.rect.centerx += self.direction[0] * speed
-                    self.rect.centery += self.direction[1] * speed
+                if not (self.pos.x <= destination[0] and self.pos.y >= destination[1]):
+                    self.pos.x += self.direction[0] * speed
+                    self.pos.y += self.direction[1] * speed
+                    self.rect.center = round(self.pos.x), round(self.pos.y)
                 else:
                     pass
 
             else:
-                if not (self.rect.centerx <= destination[0] and self.rect.centery <= destination[1]):
-                    self.rect.centerx += self.direction[0] * speed
-                    self.rect.centery += self.direction[1] * speed
+                if not (self.pos.x <= destination[0] and self.pos.y <= destination[1]):
+                    self.pos.x += self.direction[0] * speed
+                    self.pos.y += self.direction[1] * speed
+                    self.rect.center = round(self.pos.x), round(self.pos.y)
                 else:
                     pass
 
     def update(self):
         self.destroy_enemy()
-        # self.spawn_bullets()
