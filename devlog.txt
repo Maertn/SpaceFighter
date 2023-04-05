@@ -809,3 +809,39 @@ A total of 7 direction changes can be seen. 4 are intended. When simply going in
 
 When messing around with direction in move_to we can create other deformations. I think something in the math is going wrong here.
 I'll have to rethink it, or ask a friend / online.
+
+
+2023-04-05
+#1
+---
+Forgot to write in the log yesterday. Asking stackoverflow gave the answer to the deformation in the move_to() method.
+pygame.Rect holds it's positions as integers, which results in wonky behaviour when applying trigonometry. Creating a seperate
+attribute that tracks the position as a float and inserting coordinates of rect as a rounding off of the seperate attrbute.
+
+I believe this does create some rounding errors which become noticeable when setting up triggers for ending the motion.
+The solution to this is expanding to triggers to check not only if rect.center >= destination (for positive dx, dy), but also for
+destination - 1, in both the x and y direction.
+
+The result is an enemy moving to the points of a five-pointed star. It works pretty neatly. I've put the code in snippets.txt for reference.
+I'm particularly pleased with how division over the unit circle turned out to work. This could have been another roadblock 
+for one reason or another, but I got the math and code right pretty much straight away.
+
+This should be the challenges for enemy motion, but I'm actually not happy with the way that the parabolic motions work. The parametric
+equations didn't behave like I've expected, and the working example I have now is launching an enemy in the y-direction, constant speed 
+in the x direction, and deceleration over the y axis, which doesn't give me direct control over the coordinates. 
+I could do the algebra for the parametric equations. Expanding the move_to() method to allow for curved paths would be pretty badass tho, 
+since I'm used to calling that function succesfully when creating elements in level. Maybe I could copy the function, add some parameters
+that give how much of a curve should be added, and call it move_to_with_curve(). Maybe I could add a cycloid, have the period be equal
+to the distance, and that should look like a parabola. Sounds pretty cool. I'll mull it over a bit.
+
+I think I'll start implementing bullet patterns. I think this part could be quite hard, since the more I'm think about patterns, the more
+I think it'll be hard to create one general function. I'll have to describe several patterns, which each have their own function. I'm a bit
+unsure as to how to give bullets their trajectory. I'll probably describe some paths manually in level, but it'd be sweet to have some 
+methods for motion in the bullets themselves. The first method for bullets trajectories should be the circular motion. Ideally
+we can combine linear trajectories that add the circular motion, giving a wavey patterns like the player currently has. But the 
+circular motion method should also be able to function on its own, e.g. having the bullets circle around the position of an enemy.
+
+Another seperate method should be something like homing. Implementing bullets will become challenging. Looking back in the devlog I see that 
+I've challenged myself to have the enemy shoot at the player during periodic movement. I guess I'll put the starry motion back in the code,
+and get this challenge done. I'll probably add parameters to bullets for direction and speed, same as the enemies, and have the direction aimed
+at the player. Should be doable. 

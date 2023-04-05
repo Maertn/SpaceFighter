@@ -91,8 +91,6 @@ class Level:
             self.power_up_spawn_switch = False
             self.power_up_timer = current_time_in_ms            
 
-
-
     def shoot_stuff(self, player):
         if self.shoot_stuff_switch and self.player.shooting and not self.player.dodging and self.player.alive:
             x = self.player.rect.centerx

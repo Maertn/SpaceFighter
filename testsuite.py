@@ -49,7 +49,6 @@ class TestPath(pg.sprite.Sprite):
         if t%10 == 4:
             self.rect.center = (x0 + (20 * position5[0])),  y0 + (20 * position5[1])
 
-
     def update(self):
         self.unit_circle_by_five()
         
