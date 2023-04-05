@@ -15,124 +15,190 @@ Enemy(
 
 ###OLD CODE###
 
-!!From level.py
-# enemy behaviour switches
-self.spawn_switch_right = True
-self.spawn_switch_left = True
-self.enemy_fire_switch = None
+#ENEMIES#
 
-!!From level.py
-def enemy_patterns(self):
-    """A function used in testing that describes a sequence of motion for enemy sprites"""
-    current_time = int(pg.time.get_ticks() / 10)
-    for i, enemy in enumerate(self.enemy_sprites):
-        #print(i, enemy.rect.center)
-        if current_time - enemy.spawn_time <= 200:
-            enemy.line_move()
-        elif current_time - enemy.spawn_time <= 300:
-            enemy.circle_move()
-        elif current_time - enemy.spawn_time <= 600:
-            if enemy.movement_switch1 and enemy.speed > 0:
-                enemy.movement_switch1 = False
-                enemy.direction = enemy.direction.rotate(-90)
-            if enemy.movement_switch1 and enemy.speed < 0:
-                enemy.movement_switch1 = False
-                enemy.direction = enemy.direction.rotate(90)
-            enemy.line_move()
+#Code used in initial testing. Contains spawning every few seconds, and a sequence of motion :
+    !!From level.py
+    # enemy behaviour switches
+    self.spawn_switch_right = True
+    self.spawn_switch_left = True
+    self.enemy_fire_switch = None
+
+    !!From level.py
+    def enemy_patterns(self):
+        """A function used in testing that describes a sequence of motion for enemy sprites"""
+        current_time = int(pg.time.get_ticks() / 10)
+        for i, enemy in enumerate(self.enemy_sprites):
+            #print(i, enemy.rect.center)
+            if current_time - enemy.spawn_time <= 200:
+                enemy.line_move()
+            elif current_time - enemy.spawn_time <= 300:
+                enemy.circle_move()
+            elif current_time - enemy.spawn_time <= 600:
+                if enemy.movement_switch1 and enemy.speed > 0:
+                    enemy.movement_switch1 = False
+                    enemy.direction = enemy.direction.rotate(-90)
+                if enemy.movement_switch1 and enemy.speed < 0:
+                    enemy.movement_switch1 = False
+                    enemy.direction = enemy.direction.rotate(90)
+                enemy.line_move()
+            else:
+                enemy.kill()
+
+
+    !!From level.py
+    def enemy_fire(self):
+        """Used in testing. Makes all enemies fire a bullet at random intervals"""
+        for enemy in self.enemy_sprites:
+            enemy_fire_switch = None
+            i = pg.time.get_ticks() 
+            x = enemy.rect.centerx
+            y = enemy.rect.centery
+            if (int(i % 10) == 5 + randint(-5,5)) and not enemy_fire_switch:
+                enemy_fire_switch = True
+            if enemy_fire_switch and enemy.fire_bullet:
+                enemy.fire_bullet = False
+                EnemyBullet((x,y), [self.visible_sprites, self.enemy_bullet_sprites])
+
+    !!From level.py
+    def spawn_enemies(self):
+        """A function used in testing to spawn enemies every 2 seconds."""
+        t = int(pg.time.get_ticks() / 1000)
+        spawn_time = pg.time.get_ticks() / 10
+        
+        # Enemies from the right
+        if int(t % 2) == 0 and not self.spawn_switch_right:
+            self.spawn_switch_right = True
+        elif int(t % 2) == 1 and self.spawn_switch_right:
+            Enemy(pos = (GAME_SCREEN_RIGHT, SCREEN_HEIGHT * 2 / 3), 
+                groups = [self.visible_sprites, self.enemy_sprites],
+                speed = -3, 
+                direction = (math.cos(-math.pi/6), -2*math.sin(-math.pi/6)), 
+                spawn_time = spawn_time, 
+                health = 3, 
+                movement_switch1 = True)
+            self.spawn_switch_right = False
+
+        # Enemies from the left
+        if int(t % 2) == 0 and not self.spawn_switch_left:
+            self.spawn_switch_left = True
+        elif int(t % 2) == 1 and self.spawn_switch_left:
+            Enemy(pos = (GAME_SCREEN_LEFT, SCREEN_HEIGHT * 2 / 3), 
+                groups = [self.visible_sprites, self.enemy_sprites],
+                speed = 3, 
+                direction = (math.cos(math.pi/6), -2*math.sin(math.pi/6)), 
+                spawn_time = spawn_time, 
+                health = 3, 
+                movement_switch1 = True)
+            self.spawn_switch_left = False
+
+
+    !!From enemies.py
+    def spawn_bullets(self):
+        i = int(pg.time.get_ticks() / 10)
+        if i % 2 == 0:
+            self.fire_bullet = True
         else:
-            enemy.kill()
+            self.fire_bullet = False
 
+#Code that gives a crude parabolic motion:
 
-!!From level.py
-def enemy_fire(self):
-    """Used in testing. Makes all enemies fire a bullet at random intervals"""
-    for enemy in self.enemy_sprites:
-        enemy_fire_switch = None
-        i = pg.time.get_ticks() 
-        x = enemy.rect.centerx
-        y = enemy.rect.centery
-        if (int(i % 10) == 5 + randint(-5,5)) and not enemy_fire_switch:
-            enemy_fire_switch = True
-        if enemy_fire_switch and enemy.fire_bullet:
-            enemy.fire_bullet = False
-            EnemyBullet((x,y), [self.visible_sprites, self.enemy_bullet_sprites])
-
-!!From level.py
-def spawn_enemies(self):
-    """A function used in testing to spawn enemies ever 2 seconds."""
-    t = int(pg.time.get_ticks() / 1000)
-    spawn_time = pg.time.get_ticks() / 10
-    
-    # Enemies from the right
-    if int(t % 2) == 0 and not self.spawn_switch_right:
-        self.spawn_switch_right = True
-    elif int(t % 2) == 1 and self.spawn_switch_right:
-        Enemy(pos = (GAME_SCREEN_RIGHT, SCREEN_HEIGHT * 2 / 3), 
-            groups = [self.visible_sprites, self.enemy_sprites],
-            speed = -3, 
-            direction = (math.cos(-math.pi/6), -2*math.sin(-math.pi/6)), 
-            spawn_time = spawn_time, 
-            health = 3, 
-            movement_switch1 = True)
-        self.spawn_switch_right = False
-
-    # Enemies from the left
-    if int(t % 2) == 0 and not self.spawn_switch_left:
-        self.spawn_switch_left = True
-    elif int(t % 2) == 1 and self.spawn_switch_left:
-        Enemy(pos = (GAME_SCREEN_LEFT, SCREEN_HEIGHT * 2 / 3), 
-            groups = [self.visible_sprites, self.enemy_sprites],
-            speed = 3, 
-            direction = (math.cos(math.pi/6), -2*math.sin(math.pi/6)), 
-            spawn_time = spawn_time, 
-            health = 3, 
-            movement_switch1 = True)
-        self.spawn_switch_left = False
-
-
-!!From enemies.py
-def spawn_bullets(self):
-    i = int(pg.time.get_ticks() / 10)
-    if i % 2 == 0:
-        self.fire_bullet = True
-    else:
-        self.fire_bullet = False
-
-
-***
-Code that gives a crude parabolic motion:
-
-def enemies(self):
-    spawn_time = pg.time.get_ticks() / 10
-    
-    if self.enemy_spawn_switch1 == True:
-        Enemy(
-        pos=(GAME_SCREEN_LEFT, 10), 
-        groups=[self.visible_sprites, self.enemy_sprites, self.enemy_group1], 
-        speed=8, 
-        direction=(0,1), 
-        spawn_time=spawn_time, 
-        health =1
-        )
-        self.enemy_spawn_switch1 = False
-
-    if spawn_time >= 200 and self.enemy_spawn_switch2:
-        Enemy(
+    def enemies(self):
+        spawn_time = pg.time.get_ticks() / 10
+        
+        if self.enemy_spawn_switch1 == True:
+            Enemy(
             pos=(GAME_SCREEN_LEFT, 10), 
-            groups=[self.visible_sprites, self.enemy_sprites, self.enemy_group2], 
-            speed=0, 
+            groups=[self.visible_sprites, self.enemy_sprites, self.enemy_group1], 
+            speed=8, 
             direction=(0,1), 
             spawn_time=spawn_time, 
             health =1
             )
-        self.enemy_spawn_switch2 = False
+            self.enemy_spawn_switch1 = False
 
-    
-    for enemy in self.enemy_sprites:
-        if enemy in self.enemy_group1:
-            enemy.line_move()
-            enemy.rect.centerx += 3
-            enemy.speed -= 0.06
-        if enemy in self.enemy_group2:
-            enemy.rect.centerx += 3
-            enemy.rect.centery = pow(enemy.rect.centerx - GAME_SCREEN_LEFT, 2) / 100
+        if spawn_time >= 200 and self.enemy_spawn_switch2:
+            Enemy(
+                pos=(GAME_SCREEN_LEFT, 10), 
+                groups=[self.visible_sprites, self.enemy_sprites, self.enemy_group2], 
+                speed=0, 
+                direction=(0,1), 
+                spawn_time=spawn_time, 
+                health =1
+                )
+            self.enemy_spawn_switch2 = False
+
+        
+        for enemy in self.enemy_sprites:
+            if enemy in self.enemy_group1:
+                enemy.line_move()
+                enemy.rect.centerx += 3
+                enemy.speed -= 0.06
+            if enemy in self.enemy_group2:
+                enemy.rect.centerx += 3
+                enemy.rect.centery = pow(enemy.rect.centerx - GAME_SCREEN_LEFT, 2) / 100
+
+#Code that describes motion in the shape of a five-pointed star:
+
+    def enemies(self):
+        spawn_time = pg.time.get_ticks() / 10
+       
+        # Creating positions for a 5-pointed star
+        k = math.pi * 2
+        position1 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 5/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 5/5)))
+        position2 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 1/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 1/5)))
+        position3 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 2/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 2/5)))
+        position4 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 3/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 3/5)))
+        position5 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 4/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 4/5)))
+
+        # Spawn one enemy
+        if self.enemy_spawn_switch1 == True:
+            enemy = Enemy( 
+            pos=position1, 
+            groups=[self.visible_sprites, self.enemy_sprites], 
+            speed=0, 
+            direction=(0,1), 
+            spawn_time=spawn_time, 
+            health=1,
+            movement_switch1 = True,
+            movement_switch2 = True,
+            movement_switch3 = True,
+            movement_switch4 = True,
+            movement_switch5 = True
+            )
+            self.enemy_spawn_switch1 = False
+
+        # Instructions for movement along the points of a 5-pointed star
+        for enemy in self.enemy_sprites:
+            destination = enemy.rect.center
+            print(enemy.movement_switch1, enemy.movement_switch2, enemy.movement_switch3, enemy.movement_switch4)
+            print(enemy.direction)
+            if enemy.movement_switch1:
+                destination = position3
+                enemy.move_to(destination, speed = 5)
+                if ((enemy.rect.centerx >= destination[0] + 1) or (enemy.rect.centerx >= destination[0] - 1)) or enemy.rect.centery >= destination[1]:
+                    enemy.movement_switch1 = False
+            
+            elif enemy.movement_switch2 and not enemy.movement_switch1:
+                destination = position5
+                enemy.move_to(destination, speed = 5)
+                if enemy.rect.centerx <= destination[0]:
+                    enemy.movement_switch2 = False
+
+            elif enemy.movement_switch3 and not enemy.movement_switch2:
+                destination = position2
+                enemy.move_to(destination, speed = 5)
+                if (enemy.rect.centerx > destination[0] + 1) or (enemy.rect.centerx > destination[0] - 1):  
+                    enemy.movement_switch3 = False
+            
+            elif enemy.movement_switch4 and not enemy.movement_switch3:
+                destination = position4
+                enemy.move_to(destination, speed = 5)
+                if (enemy.rect.centerx <= destination[0] and enemy.rect.centery >= destination[1]):
+                    enemy.movement_switch4 = False
+                    
+            else:
+                destination = position1
+                enemy.move_to(destination, speed = 5)
+
+#BULLETS#

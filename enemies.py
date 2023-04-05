@@ -109,7 +109,7 @@ class Enemy(pg.sprite.Sprite):
                     self.pos.y += self.direction[1] * speed
                     self.rect.center = round(self.pos.x), round(self.pos.y)
                 else:
-                    self.pos = destination
+                    self.rect.center = destination
         
         else:
             if self.rect.centery - destination[1] <= 0:
@@ -118,7 +118,7 @@ class Enemy(pg.sprite.Sprite):
                     self.pos.y += self.direction[1] * speed
                     self.rect.center = round(self.pos.x), round(self.pos.y)
                 else:
-                    self.pos = destination
+                    self.rect.center = destination
 
             else:
                 if not (self.pos.x <= destination[0] and self.pos.y <= destination[1]):
@@ -126,7 +126,7 @@ class Enemy(pg.sprite.Sprite):
                     self.pos.y += self.direction[1] * speed
                     self.rect.center = round(self.pos.x), round(self.pos.y)
                 else:
-                    self.pos = destination
+                    self.rect.center = destination
 
     def update(self):
         self.destroy_enemy()
