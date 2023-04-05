@@ -122,35 +122,144 @@ class Level:
         # Instructions for movement along the points of a 5-pointed star
         for enemy in self.enemy_sprites:
             destination = enemy.rect.center
-            print(enemy.movement_switch1, enemy.movement_switch2, enemy.movement_switch3, enemy.movement_switch4)
-            print(enemy.direction)
+            bullet = None
             if enemy.movement_switch1:
                 destination = position3
                 enemy.move_to(destination, speed = 5)
                 if ((enemy.rect.centerx >= destination[0] + 1) or (enemy.rect.centerx >= destination[0] - 1)) or enemy.rect.centery >= destination[1]:
+                    
+                    bullet1 = EnemyBullet(
+                        pos = enemy.rect.center, 
+                        groups = [self.visible_sprites, self.enemy_bullet_sprites],
+                        speed = 1,
+                        direction = (0,0)
+                    )
+                    
+                    bullet2 = EnemyBullet(
+                        pos = enemy.rect.center, 
+                        groups = [self.visible_sprites, self.enemy_bullet_sprites],
+                        speed = 1,
+                        direction = (0,0)
+                    )
+                    
+                    bullet3 = EnemyBullet(
+                        pos = enemy.rect.center, 
+                        groups = [self.visible_sprites, self.enemy_bullet_sprites],
+                        speed = 1,
+                        direction = (0,0)
+                    )
+                    
+                    bullet1.aim_bullet(self.player.rect.center)
+                    bullet2.aim_bullet((self.player.rect.centerx + 50, self.player.rect.centery + 50))
+                    bullet3.aim_bullet((self.player.rect.centerx - 50, self.player.rect.centery - 50))
+                    
                     enemy.movement_switch1 = False
+
             
             elif enemy.movement_switch2 and not enemy.movement_switch1:
                 destination = position5
                 enemy.move_to(destination, speed = 5)
                 if enemy.rect.centerx <= destination[0]:
+                   
+                    bullet1 = EnemyBullet(
+                        pos = enemy.rect.center, 
+                        groups = [self.visible_sprites, self.enemy_bullet_sprites],
+                        speed = 1,
+                        direction = (0,0)
+                    )
+                    
+                    bullet2 = EnemyBullet(
+                        pos = enemy.rect.center, 
+                        groups = [self.visible_sprites, self.enemy_bullet_sprites],
+                        speed = 1,
+                        direction = (0,0)
+                    )
+                    
+                    bullet3 = EnemyBullet(
+                        pos = enemy.rect.center, 
+                        groups = [self.visible_sprites, self.enemy_bullet_sprites],
+                        speed = 1,
+                        direction = (0,0)
+                    )
+                    
+                    bullet1.aim_bullet(self.player.rect.center)
+                    bullet2.aim_bullet((self.player.rect.centerx + 50, self.player.rect.centery + 50))
+                    bullet3.aim_bullet((self.player.rect.centerx - 50, self.player.rect.centery - 50))
+
                     enemy.movement_switch2 = False
 
             elif enemy.movement_switch3 and not enemy.movement_switch2:
                 destination = position2
                 enemy.move_to(destination, speed = 5)
                 if (enemy.rect.centerx > destination[0] + 1) or (enemy.rect.centerx > destination[0] - 1):  
+                   
+                    bullet1 = EnemyBullet(
+                        pos = enemy.rect.center, 
+                        groups = [self.visible_sprites, self.enemy_bullet_sprites],
+                        speed = 1,
+                        direction = (0,0)
+                    )
+                    
+                    bullet2 = EnemyBullet(
+                        pos = enemy.rect.center, 
+                        groups = [self.visible_sprites, self.enemy_bullet_sprites],
+                        speed = 1,
+                        direction = (0,0)
+                    )
+                    
+                    bullet3 = EnemyBullet(
+                        pos = enemy.rect.center, 
+                        groups = [self.visible_sprites, self.enemy_bullet_sprites],
+                        speed = 1,
+                        direction = (0,0)
+                    )
+                    
+                    bullet1.aim_bullet(self.player.rect.center)
+                    bullet2.aim_bullet((self.player.rect.centerx + 50, self.player.rect.centery + 50))
+                    bullet3.aim_bullet((self.player.rect.centerx - 50, self.player.rect.centery - 50))
+
                     enemy.movement_switch3 = False
             
             elif enemy.movement_switch4 and not enemy.movement_switch3:
                 destination = position4
                 enemy.move_to(destination, speed = 5)
                 if (enemy.rect.centerx <= destination[0] and enemy.rect.centery >= destination[1]):
+                                       
+                    bullet1 = EnemyBullet(
+                        pos = enemy.rect.center, 
+                        groups = [self.visible_sprites, self.enemy_bullet_sprites],
+                        speed = 1,
+                        direction = (0,0)
+                    )
+                    
+                    bullet2 = EnemyBullet(
+                        pos = enemy.rect.center, 
+                        groups = [self.visible_sprites, self.enemy_bullet_sprites],
+                        speed = 1,
+                        direction = (0,0)
+                    )
+                    
+                    bullet3 = EnemyBullet(
+                        pos = enemy.rect.center, 
+                        groups = [self.visible_sprites, self.enemy_bullet_sprites],
+                        speed = 1,
+                        direction = (0,0)
+                    )
+                    
+                    bullet1.aim_bullet(self.player.rect.center)
+                    bullet2.aim_bullet((self.player.rect.centerx + 50, self.player.rect.centery + 50))
+                    bullet3.aim_bullet((self.player.rect.centerx - 50, self.player.rect.centery - 50))
                     enemy.movement_switch4 = False
                     
             else:
                 destination = position1
                 enemy.move_to(destination, speed = 5)
+
+        if int(pg.time.get_ticks() / 100) % 6 == 0:
+            print(len(self.visible_sprites), len(self.enemy_bullet_sprites))
+        for bullet in self.enemy_bullet_sprites:
+            print('--')
+            print(bullet.rect.center, bullet.direction)
 
     def shoot_stuff(self, player):
         if self.shoot_stuff_switch and self.player.shooting and not self.player.dodging and self.player.alive:
@@ -270,8 +379,8 @@ class Level:
         if self.player.alive:
             self.enemies()
             self.create_time_score()
-            self.shoot_stuff(self.player)
-            self.spawn_power_ups()
+            # self.shoot_stuff(self.player)
+            # self.spawn_power_ups()
             self.collisions(self.player)
             self.visible_sprites.draw(self.display_surface)
             self.visible_sprites.update()

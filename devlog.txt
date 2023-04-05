@@ -848,4 +848,17 @@ at the player. Should be doable.
 
 #2
 --
-Bullets now have parameters speed and direction. 
+Bullets now have parameters speed and direction.
+
+#3
+--
+Added aimed shots at the player during the starry motion. I'm not entirely happy about the implementation tho.
+It's a three-bullet spread, with bullet1 aimed directly at the player, bullet2 = bullet1 + (50, 50) and bullet3 = bullet1 - (50, 50).
+It would be better to have a set angle the moment the shot is fired, so the pattern is always evenly spread.
+I'm wondering how I'm going to do that tho.
+
+What I might be able to do is create a new class in bullets.py that creates three EnemyBullet. I tried joining visible_sprites from a 
+different class into the visible_sprites from level, but gave up after a while. After reading the pygame docs it might be possible to 
+join the groups after all. 
+To have three bullets in a single object would be an easy way to have the bullets behave respectively to one another, if I'm understanding
+things correctly. Let's try this approach.
