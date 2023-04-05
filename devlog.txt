@@ -862,3 +862,5 @@ different class into the visible_sprites from level, but gave up after a while. 
 join the groups after all. 
 To have three bullets in a single object would be an easy way to have the bullets behave respectively to one another, if I'm understanding
 things correctly. Let's try this approach.
+
+I wanted to add that with the current setup the bullet direction becomes especially wacky when the player is close to the enemy.

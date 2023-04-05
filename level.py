@@ -21,7 +21,7 @@ class Level:
         self.main_menu = MainMenu()
         self.title_screen = True
         self.game_over = GameOver()
-        self.death_screen_cooldown = 1000
+        self.death_screen_cooldown = 700
         self.death_screen_switch = False
         self.death_screen_timer = 0
 
@@ -364,7 +364,7 @@ class Level:
     def create_time_score(self):
         self.score_time = int(pg.time.get_ticks()/1000) + self.minus_score_time  
 
-    def keylog(self):
+    def start_new_game(self):
         keys = pg.key.get_pressed()
         if not self.player.alive and not self.death_screen_switch:
             if keys[pg.K_SPACE]:
@@ -372,9 +372,10 @@ class Level:
                 self.create_map()
                 self.kill_count = 0
                 self.player.alive = True
+                self.enemy_spawn_switch1 = True
 
     def run(self):
-        self.keylog()
+        self.start_new_game()
         self.cooldowns(self.player)
         if self.player.alive:
             self.enemies()
