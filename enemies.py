@@ -18,6 +18,7 @@ class Enemy(pg.sprite.Sprite):
         self.direction = pg.math.Vector2(direction)
         self.speed = speed
         self.pos = pg.math.Vector2(self.rect.center)
+        
         try:
             self.movement_switch1 = movement_switch["movement_switch1"]
         except:

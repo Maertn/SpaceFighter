@@ -864,3 +864,13 @@ To have three bullets in a single object would be an easy way to have the bullet
 things correctly. Let's try this approach.
 
 I wanted to add that with the current setup the bullet direction becomes especially wacky when the player is close to the enemy.
+
+#4
+--
+I think I can create something quite general. A function that takes a spread (a portion of the unit circle, including the whole of it)
+a number of bullets, and a direction. For example, an enemy can shoot 3 bullets towards the player with a spread of pi/3 rad, giving 
+the bullets an angle of 30 degrees respective to each other. 
+Another example is an enemy spawning two sets 6 of bullets, both with a spread of 2*pi. One set takes every (n/12)(2*pi), another 
+((2*n)-1)(2*pi), around an enemy. Because we can give a direction we can call the same function twice, except for one difference, where
+one gets direction (0,1), another one (sin(2*pi/12), cos(2*pi/12)). I'm not sure if I have the math correct on the direction, but there's 
+only one way to find out. Conceptually this should work 
