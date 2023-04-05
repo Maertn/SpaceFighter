@@ -874,3 +874,38 @@ Another example is an enemy spawning two sets 6 of bullets, both with a spread o
 ((2*n)-1)(2*pi), around an enemy. Because we can give a direction we can call the same function twice, except for one difference, where
 one gets direction (0,1), another one (sin(2*pi/12), cos(2*pi/12)). I'm not sure if I have the math correct on the direction, but there's 
 only one way to find out. Conceptually this should work.
+
+#5
+--
+I think I'll open a new branch since we're not really testing motion any longer. We're testing bullet patterns.
+Let's set some goals. We still have the second challenge, which I'll repeat here:
+
+"The second challenge will be to have an enemy spawn bullets in a circular pattern, say n = number of bullets, then for 2pi/number of bullets
+put bullets on screen. The bullets travel from the enemy, until they are all at a distance from the enemy. Bullets pause, 
+then start moving in a circular pattern, with one bullet going clockwise and the other counter-clockwise. After doing so for a certain
+amount of time the radius between the enemy and the bullets start expanding until the bullets are offscreen."
+
+This challenge consists of two parts. First we have the spawning, which works like a basic shot in a direction. I could either
+give a timer to stop the bullet after spawning, or I could give it coordinates. Giving it coordinates requires something like the 
+move_to() method in enemies. For the challenge I'll just use a timer. After the initial motion we have the second challenge, desribing a path
+for the bullets. The path is relative to the spawning point, so we can make this a new attribute.
+
+I'll make this challenge 2.1 and 2.2, since they seem quite different to me. The first challenge is spawning bullets in the circular pattern,
+following a linear trajectory. The second challenge is stopping the motion and creating a trajectory. The first challenge should be easy.
+The second one will be more challenging I think. What seems the logical thing to do is describe a path from a radius, and have the 
+radius increase, but I'm not sure how to implement such a motion cleanly. I think this is a great opportunity to think about how to 
+implement angular motion, since there are several options, one of them being complex numbers and or polar coordinates. It would be nice 
+to have solid fundamentals in the code to deal with stuff like angular velocity, especially with the third challenge being rotation 
+and orientation of objects.
+
+The smartest way to go about this is is focusing on what I already have in the code, so the initial strategy is to manipulate 
+direction. So the goal for challenge 2.2 is to create a function that calculates the necessary direction and possibly speed
+that feeds into existing methods for describing trajectories. So if experimentation results in a system I like that works with 
+complex numbers, I'll need some extra code that translates the system into a unit vector that can be multiplied with a speed.
+
+First things first, let's try to create this general function for bullet spawning over a spread. If this works like intended it's pretty much
+challenge 2.1 done. First I need to check if my idea of creating a class with multiple objects works. One way to do this is by rewriting the
+wavey shot that the player has. Currently we have two bullets being spawned individually, but if my idea works this could be rewritten
+into a single call from level. This requires creating the bullets in the class in bullets.py, which will have their own attribute for the 
+sprite groups. Unless, maybe, we define the class to take group assignment from a parameter, which could be self.visible_sprites in level.
+I'll try that before messing around with the joining of groups though pygame functions.

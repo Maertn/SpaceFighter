@@ -32,10 +32,7 @@ class Bullet(pg.sprite.Sprite):
         distance = math.sqrt(pow((self.pos[0] - destination[0]), 2) + pow((self.pos[1] - destination[1]), 2))
         directionx = (destination[0] - self.pos[0])/distance
         directiony = (destination[1] - self.pos[1])/distance
-        print(directionx, directiony)
         self.direction = pg.math.Vector2(directionx, directiony)
-        print(self.direction)
-
 
     def update(self):
         self.trajectory()
@@ -65,6 +62,7 @@ class WaveyBullet2(Bullet):
         self.rect.centerx += self.direction[0] * self.speed
         self.rect.centery += self.direction[1] * self.speed
         self.rect.centerx += math.sin(-pg.time.get_ticks()/40)*4
+
 
 # enemy bullets
 
