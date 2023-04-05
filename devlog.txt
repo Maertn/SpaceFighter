@@ -816,7 +816,7 @@ I'll have to rethink it, or ask a friend / online.
 ---
 Forgot to write in the log yesterday. Asking stackoverflow gave the answer to the deformation in the move_to() method.
 pygame.Rect holds it's positions as integers, which results in wonky behaviour when applying trigonometry. Creating a seperate
-attribute that tracks the position as a float and inserting coordinates of rect as a rounding off of the seperate attrbute.
+attribute that tracks the position as a float and inserting coordinates of rect as a rounding off of the seperate attrbute fixed the issue.
 
 I believe this does create some rounding errors which become noticeable when setting up triggers for ending the motion.
 The solution to this is expanding to triggers to check not only if rect.center >= destination (for positive dx, dy), but also for
@@ -873,4 +873,4 @@ the bullets an angle of 30 degrees respective to each other.
 Another example is an enemy spawning two sets 6 of bullets, both with a spread of 2*pi. One set takes every (n/12)(2*pi), another 
 ((2*n)-1)(2*pi), around an enemy. Because we can give a direction we can call the same function twice, except for one difference, where
 one gets direction (0,1), another one (sin(2*pi/12), cos(2*pi/12)). I'm not sure if I have the math correct on the direction, but there's 
-only one way to find out. Conceptually this should work 
+only one way to find out. Conceptually this should work.
