@@ -91,45 +91,106 @@ class Level:
             self.power_up_spawn_switch = False
             self.power_up_timer = current_time_in_ms            
 
+    def enemies(self):
+        spawn_time = pg.time.get_ticks() / 10
+       
+        # Creating positions for a 5-pointed star
+        k = math.pi * 2
+        position1 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 5/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 5/5)))
+        position2 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 1/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 1/5)))
+        position3 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 2/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 2/5)))
+        position4 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 3/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 3/5)))
+        position5 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 4/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 4/5)))
+
+        # Spawn one enemy
+        if self.enemy_spawn_switch1 == True:
+            enemy = Enemy( 
+            pos=position1, 
+            groups=[self.visible_sprites, self.enemy_sprites], 
+            speed=0, 
+            direction=(0,1), 
+            spawn_time=spawn_time, 
+            health=1,
+            movement_switch1 = True,
+            movement_switch2 = True,
+            movement_switch3 = True,
+            movement_switch4 = True,
+            movement_switch5 = True
+            )
+            self.enemy_spawn_switch1 = False
+
+        # Instructions for movement along the points of a 5-pointed star
+        for enemy in self.enemy_sprites:
+            destination = enemy.rect.center
+            print(enemy.movement_switch1, enemy.movement_switch2, enemy.movement_switch3, enemy.movement_switch4)
+            print(enemy.direction)
+            if enemy.movement_switch1:
+                destination = position3
+                enemy.move_to(destination, speed = 5)
+                if ((enemy.rect.centerx >= destination[0] + 1) or (enemy.rect.centerx >= destination[0] - 1)) or enemy.rect.centery >= destination[1]:
+                    enemy.movement_switch1 = False
+            
+            elif enemy.movement_switch2 and not enemy.movement_switch1:
+                destination = position5
+                enemy.move_to(destination, speed = 5)
+                if enemy.rect.centerx <= destination[0]:
+                    enemy.movement_switch2 = False
+
+            elif enemy.movement_switch3 and not enemy.movement_switch2:
+                destination = position2
+                enemy.move_to(destination, speed = 5)
+                if (enemy.rect.centerx > destination[0] + 1) or (enemy.rect.centerx > destination[0] - 1):  
+                    enemy.movement_switch3 = False
+            
+            elif enemy.movement_switch4 and not enemy.movement_switch3:
+                destination = position4
+                enemy.move_to(destination, speed = 5)
+                if (enemy.rect.centerx <= destination[0] and enemy.rect.centery >= destination[1]):
+                    enemy.movement_switch4 = False
+                    
+            else:
+                destination = position1
+                enemy.move_to(destination, speed = 5)
+
     def shoot_stuff(self, player):
         if self.shoot_stuff_switch and self.player.shooting and not self.player.dodging and self.player.alive:
             x = self.player.rect.centerx
             y = self.player.rect.top
             
             if player.fire_pattern == 0 and not player.wave_pattern:
-                Bullet((x,y), [self.visible_sprites, self.player_bullets_sprites])
+                Bullet((x,y), [self.visible_sprites, self.player_bullets_sprites], -12, (0,1))
                 
             if player.fire_pattern == 1 and not player.wave_pattern:
-                bullet1 = Bullet((x-16,y), [self.visible_sprites, self.player_bullets_sprites])
-                bullet2 = Bullet((x+16,y), [self.visible_sprites, self.player_bullets_sprites])
+                bullet1 = Bullet((x-16,y), [self.visible_sprites, self.player_bullets_sprites], -12, (0,1))
+                bullet2 = Bullet((x+16,y), [self.visible_sprites, self.player_bullets_sprites], -12, (0,1))
 
             if player.fire_pattern == 2 and not player.wave_pattern:
-                bullet1 = Bullet((x-16,y), [self.visible_sprites, self.player_bullets_sprites])
+                bullet1 = Bullet((x-16,y), [self.visible_sprites, self.player_bullets_sprites], -12, (0,1))
                 bullet1.direction = pg.math.Vector2((math.sin(math.pi/12), 1))
-                bullet2 = Bullet((x,y), [self.visible_sprites, self.player_bullets_sprites])
-                bullet3 = Bullet((x+16,y), [self.visible_sprites, self.player_bullets_sprites])
+                bullet2 = Bullet((x,y), [self.visible_sprites, self.player_bullets_sprites], -12, (0,1))
+                bullet3 = Bullet((x+16,y), [self.visible_sprites, self.player_bullets_sprites], -12, (0,1))
                 bullet3.direction = pg.math.Vector2((math.sin(-math.pi/12), 1))
 
             if player.fire_pattern == 0 and player.wave_pattern:
-                bullet1_1 = WaveyBullet1((x,y), [self.visible_sprites, self.player_bullets_sprites])
-                bullet1_2 = WaveyBullet2((x,y), [self.visible_sprites, self.player_bullets_sprites])
+                bullet1_1 = WaveyBullet1((x,y), [self.visible_sprites, self.player_bullets_sprites], -12, (0,1))
+                bullet1_2 = WaveyBullet2((x,y), [self.visible_sprites, self.player_bullets_sprites], -12, (0,1))
 
             if player.fire_pattern == 1 and player.wave_pattern:
-                bullet1_1 = WaveyBullet1((x-16,y), [self.visible_sprites, self.player_bullets_sprites])
-                bullet1_2 = WaveyBullet2((x-16,y), [self.visible_sprites, self.player_bullets_sprites])
-                bullet2_1 = WaveyBullet1((x+16,y), [self.visible_sprites, self.player_bullets_sprites])
-                bullet2_2 = WaveyBullet2((x+16,y), [self.visible_sprites, self.player_bullets_sprites])
+                bullet1_1 = WaveyBullet1((x-16,y), [self.visible_sprites, self.player_bullets_sprites], -12, (0,1))
+                bullet1_2 = WaveyBullet2((x-16,y), [self.visible_sprites, self.player_bullets_sprites], -12, (0,1))
+                bullet2_1 = WaveyBullet1((x+16,y), [self.visible_sprites, self.player_bullets_sprites], -12, (0,1))
+                bullet2_2 = WaveyBullet2((x+16,y), [self.visible_sprites, self.player_bullets_sprites], -12, (0,1))
 
             if player.fire_pattern == 2 and player.wave_pattern:
-                bullet1_1 = WaveyBullet1((x-16,y), [self.visible_sprites, self.player_bullets_sprites])
+                bullet1_1 = WaveyBullet1((x-16,y), [self.visible_sprites, self.player_bullets_sprites], -12, (0,1))
                 bullet1_1.direction = pg.math.Vector2((math.sin(math.pi/12), 1))
-                bullet1_2 = WaveyBullet2((x-16,y), [self.visible_sprites, self.player_bullets_sprites])
+                bullet1_2 = WaveyBullet2((x-16,y), [self.visible_sprites, self.player_bullets_sprites], -12, (0,1))
                 bullet1_2.direction = pg.math.Vector2((math.sin(math.pi/12), 1))
-                bullet2_1 = WaveyBullet1((x,y), [self.visible_sprites, self.player_bullets_sprites])
-                bullet2_2 = WaveyBullet2((x,y), [self.visible_sprites, self.player_bullets_sprites])
-                bullet3_1 = WaveyBullet1((x+16,y), [self.visible_sprites, self.player_bullets_sprites])
+                bullet2_1 = WaveyBullet1((x,y), [self.visible_sprites, self.player_bullets_sprites], -12, (0,1))
+                bullet2_2 = WaveyBullet2((x,y), [self.visible_sprites, self.player_bullets_sprites], -12, (0,1))
+                bullet3_1 = WaveyBullet1((x+16,y), [self.visible_sprites, self.player_bullets_sprites], -12, (0,1))
                 bullet3_1.direction = pg.math.Vector2((math.sin(-math.pi/12), 1))
-                bullet3_2 = WaveyBullet2((x+32,y), [self.visible_sprites, self.player_bullets_sprites])
+                bullet3_2 = WaveyBullet2((x+32,y), [self.visible_sprites, self.player_bullets_sprites], -12, (0,1))
                 bullet3_2.direction = pg.math.Vector2((math.sin(-math.pi/12), 1))
 
             self.shoot_stuff_switch = False

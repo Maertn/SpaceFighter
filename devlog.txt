@@ -844,4 +844,8 @@ circular motion method should also be able to function on its own, e.g. having t
 Another seperate method should be something like homing. Implementing bullets will become challenging. Looking back in the devlog I see that 
 I've challenged myself to have the enemy shoot at the player during periodic movement. I guess I'll put the starry motion back in the code,
 and get this challenge done. I'll probably add parameters to bullets for direction and speed, same as the enemies, and have the direction aimed
-at the player. Should be doable. 
+at the player. Should be doable.
+
+#2
+--
+Bullets now have parameters speed and direction. 
