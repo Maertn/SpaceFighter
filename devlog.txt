@@ -909,3 +909,40 @@ wavey shot that the player has. Currently we have two bullets being spawned indi
 into a single call from level. This requires creating the bullets in the class in bullets.py, which will have their own attribute for the 
 sprite groups. Unless, maybe, we define the class to take group assignment from a parameter, which could be self.visible_sprites in level.
 I'll try that before messing around with the joining of groups though pygame functions.
+
+--
+2023-04-06
+#1
+--
+I'll try to do some bullet over spread calculations while reworking the players' wavey shot.
+What I want is a dictionary with bullets as keys, and the direction as values.
+Say we have a 60 degrees spread with 3 bullets in direction (0,-1). I want to parameter to be the portion of the unit circle that I want,
+so that'd be 1/6th in this case. The function takes 1/6th and multiplies it with 2*pi to get the value for the range.
+Since we want the function to work generally let's first think about 60 degrees with 1 bullet. The spread should be a non factor in this case, 
+so the value for bullet_dict[0] is (0,1). I think it should always be the case that bullet_dict[0] has the direction given in 
+parameters of the object.
+If we have 3 bullets, we get something like:
+bullet_dict = {
+    bullet[0]:(0,1)
+    bullet[1]:(cos(theta), sin(theta))
+    bullet[2]:(cos(-theta), sin(-theta))
+}
+The math might be wrong here, because I'm not accounting for initial direction, but we'll figure it out while coding.
+Theta is the spread / (number of bullets - 1).
+
+This only works for odd numbers. Even numbers will need another algorithm.
+
+To get a list of theta's we can divide spread by bullets - 1 to acquire an angle. We can then do assignment in the dictionary.
+Let's say 7 bullets. 
+bullet[0]:init
+bullet[1]:init - theta
+bullet[2]:init + theta
+bullet[3]:init - 2*theta
+bullet[4]:init + 2*theta
+bullet[5]:init - 3*theta
+bullet[6]:init + 3*theta
+
+So bullet[n]: init +/- ((number_of_bullets / 2) - 1) * theta
+If n%2==0 we add, if n%2==1 we subtract.
+
+Let's work out if we can get this working for odd number of bullets, and do the even ones after.
