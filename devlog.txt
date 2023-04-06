@@ -946,3 +946,14 @@ So bullet[n]: init +/- ((number_of_bullets / 2) - 1) * theta
 If n%2==0 we add, if n%2==1 we subtract.
 
 Let's work out if we can get this working for odd number of bullets, and do the even ones after.
+
+#2.
+--
+I've created something, but deleted it because I couldn't figure out how to properly work with the initial direction.
+E.g. for change in direction = 0 I had initial_direction + (cos(0), sin(0)), which would give a positive y direction on top of
+the initial direction, which isn't my intention.
+
+Also, creating a class to test with is rather tricky still. I'm not a master of OOP or Python.
+
+I'll try again, this time with the initial direction being a pg.vector2, and I'll try to rotate the vectors by functions within
+the module. 
