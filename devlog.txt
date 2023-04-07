@@ -956,4 +956,34 @@ the initial direction, which isn't my intention.
 Also, creating a class to test with is rather tricky still. I'm not a master of OOP or Python.
 
 I'll try again, this time with the initial direction being a pg.vector2, and I'll try to rotate the vectors by functions within
-the module. 
+the module.
+
+2023-04-07
+#1
+--
+Today I'll work on the bullet spawning algorithm. There's something that caught my interest for describing bullet paths: splines.
+Splines use Bezier curves in sequence to describe a path. They might be awkward to implement algebraically, espescially since I'm not
+quite sure yet how they work. So if I can find some available tools online it might be the way to go, otherwise I might stick with the simpler
+trigonometric functions I've been creating up till now. I also really wanted to experiment with the complex numbers. They seem ideal to 
+describe motion around a stationary body, though that might be my memory being fuzzy on the subject.
+
+Another two thoughts that occured yesterday that I wanted to mention. Creating these abstract, general functions inspired me to 
+create something akin to a level editor. With these functions in place I can easily imagine sliders and mouse drops controlling 
+the parameters. I have no idea where to begin on that one. I imagine it being akin to coding something that writes code for you,
+but it'll require some research to wrap my head around.
+
+The last thing I wanted to mention is that it might be useful for learning more about Python to think about creating some services 
+around this game. Maybe there's a way to have it play in the browser. If we're thinking along those lines it's not far off to imagine 
+a hi-score system, or user accounts. I'm not entirely sure on this, but we'd probably need HTML, SQL, CSS and Django to fully realize
+something like that.
+
+These things are seperate things to think about. The first is fundamentals of game content, the second is tools for implementing game
+content into levels, the third relating to distribution and service. Pretty wild how complicated things are potentially becoming.
+
+Let's park these thoughts for now, and create a to do list for today. I'll work on the bullet spawning. First I'll clean up the code and
+move the starry movement. I'll create a single stationary enemy, turn off collision, and first of all I want to have it shoot one bullet
+in the positive y direction through the abstraction of dividing the unit circle. I'll stick with the idea of a dictionary, and I'll more or less
+keep the algorithm akin to what I wrote before, but this time I'll be using vector rotation from Pygame.
+
+To see if vector rotation works, let's create an enemy that sits stationary, fires a shot in the positive y, and then a shot that's rotated, 
+let's say 60 degrees. Every second another show will be fired, each time with 60 degrees rotation, until we come full circle and start again. 

@@ -30,10 +30,6 @@ class Level:
         self.score_time = 0
         self.kill_count = 0
 
-        # enemy behaviour switch
-        self.enemy_spawn_switch1 = True
-        self.enemy_spawn_switch2 = True
-
         # sprite groups
         self.visible_sprites = pg.sprite.Group()
         self.enemy_sprites = pg.sprite.Group()
@@ -71,12 +67,29 @@ class Level:
         self.spawn_switch_right = True
         self.spawn_switch_left = True
         self.enemy_fire_switch = None
+        self.enemy_spawn_switch1 = True
+        self.enemy_spawn_switch2 = True
 
     def create_map(self):
         x = SCREEN_WIDTH // 2
         y = SCREEN_HEIGHT // 2 + 300
         self.player = Player((x,y), [self.visible_sprites])
         self.minus_score_time = -int(pg.time.get_ticks()/1000)
+
+    def enemies(self):
+        spawn_time = pg.time.get_ticks()
+        
+        if self.enemy_spawn_switch1:
+            Enemy(
+                pos= (SCREEN_WIDTH / 2, SCREEN_HEIGHT /2), 
+                groups= [self.visible_sprites, self.enemy_sprites],
+                speed=0, 
+                direction=(0,1), 
+                spawn_time = spawn_time, 
+                health = 1,
+                )
+            self.enemy_spawn_switch1 = False
+                
 
     def spawn_power_ups(self):
         """A function used in testing that spawns power-ups every 5 seconds."""
@@ -89,177 +102,7 @@ class Level:
         if current_time % 10 == 5 and self.power_up_spawn_switch and not self.player.wave_pattern:
             PowerUp((randint(GAME_SCREEN_LEFT, GAME_SCREEN_RIGHT), 0), [self.visible_sprites, self.power_up_sprites], 'power_up_wave', 'purple')
             self.power_up_spawn_switch = False
-            self.power_up_timer = current_time_in_ms            
-
-    def enemies(self):
-        spawn_time = pg.time.get_ticks() / 10
-       
-        # Creating positions for a 5-pointed star
-        k = math.pi * 2
-        position1 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 5/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 5/5)))
-        position2 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 1/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 1/5)))
-        position3 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 2/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 2/5)))
-        position4 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 3/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 3/5)))
-        position5 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 4/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 4/5)))
-
-        # Spawn one enemy
-        if self.enemy_spawn_switch1 == True:
-            enemy = Enemy( 
-            pos=position1, 
-            groups=[self.visible_sprites, self.enemy_sprites], 
-            speed=0, 
-            direction=(0,1), 
-            spawn_time=spawn_time, 
-            health=1,
-            movement_switch1 = True,
-            movement_switch2 = True,
-            movement_switch3 = True,
-            movement_switch4 = True,
-            movement_switch5 = True
-            )
-            self.enemy_spawn_switch1 = False
-
-        # Instructions for movement along the points of a 5-pointed star
-        for enemy in self.enemy_sprites:
-            destination = enemy.rect.center
-            bullet = None
-            if enemy.movement_switch1:
-                destination = position3
-                enemy.move_to(destination, speed = 5)
-                if ((enemy.rect.centerx >= destination[0] + 1) or (enemy.rect.centerx >= destination[0] - 1)) or enemy.rect.centery >= destination[1]:
-                    
-                    bullet1 = EnemyBullet(
-                        pos = enemy.rect.center, 
-                        groups = [self.visible_sprites, self.enemy_bullet_sprites],
-                        speed = 1,
-                        direction = (0,0)
-                    )
-                    
-                    bullet2 = EnemyBullet(
-                        pos = enemy.rect.center, 
-                        groups = [self.visible_sprites, self.enemy_bullet_sprites],
-                        speed = 1,
-                        direction = (0,0)
-                    )
-                    
-                    bullet3 = EnemyBullet(
-                        pos = enemy.rect.center, 
-                        groups = [self.visible_sprites, self.enemy_bullet_sprites],
-                        speed = 1,
-                        direction = (0,0)
-                    )
-                    
-                    bullet1.aim_bullet(self.player.rect.center)
-                    bullet2.aim_bullet((self.player.rect.centerx + 50, self.player.rect.centery + 50))
-                    bullet3.aim_bullet((self.player.rect.centerx - 50, self.player.rect.centery - 50))
-                    
-                    enemy.movement_switch1 = False
-
-            
-            elif enemy.movement_switch2 and not enemy.movement_switch1:
-                destination = position5
-                enemy.move_to(destination, speed = 5)
-                if enemy.rect.centerx <= destination[0]:
-                   
-                    bullet1 = EnemyBullet(
-                        pos = enemy.rect.center, 
-                        groups = [self.visible_sprites, self.enemy_bullet_sprites],
-                        speed = 1,
-                        direction = (0,0)
-                    )
-                    
-                    bullet2 = EnemyBullet(
-                        pos = enemy.rect.center, 
-                        groups = [self.visible_sprites, self.enemy_bullet_sprites],
-                        speed = 1,
-                        direction = (0,0)
-                    )
-                    
-                    bullet3 = EnemyBullet(
-                        pos = enemy.rect.center, 
-                        groups = [self.visible_sprites, self.enemy_bullet_sprites],
-                        speed = 1,
-                        direction = (0,0)
-                    )
-                    
-                    bullet1.aim_bullet(self.player.rect.center)
-                    bullet2.aim_bullet((self.player.rect.centerx + 50, self.player.rect.centery + 50))
-                    bullet3.aim_bullet((self.player.rect.centerx - 50, self.player.rect.centery - 50))
-
-                    enemy.movement_switch2 = False
-
-            elif enemy.movement_switch3 and not enemy.movement_switch2:
-                destination = position2
-                enemy.move_to(destination, speed = 5)
-                if (enemy.rect.centerx > destination[0] + 1) or (enemy.rect.centerx > destination[0] - 1):  
-                   
-                    bullet1 = EnemyBullet(
-                        pos = enemy.rect.center, 
-                        groups = [self.visible_sprites, self.enemy_bullet_sprites],
-                        speed = 1,
-                        direction = (0,0)
-                    )
-                    
-                    bullet2 = EnemyBullet(
-                        pos = enemy.rect.center, 
-                        groups = [self.visible_sprites, self.enemy_bullet_sprites],
-                        speed = 1,
-                        direction = (0,0)
-                    )
-                    
-                    bullet3 = EnemyBullet(
-                        pos = enemy.rect.center, 
-                        groups = [self.visible_sprites, self.enemy_bullet_sprites],
-                        speed = 1,
-                        direction = (0,0)
-                    )
-                    
-                    bullet1.aim_bullet(self.player.rect.center)
-                    bullet2.aim_bullet((self.player.rect.centerx + 50, self.player.rect.centery + 50))
-                    bullet3.aim_bullet((self.player.rect.centerx - 50, self.player.rect.centery - 50))
-
-                    enemy.movement_switch3 = False
-            
-            elif enemy.movement_switch4 and not enemy.movement_switch3:
-                destination = position4
-                enemy.move_to(destination, speed = 5)
-                if (enemy.rect.centerx <= destination[0] and enemy.rect.centery >= destination[1]):
-                                       
-                    bullet1 = EnemyBullet(
-                        pos = enemy.rect.center, 
-                        groups = [self.visible_sprites, self.enemy_bullet_sprites],
-                        speed = 1,
-                        direction = (0,0)
-                    )
-                    
-                    bullet2 = EnemyBullet(
-                        pos = enemy.rect.center, 
-                        groups = [self.visible_sprites, self.enemy_bullet_sprites],
-                        speed = 1,
-                        direction = (0,0)
-                    )
-                    
-                    bullet3 = EnemyBullet(
-                        pos = enemy.rect.center, 
-                        groups = [self.visible_sprites, self.enemy_bullet_sprites],
-                        speed = 1,
-                        direction = (0,0)
-                    )
-                    
-                    bullet1.aim_bullet(self.player.rect.center)
-                    bullet2.aim_bullet((self.player.rect.centerx + 50, self.player.rect.centery + 50))
-                    bullet3.aim_bullet((self.player.rect.centerx - 50, self.player.rect.centery - 50))
-                    enemy.movement_switch4 = False
-                    
-            else:
-                destination = position1
-                enemy.move_to(destination, speed = 5)
-
-        if int(pg.time.get_ticks() / 100) % 6 == 0:
-            print(len(self.visible_sprites), len(self.enemy_bullet_sprites))
-        for bullet in self.enemy_bullet_sprites:
-            print('--')
-            print(bullet.rect.center, bullet.direction)
+            self.power_up_timer = current_time_in_ms
 
     def shoot_stuff(self, player):
         if self.shoot_stuff_switch and self.player.shooting and not self.player.dodging and self.player.alive:
@@ -326,6 +169,7 @@ class Level:
         for enemy in self.enemy_sprites:
             if enemy.rect.centerx in range(player.rect.left,player.rect.right) and enemy.rect.centery in range(player.rect.top, player.rect.bottom) and not self.player.dodging:
                 player.kill()
+                enemy.kill()
                 self.player.alive = False
                 self.death_screen_timer = pg.time.get_ticks()
                 self.death_screen_switch = True
@@ -382,7 +226,7 @@ class Level:
             self.create_time_score()
             # self.shoot_stuff(self.player)
             # self.spawn_power_ups()
-            self.collisions(self.player)
+            # self.collisions(self.player)
             self.visible_sprites.draw(self.display_surface)
             self.visible_sprites.update()
             self.ui.display()
