@@ -1038,3 +1038,13 @@ try to express the expanding circle of bullets through complex motion.
 --
 Created sprites for enemy bullets and loaded in the boss again to get a glimpse. It's really starting to look like something.
 How much a little visual spice can do.
+
+Cave Studio has these nice bullet sprites that sort of wiggle a little, because of what I guess is a flip of the sprite.
+I tried doing the same, but with a lot of bullets on screen pygame isn't having any of it.
+Maybe if I insert them as an animation loop it'll do better.
+
+Created an animation for the bullets, but it's hard to tell it's there. I'll just keep it where it is.
+Might do a sprite later that is more obvious in its wiggle.
+
+Also created a sprite for the player. I don't like it very much, but it's servicable.
+Might as well look up something like color theory so I can create somewhat nicer sprites.

@@ -69,7 +69,19 @@ class WaveyBullet2(Bullet):
 class EnemyBullet(Bullet):
     def __init__(self, pos, groups, speed, direction):
         super().__init__(pos, groups, speed, direction)
-        self.image = pg.image.load('graphics/sprites/enemybullet.png').convert_alpha()
+        # bullet animation
+        self.bulletimage1 = pg.image.load('graphics/sprites/enemybullet1.png').convert_alpha()
+        self.bulletimage2 = pg.image.load('graphics/sprites/enemybullet2.png').convert_alpha()
+        self.bulletimage3 = pg.image.load('graphics/sprites/enemybullet3.png').convert_alpha()
+        self.bulletimage4 = pg.image.load('graphics/sprites/enemybullet4.png').convert_alpha()
+        self.bulletimages = [
+            self.bulletimage1,
+            self.bulletimage2,
+            self.bulletimage3,
+            self.bulletimage4
+        ]
+        self.animationindex = 0
+        self.image = self.bulletimages[self.animationindex]
         self.rect = self.image.get_rect(center = pos)
         self.speed = speed
         self.direction = direction
@@ -81,17 +93,14 @@ class EnemyBullet(Bullet):
         self.rect.centerx = round(self.pos.x)
         self.rect.centery = round(self.pos.y)
 
-    def bullet_transform(self):
-        bullet_switch = True
-        if int(pg.time.get_ticks() / 100) % 2 == 0 and bullet_switch: 
-            self.image = pg.transform.flip(self.image, True, False)
-            bullet_switch = False
-        if int(pg.time.get_ticks() / 100) % 2 == 1 and bullet_switch:
-            print(True)
-            bullet_switch = True
+    def animationstate(self):
+        self.animationindex += 0.1
+        if self.animationindex >= len(self.bulletimages): self.animationindex = 0
+        self.image = self.bulletimages[int(self.animationindex)]
 
 
     def update(self):
+        self.animationstate()
         self.trajectory()
         self.remove_bullet()
         # self.bullet_transform()

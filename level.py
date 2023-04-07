@@ -276,7 +276,7 @@ class Level:
                         enemy.kill()
                     
         for bullet in self.enemy_bullet_sprites:
-            if bullet.rect.centerx in range(player.rect.left,player.rect.right) and bullet.rect.centery in range(player.rect.top, player.rect.bottom) and not self.player.dodging:
+            if bullet.rect.centerx in range(player.rect.centerx - 3,player.rect.centerx + 3) and bullet.rect.centery in range(player.rect.centery - 3, player.rect.centery + 3) and not self.player.dodging:
                 player.kill()
                 bullet.kill()
                 self.player.alive = False

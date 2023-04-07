@@ -6,9 +6,9 @@ from settings import *
 class Player(pg.sprite.Sprite):
     def __init__(self, pos, groups):
         super().__init__(groups)
-        self.image = pg.Surface((16, 16)).convert_alpha()
-        self.image.fill('red')
+        self.image = pg.image.load('graphics/sprites/player.png').convert_alpha()
         self.rect = self.image.get_rect(center = pos)
+        
 
         # get display surface
         self.display_surface = pg.display.get_surface() 
