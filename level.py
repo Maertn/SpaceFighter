@@ -98,31 +98,9 @@ class Level:
             enemy_fire = ShotsFired(
                 pos = enemy.rect.center,
                 groups = [self.visible_sprites, self.enemy_bullet_sprites],
-                direction = (1,1),
-                speed = 1,
-                number_of_bullets = 6,
-                spread = 1,
-                )
-            enemy_fire_list.append(enemy_fire)
-        
-        if enemy in self.enemy_sprites:
-            enemy_fire = ShotsFired(
-                pos = enemy.rect.center,
-                groups = [self.visible_sprites, self.enemy_bullet_sprites],
                 direction = (0,1),
                 speed = 3,
-                number_of_bullets = 7,
-                spread = 1/6,
-                )
-            enemy_fire_list.append(enemy_fire)
-
-        if enemy in self.enemy_sprites:
-            enemy_fire = ShotsFired(
-                pos = enemy.rect.center,
-                groups = [self.visible_sprites, self.enemy_bullet_sprites],
-                direction = (-1,1),
-                speed = 2,
-                number_of_bullets = 6,
+                number_of_bullets = 8,
                 spread = 1,
                 )
             enemy_fire_list.append(enemy_fire)

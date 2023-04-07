@@ -99,25 +99,44 @@ class ShotsFired:
             self.angle = self.spread / number_of_bullets
         self.bullet_dict = {}
         
-        for bullet in self.list_of_bullets:
-            if bullet > 1:
+        # if the number of bullets is odd, bullet1.direction = self.direction.
+        if number_of_bullets % 2 == 1: 
+            for bullet in self.list_of_bullets:
+                if bullet > 1:
+                    rotation_index = divmod(bullet,2)
+                    k = rotation_index[0]
+                    if rotation_index[1] == 0: 
+                        direction = pg.math.Vector2(self.direction)
+                        direction = direction.rotate_rad(k * self.angle)
+                        direction = (direction[0], direction[1])
+                        self.bullet_dict[bullet] = direction
+                    else:
+                        direction = pg.math.Vector2(self.direction)
+                        direction = direction.rotate_rad(k * -self.angle)
+                        direction = (direction[0], direction[1])
+                        self.bullet_dict[bullet] = direction
+                else: 
+                    direction = self.direction
+                    self.bullet_dict[bullet] = direction
+        
+
+        # if the number of bullets is even, bullet1.direction = self.direction + (angle / 2 ).
+        if number_of_bullets % 2 == 0: 
+            for bullet in self.list_of_bullets:
                 rotation_index = divmod(bullet,2)
                 k = rotation_index[0]
                 if rotation_index[1] == 0: 
                     direction = pg.math.Vector2(self.direction)
-                    direction = direction.rotate_rad(k * self.angle)
+                    direction = direction.rotate_rad((k * self.angle) - (self.angle / 2))
                     direction = (direction[0], direction[1])
                     self.bullet_dict[bullet] = direction
                 else:
                     direction = pg.math.Vector2(self.direction)
-                    direction = direction.rotate_rad(k * -self.angle)
+                    direction = direction.rotate_rad((k * -self.angle) - (self.angle / 2))
                     direction = (direction[0], direction[1])
                     self.bullet_dict[bullet] = direction
-            else: 
-                direction = self.direction
-                self.bullet_dict[bullet] = direction
-        
-        print(self.bullet_dict)
+    
+    
                  
         
 

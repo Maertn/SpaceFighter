@@ -1018,3 +1018,7 @@ Let's take a break, and work on how the variation where the number of bullets is
 Quick note is that it'll always be that case that if an even number of shots is fired at a target, none of the bullet trajectories
 actually intersect with the target. It's like an aimed shot that is slightly off. Could be brutal on the player, so let's be 
 careful with that.
+
+#4
+--
+Even numbers give a nice distribution now.
