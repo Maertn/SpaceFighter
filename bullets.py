@@ -84,7 +84,7 @@ class EnemyBullet(Bullet):
 # multi-shot
 
 class ShotsFired:
-    def __init__(self, pos, groups, direction, speed, number_of_bullets: int, spread: float):
+    def __init__(self, pos, groups, speed, direction, number_of_bullets: int, spread: float):
         self.pos = pos
         self.groups = groups
         self.direction = direction
@@ -134,11 +134,7 @@ class ShotsFired:
                     direction = pg.math.Vector2(self.direction)
                     direction = direction.rotate_rad((k * -self.angle) - (self.angle / 2))
                     direction = (direction[0], direction[1])
-                    self.bullet_dict[bullet] = direction
-    
-    
-                 
-        
+                    self.bullet_dict[bullet] = direction   
 
     def shoot(self):
 

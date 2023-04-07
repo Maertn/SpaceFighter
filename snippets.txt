@@ -8,6 +8,15 @@ Enemy(
     *movement_switch1=
     )
 
+ShotsFired(
+    pos=,
+    groups=,
+    speed=,
+    direction=,
+    number_of_bullets=,
+    spread=
+)
+
 
 
 
