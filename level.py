@@ -87,14 +87,16 @@ class Level:
             enemy = Enemy(
                 pos= (SCREEN_WIDTH / 2, SCREEN_HEIGHT /2), 
                 groups= [self.visible_sprites, self.enemy_sprites],
-                speed=0, 
-                direction=(0,1), 
+                size = 100,
+                speed = 4, 
+                direction=(0,0), 
                 spawn_time = spawn_time, 
-                health = 1,
+                health = 100,
                 )
             self.enemy_spawn_switch1 = False
         
         for enemy in self.enemy_sprites:
+            if enemy.health <= 50: enemy.bouncy_move()
             time = pg.time.get_ticks() / 1000
             if (int(pg.time.get_ticks() / 100)) % 4 == 0: 
                 direction = (math.sin(time), math.cos(time))
@@ -250,6 +252,14 @@ class Level:
                 self.kill_count = 0
                 self.player.alive = True
                 self.enemy_spawn_switch1 = True
+        
+        if not self.death_screen_switch:
+            if keys[pg.K_ESCAPE]:
+                self.player.kill()
+                self.create_map()
+                self.kill_count = 0
+                self.player.alive = True
+                self.enemy_spawn_switch1 = True
 
     def run(self):
         self.start_new_game()
@@ -257,9 +267,9 @@ class Level:
         if self.player.alive:
             self.enemies()
             self.create_time_score()
-            # self.shoot_stuff(self.player)
-            # self.spawn_power_ups()
-            # self.collisions(self.player)
+            self.shoot_stuff(self.player)
+            self.spawn_power_ups()
+            self.collisions(self.player)
             self.visible_sprites.draw(self.display_surface)
             self.visible_sprites.update()
             self.ui.display()

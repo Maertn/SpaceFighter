@@ -5,10 +5,10 @@ from settings import *
 
 
 class Enemy(pg.sprite.Sprite):
-    def __init__(self, pos, groups, speed, direction, spawn_time, health, **movement_switch):
+    def __init__(self, pos, groups, size, speed, direction, spawn_time, health, **movement_switch):
         super().__init__(groups)
 
-        self.image = pg.Surface((32,32)).convert_alpha()
+        self.image = pg.Surface((size,size)).convert_alpha()
         self.image.fill('blue')
         self.rect = self.image.get_rect(center = pos)
         
@@ -49,9 +49,9 @@ class Enemy(pg.sprite.Sprite):
         self.rect.center += self.direction * self.speed
 
     def bouncy_move(self):
-        if self.rect.centerx <= 0 or self.direction == (0,0):
+        if self.rect.left <= GAME_SCREEN_LEFT or self.direction == (0,0):
             self.direction = ((1,0))
-        elif self.rect.centerx >= 1280:
+        elif self.rect.right >= GAME_SCREEN_RIGHT:
             self.direction = ((-1,0))
         else:
             pass
