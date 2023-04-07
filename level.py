@@ -6,7 +6,7 @@ import time
 from settings import *
 from ui import UI, MainMenu, GameOver
 from player import Player
-from bullets import Bullet, EnemyBullet, WaveyBullet1, WaveyBullet2
+from bullets import Bullet, EnemyBullet, WaveyBullet1, WaveyBullet2, ShotsFired
 from enemies import Enemy
 from powerup import PowerUp
 
@@ -77,10 +77,19 @@ class Level:
         self.minus_score_time = -int(pg.time.get_ticks()/1000)
 
     def enemies(self):
-        spawn_time = pg.time.get_ticks()
-        
+        spawn_time = pg.time.get_ticks() / 10
+        enemy = None
+        enemy_fire = ShotsFired(
+            pos = (0,0),
+            groups = [],
+            direction = (0,1),
+            speed = 1,
+            number_of_bullets = 1,
+            spread = 1,
+            )
+
         if self.enemy_spawn_switch1:
-            Enemy(
+            enemy = Enemy(
                 pos= (SCREEN_WIDTH / 2, SCREEN_HEIGHT /2), 
                 groups= [self.visible_sprites, self.enemy_sprites],
                 speed=0, 
@@ -89,7 +98,19 @@ class Level:
                 health = 1,
                 )
             self.enemy_spawn_switch1 = False
-                
+        
+        if enemy in self.enemy_sprites:
+            enemy_fire = ShotsFired(
+                pos = enemy.rect.center,
+                groups = [self.visible_sprites, self.enemy_bullet_sprites],
+                direction = (0,1),
+                speed = 1,
+                number_of_bullets = 1,
+                spread = 1,
+                )
+        
+        enemy_fire.update()
+
 
     def spawn_power_ups(self):
         """A function used in testing that spawns power-ups every 5 seconds."""

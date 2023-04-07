@@ -986,4 +986,16 @@ in the positive y direction through the abstraction of dividing the unit circle.
 keep the algorithm akin to what I wrote before, but this time I'll be using vector rotation from Pygame.
 
 To see if vector rotation works, let's create an enemy that sits stationary, fires a shot in the positive y, and then a shot that's rotated, 
-let's say 60 degrees. Every second another show will be fired, each time with 60 degrees rotation, until we come full circle and start again. 
+let's say 60 degrees. Every second another show will be fired, each time with 60 degrees rotation, until we come full circle and start again.
+
+#2
+--
+Creating a class that fires one bullet became more convoluted than I thought. I started messing aroung with timers again to have the enemy
+fire continuously, but somehow I still don't have the timers down, so it was really messy, before I realized I don't need any of this right
+now. I just want to create this pattern of single shots. Repeated fire is something that will be managed in level for now.
+
+It did make me think though, that I could create this class that describes the whole of the bullet behaviour expected from one enemy.
+Like assigning an AI to an enemy. This might be more hassle that doesn't really do anything, since I can also describe behaviour in 
+the level, but it could be a neat way to organize the code somehow.
+
+Let's stay focused on writing the code for the distribution of bullets over a spread for now. 

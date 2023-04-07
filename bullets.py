@@ -79,3 +79,23 @@ class EnemyBullet(Bullet):
         self.pos.y += self.direction[1] * self.speed
         self.rect.centerx = round(self.pos.x)
         self.rect.centery = round(self.pos.y)
+
+
+# multi-shot
+
+class ShotsFired:
+    def __init__(self, pos, groups, direction, speed, number_of_bullets: int, spread: float):
+        self.pos = pos
+        self.groups = groups
+        self.direction = pg.math.Vector2(direction)
+        self.speed = speed
+        self.number_of_bullet = list(range(0, number_of_bullets))
+        self.shot_switch = True
+
+    def shoot(self):
+        if self.shot_switch:
+            EnemyBullet(self.pos, self.groups, self.speed, self.direction)
+            self.shot_switch = False 
+
+    def update(self):
+        self.shoot()
