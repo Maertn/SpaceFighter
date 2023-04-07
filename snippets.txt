@@ -1,6 +1,7 @@
 Enemy(
     pos=, 
-    groups=, 
+    groups=,
+    size=, 
     speed=, 
     direction=, 
     spawn_time=, 

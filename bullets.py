@@ -69,9 +69,10 @@ class WaveyBullet2(Bullet):
 class EnemyBullet(Bullet):
     def __init__(self, pos, groups, speed, direction):
         super().__init__(pos, groups, speed, direction)
+        self.image = pg.image.load('graphics/sprites/enemybullet.png').convert_alpha()
+        self.rect = self.image.get_rect(center = pos)
         self.speed = speed
         self.direction = direction
-        self.color = 'yellow'
         
 
     def trajectory(self):
@@ -80,6 +81,21 @@ class EnemyBullet(Bullet):
         self.rect.centerx = round(self.pos.x)
         self.rect.centery = round(self.pos.y)
 
+    def bullet_transform(self):
+        bullet_switch = True
+        if int(pg.time.get_ticks() / 100) % 2 == 0 and bullet_switch: 
+            self.image = pg.transform.flip(self.image, True, False)
+            bullet_switch = False
+        if int(pg.time.get_ticks() / 100) % 2 == 1 and bullet_switch:
+            print(True)
+            bullet_switch = True
+
+
+    def update(self):
+        self.trajectory()
+        self.remove_bullet()
+        # self.bullet_transform()
+        
 
 # multi-shot
 

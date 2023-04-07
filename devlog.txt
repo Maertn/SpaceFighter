@@ -1033,3 +1033,8 @@ Let's reset the code, and create trajectories for bullets after the fact.
 I'll use this opportunity to look into complex numbers, and see if there's something to be gained.
 Since the exponential notation of complex numbers allows for adjustment of r while having an angular motion, it is appealing to
 try to express the expanding circle of bullets through complex motion.
+
+#6
+--
+Created sprites for enemy bullets and loaded in the boss again to get a glimpse. It's really starting to look like something.
+How much a little visual spice can do.

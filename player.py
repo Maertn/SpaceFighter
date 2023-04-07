@@ -6,7 +6,7 @@ from settings import *
 class Player(pg.sprite.Sprite):
     def __init__(self, pos, groups):
         super().__init__(groups)
-        self.image = pg.Surface((32, 32)).convert_alpha()
+        self.image = pg.Surface((16, 16)).convert_alpha()
         self.image.fill('red')
         self.rect = self.image.get_rect(center = pos)
 
