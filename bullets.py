@@ -119,7 +119,6 @@ class ShotsFired:
                     direction = self.direction
                     self.bullet_dict[bullet] = direction
         
-
         # if the number of bullets is even, bullet1.direction = self.direction + (angle / 2 ).
         if number_of_bullets % 2 == 0: 
             for bullet in self.list_of_bullets:
@@ -137,17 +136,12 @@ class ShotsFired:
                     self.bullet_dict[bullet] = direction   
 
     def shoot(self):
-
         if self.shot_switch:
             for bullet in self.bullet_dict.items():
-                
                 direction = bullet[1]
                 print(direction)
                 direction = pg.math.Vector2(direction).normalize()
-                
                 EnemyBullet(self.pos, self.groups, self.speed, direction)
-
-
             self.shot_switch = False 
 
     def update(self):

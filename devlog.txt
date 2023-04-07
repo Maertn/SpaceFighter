@@ -1026,3 +1026,10 @@ Created a cool bullet pattern, just for kicks.
 Created a test boss, because I can. Changed the creation of enemies to do it, requiring size as a parameter now.
 Also added escape to start_new_game in level. If player is alive, player is killed and new game is created.
 It isn't refined at all, like creating a menu to select options, but it'll do for now since I just want to reset the game.
+
+#5
+--
+Let's reset the code, and create trajectories for bullets after the fact.
+I'll use this opportunity to look into complex numbers, and see if there's something to be gained.
+Since the exponential notation of complex numbers allows for adjustment of r while having an angular motion, it is appealing to
+try to express the expanding circle of bullets through complex motion.

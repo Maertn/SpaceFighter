@@ -24,9 +24,9 @@ ShotsFired(
 
 ###OLD CODE###
 
-#ENEMIES#
+###ENEMIES###
 
-#Code used in initial testing. Contains spawning every few seconds, and a sequence of motion :
+# Code used in initial testing. Contains spawning every few seconds, and a sequence of motion :
     !!From level.py
     # enemy behaviour switches
     self.spawn_switch_right = True
@@ -110,7 +110,7 @@ ShotsFired(
         else:
             self.fire_bullet = False
 
-#Code that gives a crude parabolic motion:
+# Code that gives a crude parabolic motion:
 
     def enemies(self):
         spawn_time = pg.time.get_ticks() / 10
@@ -147,7 +147,7 @@ ShotsFired(
                 enemy.rect.centerx += 3
                 enemy.rect.centery = pow(enemy.rect.centerx - GAME_SCREEN_LEFT, 2) / 100
 
-#Code that describes motion in the shape of a five-pointed star:
+# Code that describes motion in the shape of a five-pointed star:
 
     def enemies(self):
         spawn_time = pg.time.get_ticks() / 10
@@ -210,7 +210,7 @@ ShotsFired(
                 destination = position1
                 enemy.move_to(destination, speed = 5)
 
-#Code that describes motion in the shape of a five-pointed star with some shots added to it:
+# Code that describes motion in the shape of a five-pointed star with some shots added to it:
     def enemies(self):
         spawn_time = pg.time.get_ticks() / 10
        
@@ -375,4 +375,101 @@ ShotsFired(
                 destination = position1
                 enemy.move_to(destination, speed = 5)
 
-#BULLETS#
+# The first boss I made:
+    def enemies(self):
+        spawn_time = pg.time.get_ticks() / 10
+        enemy = None
+        
+        # dummy for enemy fire
+        enemy_fire_list = []
+
+        if self.enemy_spawn_switch1:
+            enemy = Enemy(
+                pos= (SCREEN_WIDTH / 2, SCREEN_HEIGHT /2), 
+                groups= [self.visible_sprites, self.enemy_sprites],
+                size = 100,
+                speed = 3, 
+                direction=(0,0), 
+                spawn_time = spawn_time, 
+                health = 150,
+                movement_switch1=True,
+                movement_switch2=True,
+                movement_switch3=True,
+                movement_switch4=True,
+                )
+            self.enemy_spawn_switch1 = False
+        
+        for enemy in self.enemy_sprites:
+            time = pg.time.get_ticks() / 1000
+
+            if (int(pg.time.get_ticks() / 100)) % 4 == 0: 
+                direction = (math.sin(time), math.cos(time))
+                enemy_fire = ShotsFired(
+                    pos = enemy.rect.center,
+                    groups = [self.visible_sprites, self.enemy_bullet_sprites],
+                    direction = direction,
+                    speed = 4,
+                    number_of_bullets = 5,
+                    spread = 1,
+                    )
+                enemy_fire_list.append(enemy_fire)
+
+                direction = (math.sin(-time), math.cos(-time))
+                enemy_fire = ShotsFired(
+                    pos = enemy.rect.center,
+                    groups = [self.visible_sprites, self.enemy_bullet_sprites],
+                    direction = direction,
+                    speed = 4,
+                    number_of_bullets = 5,
+                    spread = 1,
+                    )
+                enemy_fire_list.append(enemy_fire)
+
+
+        for enemy_fire in enemy_fire_list:
+            enemy_fire.update()
+
+        if enemy and enemy.health <= 100:
+            enemy.bouncy_move()
+
+        if enemy and enemy.health <= 50:
+                    # Creating positions for a 5-pointed star
+            k = math.pi * 2
+            position1 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 5/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 5/5)))
+            position2 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 1/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 1/5)))
+            position3 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 2/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 2/5)))
+            position4 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 3/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 3/5)))
+            position5 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 4/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 4/5)))
+
+            # Instructions for movement along the points of a 5-pointed star
+            for enemy in self.enemy_sprites:
+                destination = enemy.rect.center
+                print(enemy.movement_switch1, enemy.movement_switch2, enemy.movement_switch3, enemy.movement_switch4)
+                print(enemy.direction)
+                if enemy.movement_switch1:
+                    destination = position3
+                    enemy.move_to(destination, speed = enemy.speed)
+                    if ((enemy.rect.centerx >= destination[0] + enemy.speed) or (enemy.rect.centerx >= destination[0] - 1)) or enemy.rect.centery >= destination[1]:
+                        enemy.movement_switch1 = False
+                
+                elif enemy.movement_switch2 and not enemy.movement_switch1:
+                    destination = position5
+                    enemy.move_to(destination, speed = enemy.speed)
+                    if (enemy.rect.centerx <= destination[0] + enemy.speed):
+                        enemy.movement_switch2 = False
+
+                elif enemy.movement_switch3 and not enemy.movement_switch2:
+                    destination = position2
+                    enemy.move_to(destination, speed = enemy.speed)
+                    if (enemy.rect.centerx > destination[0] - enemy.speed) or (enemy.rect.centerx > destination[0] - 1):  
+                        enemy.movement_switch3 = False
+                
+                elif enemy.movement_switch4 and not enemy.movement_switch3:
+                    destination = position4
+                    enemy.move_to(destination, speed = enemy.speed)
+                    if (enemy.rect.centerx <= destination[0] or enemy.rect.centerx - enemy.speed <= destination[0]) and (enemy.rect.centery >= destination[1] ):
+                        enemy.movement_switch4 = False
+                        
+                else:
+                    destination = position1
+                    enemy.move_to(destination, speed = enemy.speed)
