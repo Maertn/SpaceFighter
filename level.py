@@ -94,16 +94,31 @@ class Level:
                 )
             self.enemy_spawn_switch1 = False
         
-        if enemy in self.enemy_sprites:
-            enemy_fire = ShotsFired(
-                pos = enemy.rect.center,
-                groups = [self.visible_sprites, self.enemy_bullet_sprites],
-                direction = (0,1),
-                speed = 3,
-                number_of_bullets = 8,
-                spread = 1,
-                )
-            enemy_fire_list.append(enemy_fire)
+        for enemy in self.enemy_sprites:
+            time = pg.time.get_ticks() / 1000
+            if (int(pg.time.get_ticks() / 100)) % 4 == 0: 
+                direction = (math.sin(time), math.cos(time))
+                enemy_fire = ShotsFired(
+                    pos = enemy.rect.center,
+                    groups = [self.visible_sprites, self.enemy_bullet_sprites],
+                    direction = direction,
+                    speed = 4,
+                    number_of_bullets = 4,
+                    spread = 1,
+                    )
+                enemy_fire_list.append(enemy_fire)
+
+                direction = (math.sin(-time), math.cos(-time))
+                enemy_fire = ShotsFired(
+                    pos = enemy.rect.center,
+                    groups = [self.visible_sprites, self.enemy_bullet_sprites],
+                    direction = direction,
+                    speed = 4,
+                    number_of_bullets = 4,
+                    spread = 1,
+                    )
+                enemy_fire_list.append(enemy_fire)
+
 
         for enemy_fire in enemy_fire_list:
             enemy_fire.update()

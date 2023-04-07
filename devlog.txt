@@ -1022,3 +1022,4 @@ careful with that.
 #4
 --
 Even numbers give a nice distribution now.
+Created a cool bullet pattern, just for kicks.
