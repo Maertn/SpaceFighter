@@ -999,3 +999,22 @@ Like assigning an AI to an enemy. This might be more hassle that doesn't really 
 the level, but it could be a neat way to organize the code somehow.
 
 Let's stay focused on writing the code for the distribution of bullets over a spread for now. 
+
+#3
+--
+Wow... It works. Kind of a miracle after all this coding while having limited ways to check individual chunks of the code.
+Wanted to describe how some funky stuff is still happening, but that's already fixed before writing. The rotate function works 
+in degrees, but I was calculating in rads. Funny how I assumed the for me personally less untuitive rads would be standard,
+but now that it's setup I'll just call the rotate function that takes rads.
+
+Now it does what I want it to. I can set the direction and the spread. I talked at length about how I imagined the impementation,
+and it's exactly that. Really happy about this.
+
+I just created two of the ShotsFired with different orientation. It looks so cool. I do see that the vectors aren't normalized yet, so
+let's fix that real quick. Done. I'll add one more ShotsFired for good measure.
+
+Now that we have a display that looks cool, let's get stuff working correctly. The current algorithm is for an odd number of bullets.
+Let's take a break, and work on how the variation where the number of bullets is even.
+Quick note is that it'll always be that case that if an even number of shots is fired at a target, none of the bullet trajectories
+actually intersect with the target. It's like an aimed shot that is slightly off. Could be brutal on the player, so let's be 
+careful with that.

@@ -79,14 +79,9 @@ class Level:
     def enemies(self):
         spawn_time = pg.time.get_ticks() / 10
         enemy = None
-        enemy_fire = ShotsFired(
-            pos = (0,0),
-            groups = [],
-            direction = (0,1),
-            speed = 1,
-            number_of_bullets = 1,
-            spread = 1,
-            )
+        
+        # dummy for enemy fire
+        enemy_fire_list = []
 
         if self.enemy_spawn_switch1:
             enemy = Enemy(
@@ -103,13 +98,37 @@ class Level:
             enemy_fire = ShotsFired(
                 pos = enemy.rect.center,
                 groups = [self.visible_sprites, self.enemy_bullet_sprites],
-                direction = (0,1),
+                direction = (1,1),
                 speed = 1,
-                number_of_bullets = 1,
+                number_of_bullets = 6,
                 spread = 1,
                 )
+            enemy_fire_list.append(enemy_fire)
         
-        enemy_fire.update()
+        if enemy in self.enemy_sprites:
+            enemy_fire = ShotsFired(
+                pos = enemy.rect.center,
+                groups = [self.visible_sprites, self.enemy_bullet_sprites],
+                direction = (0,1),
+                speed = 3,
+                number_of_bullets = 7,
+                spread = 1/6,
+                )
+            enemy_fire_list.append(enemy_fire)
+
+        if enemy in self.enemy_sprites:
+            enemy_fire = ShotsFired(
+                pos = enemy.rect.center,
+                groups = [self.visible_sprites, self.enemy_bullet_sprites],
+                direction = (-1,1),
+                speed = 2,
+                number_of_bullets = 6,
+                spread = 1,
+                )
+            enemy_fire_list.append(enemy_fire)
+
+        for enemy_fire in enemy_fire_list:
+            enemy_fire.update()
 
 
     def spawn_power_ups(self):

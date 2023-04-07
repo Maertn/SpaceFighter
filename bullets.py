@@ -87,14 +87,52 @@ class ShotsFired:
     def __init__(self, pos, groups, direction, speed, number_of_bullets: int, spread: float):
         self.pos = pos
         self.groups = groups
-        self.direction = pg.math.Vector2(direction)
+        self.direction = direction
         self.speed = speed
-        self.number_of_bullet = list(range(0, number_of_bullets))
+        self.list_of_bullets = list(range(1, number_of_bullets + 1))
         self.shot_switch = True
+        
+        # creating spread over unit circle
+        self.spread = math.pi*2*(spread)
+        self.angle = 0
+        if number_of_bullets > 1:
+            self.angle = self.spread / number_of_bullets
+        self.bullet_dict = {}
+        
+        for bullet in self.list_of_bullets:
+            if bullet > 1:
+                rotation_index = divmod(bullet,2)
+                k = rotation_index[0]
+                if rotation_index[1] == 0: 
+                    direction = pg.math.Vector2(self.direction)
+                    direction = direction.rotate_rad(k * self.angle)
+                    direction = (direction[0], direction[1])
+                    self.bullet_dict[bullet] = direction
+                else:
+                    direction = pg.math.Vector2(self.direction)
+                    direction = direction.rotate_rad(k * -self.angle)
+                    direction = (direction[0], direction[1])
+                    self.bullet_dict[bullet] = direction
+            else: 
+                direction = self.direction
+                self.bullet_dict[bullet] = direction
+        
+        print(self.bullet_dict)
+                 
+        
 
     def shoot(self):
+
         if self.shot_switch:
-            EnemyBullet(self.pos, self.groups, self.speed, self.direction)
+            for bullet in self.bullet_dict.items():
+                
+                direction = bullet[1]
+                print(direction)
+                direction = pg.math.Vector2(direction).normalize()
+                
+                EnemyBullet(self.pos, self.groups, self.speed, direction)
+
+
             self.shot_switch = False 
 
     def update(self):
