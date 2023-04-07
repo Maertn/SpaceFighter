@@ -88,16 +88,20 @@ class Level:
                 pos= (SCREEN_WIDTH / 2, SCREEN_HEIGHT /2), 
                 groups= [self.visible_sprites, self.enemy_sprites],
                 size = 100,
-                speed = 4, 
+                speed = 3, 
                 direction=(0,0), 
                 spawn_time = spawn_time, 
-                health = 100,
+                health = 150,
+                movement_switch1=True,
+                movement_switch2=True,
+                movement_switch3=True,
+                movement_switch4=True,
                 )
             self.enemy_spawn_switch1 = False
         
         for enemy in self.enemy_sprites:
-            if enemy.health <= 50: enemy.bouncy_move()
             time = pg.time.get_ticks() / 1000
+
             if (int(pg.time.get_ticks() / 100)) % 4 == 0: 
                 direction = (math.sin(time), math.cos(time))
                 enemy_fire = ShotsFired(
@@ -124,6 +128,51 @@ class Level:
 
         for enemy_fire in enemy_fire_list:
             enemy_fire.update()
+
+        if enemy and enemy.health <= 100:
+            enemy.bouncy_move()
+
+        if enemy and enemy.health <= 50:
+                    # Creating positions for a 5-pointed star
+            k = math.pi * 2
+            position1 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 5/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 5/5)))
+            position2 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 1/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 1/5)))
+            position3 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 2/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 2/5)))
+            position4 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 3/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 3/5)))
+            position5 = ((SCREEN_WIDTH/2) + (120*math.sin(k * 4/5)), (SCREEN_HEIGHT/2)+(120*-math.cos(k * 4/5)))
+
+            # Instructions for movement along the points of a 5-pointed star
+            for enemy in self.enemy_sprites:
+                destination = enemy.rect.center
+                print(enemy.movement_switch1, enemy.movement_switch2, enemy.movement_switch3, enemy.movement_switch4)
+                print(enemy.direction)
+                if enemy.movement_switch1:
+                    destination = position3
+                    enemy.move_to(destination, speed = enemy.speed)
+                    if ((enemy.rect.centerx >= destination[0] + enemy.speed) or (enemy.rect.centerx >= destination[0] - 1)) or enemy.rect.centery >= destination[1]:
+                        enemy.movement_switch1 = False
+                
+                elif enemy.movement_switch2 and not enemy.movement_switch1:
+                    destination = position5
+                    enemy.move_to(destination, speed = enemy.speed)
+                    if (enemy.rect.centerx <= destination[0] + enemy.speed):
+                        enemy.movement_switch2 = False
+
+                elif enemy.movement_switch3 and not enemy.movement_switch2:
+                    destination = position2
+                    enemy.move_to(destination, speed = enemy.speed)
+                    if (enemy.rect.centerx > destination[0] - enemy.speed) or (enemy.rect.centerx > destination[0] - 1):  
+                        enemy.movement_switch3 = False
+                
+                elif enemy.movement_switch4 and not enemy.movement_switch3:
+                    destination = position4
+                    enemy.move_to(destination, speed = enemy.speed)
+                    if (enemy.rect.centerx <= destination[0] or enemy.rect.centerx - enemy.speed <= destination[0]) and (enemy.rect.centery >= destination[1] ):
+                        enemy.movement_switch4 = False
+                        
+                else:
+                    destination = position1
+                    enemy.move_to(destination, speed = enemy.speed)
 
 
     def spawn_power_ups(self):
@@ -255,11 +304,13 @@ class Level:
         
         if not self.death_screen_switch:
             if keys[pg.K_ESCAPE]:
-                self.player.kill()
+                for sprite_group in self.list_of_sprite_groups:
+                    sprite_group.empty()
                 self.create_map()
                 self.kill_count = 0
                 self.player.alive = True
                 self.enemy_spawn_switch1 = True
+
 
     def run(self):
         self.start_new_game()
