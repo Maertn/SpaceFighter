@@ -1048,3 +1048,9 @@ Might do a sprite later that is more obvious in its wiggle.
 
 Also created a sprite for the player. I don't like it very much, but it's servicable.
 Might as well look up something like color theory so I can create somewhat nicer sprites.
+
+2023-04-21
+Last entry. I took a break and came back to test with timesteps. To use timesteps I'll have to redo a lot of things.
+The code feels messy already, so I want to redo everything. I'll try to create a more organised program.
+
+I worked a bit on a soundtrack. Found a theme for the game. Gathered some basic tips on working with sprites. So, let's restart this project. 
